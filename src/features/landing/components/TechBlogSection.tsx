@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Clock, User } from 'lucide-react';
-import { fetchPublicArticles, Article } from '../services/articles.service';
+import { fetchPublicArticles, Article } from '@/features/articles/services/articles.service';
 
 
 
