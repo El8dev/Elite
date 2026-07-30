@@ -45,10 +45,27 @@
 ## 2026-07-31 (Update)
 - **Request**: Perform root directory structure cleanup (Option 2).
 - **Execution**:
-  - Removed obsolete files `tsc_output.txt` and `pnpm-workspace.yaml.bak`.
-  - Moved `update-text-sizes.cjs` to `scripts/update-text-sizes.cjs`.
   - Relocated `historical_context.txt` to `docs/historical_context.txt`.
 - **Results**: Root directory streamlined and organized.
+
+## 2026-07-31 (Git Push)
+- **Request**: Initialize Git repository and push updated codebase to GitHub (`https://github.com/El8dev/Elite.git`).
+- **Execution**:
+  - Cloned remote repo into `elite_repo_temp` to conduct diff analysis.
+  - Initialized Git directly in root workspace (`source/`).
+  - Added remote `origin https://github.com/El8dev/Elite.git`.
+  - Created initial commit on `main` branch with updated feature architecture.
+  - Executed `git push -u origin main` to update remote repository.
+- **Results**: Codebase successfully connected and pushed to GitHub.
+
+## 2026-07-31 (Mock Data Removal & Supabase Enforce)
+- **Request**: User confirmed Supabase is live/verified and requested Option 2 (removal of offline mock fallback logic).
+- **Execution**:
+  - Modified [projects.service.ts](file:///c:/Users/hayder/Desktop/source/src/features/projects/services/projects.service.ts): Removed artificial 3-second timeout (`Promise.race`) and fallback to `portfolioProjects` mock arrays.
+  - Refactored `fetchPublicProjects` to execute directly against Supabase with strict error throwing.
+- **Results**: Application now relies exclusively on live Supabase data. Error states are correctly reported directly to UI handlers.
+
+
 
 
 

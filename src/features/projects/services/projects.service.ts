@@ -1,15 +1,10 @@
 import { supabase } from '@/lib/supabase';
-import { projects as portfolioProjects } from '@/data/portfolioData';
 
 /**
  * Fetches all public projects (not restricted to personal profile only)
  */
 export const fetchPublicProjects = async (): Promise<any[]> => {
-  const timeoutPromise = new Promise((resolve) => {
-    setTimeout(() => resolve({ timeout: true }), 3000);
-  });
-
-  const request = supabase
+  const { data, error } = await supabase
     .from('projects')
     .select(`
       *,
@@ -21,26 +16,11 @@ export const fetchPublicProjects = async (): Promise<any[]> => {
     .eq('personal_profile_only', false)
     .order('created_at', { ascending: false });
 
-  try {
-    const result = await Promise.race([request, timeoutPromise]) as any;
-
-    if (result.timeout) {
-      console.warn('Supabase fetch timeout (Offline Mode). Returning mock data.');
-      return portfolioProjects || [];
-    }
-
-    const { data, error } = result;
-
-    if (error) {
-      console.error(`Failed to fetch public projects: ${error.message}`);
-      return portfolioProjects || [];
-    }
-
-    return data || [];
-  } catch (err) {
-    console.warn('Supabase fetch failed (Offline Mode). Returning mock data.', err);
-    return portfolioProjects || [];
+  if (error) {
+    throw new Error(`Failed to fetch public projects: ${error.message}`);
   }
+
+  return data || [];
 };
 
 /**
