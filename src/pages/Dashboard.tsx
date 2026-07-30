@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog } from 'lucide-react';
+import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import Cropper, { Area } from 'react-easy-crop';
 import { motion, AnimatePresence } from 'motion/react';
 import { getCroppedImg } from '@/lib/cropImage';
 import { toast } from 'sonner';
+import { Article, fetchArticlesByAuthor, createArticle, updateArticle, deleteArticle } from '@/features/articles/services/articles.service';
 
 // Define the type based on requirements
 interface DashboardProject {
@@ -110,34 +111,135 @@ const Dashboard: React.FC = () => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
+  // Articles State
+  const [userArticles, setUserArticles] = useState<Article[]>([]);
+  const [userArticlesLoading, setUserArticlesLoading] = useState(false);
+  const [articleModalOpen, setArticleModalOpen] = useState(false);
+  const [editingArticleId, setEditingArticleId] = useState<string | null>(null);
+  const [articleTitle, setArticleTitle] = useState('');
+  const [articleExcerpt, setArticleExcerpt] = useState('');
+  const [articleContent, setArticleContent] = useState('');
+  const [articleCategory, setArticleCategory] = useState('الذكاء الاصطناعي');
+  const [articleReadTime, setArticleReadTime] = useState('5 دقائق');
+  const [articleImageUrl, setArticleImageUrl] = useState('');
+  const [articleSubmitting, setArticleSubmitting] = useState(false);
+  const [articleToDelete, setArticleToDelete] = useState<string | null>(null);
+
   // Authentication & Fetch Data
   useEffect(() => {
     const checkAuthAndFetch = async () => {
-      // getSession returns the local session. It might be expired.
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         navigate('/login');
         return;
       }
       
-      // Explicitly call getUser() to verify the token with the Supabase server. 
-      // This will automatically refresh the token if it's expired but refreshable.
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       
       if (authError || !user) {
-        console.error('Auth verification failed. Token might be expired:', authError);
+        console.error('Auth verification failed:', authError);
         navigate('/login');
         return;
       }
       
-      // User is authenticated and token is fresh, fetch projects
       setCurrentUserId(user.id);
       fetchItems(user.id);
       fetchProfile(user.id);
+      fetchUserArticles(user.id);
     };
 
     checkAuthAndFetch();
   }, [navigate]);
+
+  const fetchUserArticles = async (userId: string) => {
+    setUserArticlesLoading(true);
+    try {
+      const articles = await fetchArticlesByAuthor(userId);
+      setUserArticles(articles);
+    } catch (err) {
+      console.error('Error fetching user articles:', err);
+    } finally {
+      setUserArticlesLoading(false);
+    }
+  };
+
+  const openArticleModal = (article?: Article) => {
+    if (article) {
+      setEditingArticleId(article.id);
+      setArticleTitle(article.title);
+      setArticleExcerpt(article.excerpt);
+      setArticleContent(article.content || '');
+      setArticleCategory(article.category);
+      setArticleReadTime(article.read_time || article.readTime || '5 دقائق');
+      setArticleImageUrl(article.image_url || article.image || '');
+    } else {
+      setEditingArticleId(null);
+      setArticleTitle('');
+      setArticleExcerpt('');
+      setArticleContent('');
+      setArticleCategory('الذكاء الاصطناعي');
+      setArticleReadTime('5 دقائق');
+      setArticleImageUrl('');
+    }
+    setArticleModalOpen(true);
+  };
+
+  const handleSaveArticle = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!articleTitle || !articleExcerpt || !currentUserId) {
+      toast.error('يرجى ملء جميع الحقول المطلوبة');
+      return;
+    }
+
+    setArticleSubmitting(true);
+    try {
+      if (editingArticleId) {
+        await updateArticle(editingArticleId, {
+          title: articleTitle,
+          excerpt: articleExcerpt,
+          content: articleContent,
+          category: articleCategory,
+          read_time: articleReadTime,
+          image_url: articleImageUrl,
+        });
+        toast.success('تم تحديث المقال بنجاح!');
+      } else {
+        await createArticle({
+          title: articleTitle,
+          excerpt: articleExcerpt,
+          content: articleContent,
+          category: articleCategory,
+          read_time: articleReadTime,
+          image_url: articleImageUrl || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=450',
+          author_id: currentUserId,
+          author_name: profileName || 'محرر التقنية',
+          author_avatar: avatarUrl || avatarPreview || 'https://i.pravatar.cc/150',
+        });
+        toast.success('تم نشر المقال بنجاح!');
+      }
+
+      setArticleModalOpen(false);
+      fetchUserArticles(currentUserId);
+    } catch (err: any) {
+      console.error('Error saving article:', err);
+      toast.error(`حدث خطأ أثناء حفظ المقال: ${err.message}`);
+    } finally {
+      setArticleSubmitting(false);
+    }
+  };
+
+  const handleConfirmDeleteArticle = async () => {
+    if (!articleToDelete || !currentUserId) return;
+    try {
+      await deleteArticle(articleToDelete);
+      toast.success('تم حذف المقال بنجاح');
+      setArticleToDelete(null);
+      fetchUserArticles(currentUserId);
+    } catch (err: any) {
+      console.error('Error deleting article:', err);
+      toast.error(`فشل حذف المقال: ${err.message}`);
+    }
+  };
 
   // Block non-admins from staying on the admin tab (e.g. stale state or URL manipulation)
   useEffect(() => {
@@ -538,13 +640,22 @@ const Dashboard: React.FC = () => {
               <span>Manage Projects</span>
             </button>
             {accountStatus === 'approved' && (
-              <button 
-                onClick={() => setActiveTab('publish')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-[#F0F4F8] text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
-              >
-                <Plus size={18} />
-                <span>Publish Project</span>
-              </button>
+              <>
+                <button 
+                  onClick={() => setActiveTab('publish')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-[#F0F4F8] text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                >
+                  <Plus size={18} />
+                  <span>Publish Project</span>
+                </button>
+                <button 
+                  onClick={() => setActiveTab('articles')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-[#F0F4F8] text-purple-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                >
+                  <FileText size={18} />
+                  <span>Manage Articles</span>
+                </button>
+              </>
             )}
             <button 
               onClick={() => setActiveTab('profile')}
@@ -584,6 +695,7 @@ const Dashboard: React.FC = () => {
           <h1 className="text-xl font-medium text-slate-800">
             {activeTab === 'manage' && 'My Projects'}
             {activeTab === 'publish' && 'Publish New Project'}
+            {activeTab === 'articles' && 'Articles & Blog Management'}
             {activeTab === 'profile' && 'Profile Settings'}
             {activeTab === 'admin' && 'Admin Panel'}
           </h1>
@@ -1029,19 +1141,236 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            {activeTab === 'admin' && isSystemAdmin && (
-              <AdminPanel 
-                isSystemAdmin={isSystemAdmin}
-                pendingUsers={pendingUsers}
-                setPendingUsers={setPendingUsers}
-                adminLoading={adminLoading}
-                setAdminLoading={setAdminLoading}
-              />
+            {activeTab === 'articles' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-semibold text-slate-800 font-alexandria">إدارة المقالات والمدونة</h2>
+                    <p className="text-sm text-slate-500 mt-1 font-alexandria">قم بنشر وتعديل المقالات التقنية الخاصة بك ليراها زوار الموقع</p>
+                  </div>
+                  <button
+                    onClick={() => openArticleModal()}
+                    className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center space-x-2 shadow-sm font-alexandria"
+                  >
+                    <Plus size={18} />
+                    <span>كتابة مقال جديد</span>
+                  </button>
+                </div>
+
+                {userArticlesLoading ? (
+                  <div className="flex items-center justify-center h-64 text-slate-400">
+                    <Loader2 size={24} className="animate-spin mr-3" />
+                    <p className="font-alexandria">جاري تحميل المقالات...</p>
+                  </div>
+                ) : userArticles.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-64 bg-white rounded-2xl border border-slate-100 p-8 text-center">
+                    <FileText size={48} className="mb-4 text-purple-300" />
+                    <h3 className="text-lg font-medium text-slate-700 font-alexandria">لا توجد مقالات منشورة بعد</h3>
+                    <p className="text-sm text-slate-400 mt-1 mb-6 font-alexandria">ابدأ بنشر مقالك التقني الأول ليظهر في قسم المقالات العام</p>
+                    <button
+                      onClick={() => openArticleModal()}
+                      className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm font-alexandria"
+                    >
+                      كتابة مقال جديد
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+                    {userArticles.map((article) => (
+                      <div key={article.id} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-600 border border-purple-100 font-alexandria">
+                              {article.category || 'عام'}
+                            </span>
+                            <span className="text-xs text-slate-400 font-alexandria">{article.read_time || article.readTime || '5 دقائق'}</span>
+                          </div>
+                          <h3 className="font-semibold text-slate-800 text-lg mb-2 line-clamp-1 font-alexandria">{article.title}</h3>
+                          <p className="text-sm text-slate-500 line-clamp-3 mb-4 font-alexandria">{article.excerpt}</p>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                          <span className="text-xs text-slate-400 font-alexandria">
+                            {article.created_at ? new Date(article.created_at).toLocaleDateString('ar-EG') : 'حديثاً'}
+                          </span>
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <button
+                              onClick={() => openArticleModal(article)}
+                              className="p-2 rounded-lg text-slate-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                              title="تعديل المقال"
+                            >
+                              <Edit3 size={18} />
+                            </button>
+                            <button
+                              onClick={() => setArticleToDelete(article.id)}
+                              className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                              title="حذف المقال"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
             
           </div>
         </div>
       </main>
+
+      {/* Create / Edit Article Modal */}
+      {articleModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 overflow-y-auto" dir="rtl">
+          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-2xl border border-slate-100 my-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-slate-800 font-alexandria">
+                {editingArticleId ? 'تعديل المقال' : 'نشر مقال جديد'}
+              </h3>
+              <button 
+                onClick={() => setArticleModalOpen(false)} 
+                className="text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveArticle} className="space-y-4 font-alexandria">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">عنوان المقال</label>
+                <input
+                  type="text"
+                  required
+                  value={articleTitle}
+                  onChange={(e) => setArticleTitle(e.target.value)}
+                  placeholder="مثال: كيف يغير الذكاء الاصطناعي مستقبل البرمجة؟"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">التصنيف</label>
+                  <select
+                    value={articleCategory}
+                    onChange={(e) => setArticleCategory(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                  >
+                    <option value="الذكاء الاصطناعي">الذكاء الاصطناعي</option>
+                    <option value="تطوير الويب">تطوير الويب</option>
+                    <option value="أنظمة الأعمال">أنظمة الأعمال</option>
+                    <option value="UI/UX">تجربة المستخدم UI/UX</option>
+                    <option value="أمن المعلومات">أمن المعلومات</option>
+                    <option value="عام">عام</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">وقت القراءة المقدر</label>
+                  <input
+                    type="text"
+                    value={articleReadTime}
+                    onChange={(e) => setArticleReadTime(e.target.value)}
+                    placeholder="مثال: 5 دقائق"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">رابط غلاف المقال (صورة URL)</label>
+                <input
+                  type="url"
+                  value={articleImageUrl}
+                  onChange={(e) => setArticleImageUrl(e.target.value)}
+                  placeholder="https://images.unsplash.com/photo-..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 dir-ltr text-left"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">الملخص الموجز (Excerpt)</label>
+                <textarea
+                  required
+                  rows={2}
+                  value={articleExcerpt}
+                  onChange={(e) => setArticleExcerpt(e.target.value)}
+                  placeholder="موجز قصير يظهر في بطاقة المقال الرئيسية..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">المحتوى الكامل للمقال</label>
+                <textarea
+                  rows={5}
+                  value={articleContent}
+                  onChange={(e) => setArticleContent(e.target.value)}
+                  placeholder="اكتب نص المقال الكامل هنا..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3 space-x-reverse pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setArticleModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  disabled={articleSubmitting}
+                  className="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-2 space-x-reverse"
+                >
+                  {articleSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>جاري الحفظ...</span>
+                    </>
+                  ) : (
+                    <span>{editingArticleId ? 'حفظ التعديلات' : 'نشر المقال'}</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Article Confirmation Modal */}
+      {articleToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-sm p-4" dir="rtl">
+          <div className="bg-white rounded-2xl p-6 shadow-xl w-full max-w-sm border border-slate-100 font-alexandria">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-slate-800">تأكيد حذف المقال</h3>
+              <button onClick={() => setArticleToDelete(null)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+            <p className="text-sm text-slate-600 mb-6">
+              هل أنت تأكد من رغبتك في حذف هذا المقال؟ لا يمكن التراجع عن هذا الإجراء بعد تنفيذه.
+            </p>
+            <div className="flex justify-end space-x-3 space-x-reverse">
+              <button 
+                onClick={() => setArticleToDelete(null)}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+              >
+                إلغاء
+              </button>
+              <button 
+                onClick={handleConfirmDeleteArticle}
+                className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-sm"
+              >
+                تأكيد الحذف
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       {itemToDelete && (

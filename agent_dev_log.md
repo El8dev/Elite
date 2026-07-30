@@ -65,6 +65,23 @@
   - Refactored `fetchPublicProjects` to execute directly against Supabase with strict error throwing.
 - **Results**: Application now relies exclusively on live Supabase data. Error states are correctly reported directly to UI handlers.
 
+## 2026-07-31 (Particles Canvas Z-Index Overlay Fix)
+- **Issue**: The floating canvas particles (`ParticlesBackground`) were rendering on top of UI cards, login/signup forms, navigation menus, and dashboard controls due to `z-[1]`.
+- **Execution**:
+  - Modified [ParticlesBackground.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/ParticlesBackground.tsx): Updated canvas element container z-index from `z-[1]` to `z-0`.
+- **Results**: Canvas particles are now strictly stacked in the background behind all UI elements, modals, forms, and dashboard surfaces.
+
+## 2026-07-31 (Dynamic Articles & Dashboard Management System)
+- **Request**: User selected Option 2 (migrate Articles / Tech Blog to Supabase and allow full article creation/editing/deletion from the Dashboard).
+- **Execution**:
+  - Created [03_articles.sql](file:///c:/Users/hayder/Desktop/source/supabase/03_articles.sql): Added `public.articles` schema definition with complete RLS policies.
+  - Created [articles.service.ts](file:///c:/Users/hayder/Desktop/source/src/features/articles/services/articles.service.ts): Added CRUD helper functions (`fetchPublicArticles`, `fetchArticlesByAuthor`, `createArticle`, `updateArticle`, `deleteArticle`).
+  - Modified [TechBlogSection.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/TechBlogSection.tsx): Connected articles list to Supabase with loading skeleton animations.
+  - Modified [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Added "Manage Articles" sidebar navigation tab, article listing UI, publish/edit modal dialog, and deletion confirmation modal.
+- **Results**: Developers and admins can now create, update, and delete technical articles directly from the Dashboard, which immediately populate the public Tech Blog section on the website.
+
+
+
 
 
 
