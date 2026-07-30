@@ -6,7 +6,6 @@ import { supabase } from '@/lib/supabase';
 import { Download } from 'lucide-react';
 import OurVision from '@/features/landing/components/OurVision';
 import { Magnetic } from '@/components/common/Magnetic';
-import { ParticlesBackground } from '@/components/common/ParticlesBackground';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
 import { ServicesSection } from '@/features/landing/components/ServicesSection';

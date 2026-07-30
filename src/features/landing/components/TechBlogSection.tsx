@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Clock, User } from 'lucide-react';
+import { fetchPublicArticles, Article } from '../services/articles.service';
 
-const articles = [
+const defaultFallbackArticles: Article[] = [
   {
-    id: 1,
+    id: 'default-1',
     title: 'كيف يغير الذكاء الاصطناعي مستقبل تطوير البرمجيات في 2026؟',
     excerpt: 'نظرة عميقة على تأثير نماذج الذكاء الاصطناعي المتقدمة في تسريع كتابة الأكواد، وتحسين جودة البرامج واكتشاف الثغرات الأمنية بشكل استباقي.',
     category: 'الذكاء الاصطناعي',
@@ -16,7 +17,7 @@ const articles = [
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=450',
   },
   {
-    id: 2,
+    id: 'default-2',
     title: 'دليل الشركات الشامل للانتقال إلى الأنظمة السحابية (Cloud ERP)',
     excerpt: 'لماذا يجب على الشركات المتوسطة والكبيرة الاستغناء عن السيرفرات المحلية والانتقال إلى الحلول السحابية الحديثة لضمان أمان وتوفر البيانات؟',
     category: 'أنظمة الأعمال',
@@ -28,7 +29,7 @@ const articles = [
     image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800&h=450',
   },
   {
-    id: 3,
+    id: 'default-3',
     title: 'أهمية تجربة المستخدم (UI/UX) في زيادة مبيعات المتاجر الإلكترونية',
     excerpt: 'خطوات عملية لتحسين واجهات المتاجر الإلكترونية لتقليل معدلات التخلي عن السلة وزيادة ولاء العملاء والمبيعات بنسبة تصل إلى 40%.',
     category: 'UI/UX',
@@ -42,6 +43,30 @@ const articles = [
 ];
 
 export const TechBlogSection: React.FC = () => {
+  const [articlesList, setArticlesList] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadArticles = async () => {
+      try {
+        const data = await fetchPublicArticles();
+        if (isMounted) {
+          setArticlesList(data.length > 0 ? data : defaultFallbackArticles);
+        }
+      } catch (err) {
+        console.warn('Could not fetch articles from Supabase, using defaults:', err);
+        if (isMounted) {
+          setArticlesList(defaultFallbackArticles);
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    loadArticles();
+    return () => { isMounted = false; };
+  }, []);
+
   return (
     <section className="relative w-full py-24 z-10 font-outfit" id="blog">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -65,83 +90,84 @@ export const TechBlogSection: React.FC = () => {
           >
             مقالات حصرية من خبراء Elite، تغطي أحدث تقنيات البرمجة، أنظمة الذكاء الاصطناعي، وتوجهات تصميم الواجهات.
           </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ delay: 0.2 }}
-          >
-            <a href="#" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-sm font-alexandria">
-              عرض جميع المقالات
-              <span className="text-purple-400">&larr;</span>
-            </a>
-          </motion.div>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir="rtl">
-          {articles.map((article, index) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ delay: index * 0.15 }}
-              className="group relative flex flex-col card-flat cursor-pointer"
-            >
-              {/* Image Container */}
-              <div className="relative w-full h-52 overflow-hidden bg-white/5 rounded-t-2xl">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                <img 
-                  src={article.image} 
-                  alt={article.title}
-                  className="w-full h-full object-cover rounded-t-2xl transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-                {/* Category Badge over image */}
-                <div className="absolute top-4 right-4 z-20">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md ${article.categoryColor} font-alexandria`}>
-                    {article.category}
-                  </span>
-                </div>
+        {/* Loading Skeletons */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir="rtl">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="rounded-2xl bg-white/5 border border-white/10 p-6 animate-pulse">
+                <div className="w-full h-48 bg-white/10 rounded-xl mb-4" />
+                <div className="h-4 bg-white/10 rounded w-1/3 mb-4" />
+                <div className="h-6 bg-white/10 rounded w-5/6 mb-2" />
+                <div className="h-4 bg-white/10 rounded w-4/5" />
               </div>
-
-              {/* Content Container */}
-              <div className="flex flex-col flex-1 p-6 relative">
-
-                <div className="flex items-center gap-4 text-xs text-white/40 mb-4 font-alexandria">
-                  <span>{article.date}</span>
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {article.readTime}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-3 leading-snug group-hover:text-purple-300 transition-colors duration-300 font-alexandria">
-                  {article.title}
-                </h3>
-                
-                <p className="text-sm text-white/50 leading-relaxed font-alexandria flex-1 mb-6 line-clamp-3">
-                  {article.excerpt}
-                </p>
-
-                {/* Author Footer */}
-                <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+            ))}
+          </div>
+        ) : (
+          /* Grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir="rtl">
+            {articlesList.map((article, index) => (
+              <motion.article
+                key={article.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative flex flex-col card-flat cursor-pointer rounded-2xl bg-[#09090b] border border-white/10 overflow-hidden hover:border-purple-500/30 transition-all duration-300"
+              >
+                {/* Image Container */}
+                <div className="relative w-full h-52 overflow-hidden bg-white/5">
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
                   <img 
-                    src={article.authorAvatar} 
-                    alt={article.author}
-                    className="w-8 h-8 rounded-full object-cover border border-white/10"
+                    src={article.image || article.image_url} 
+                    alt={article.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
-                  <div className="flex flex-col">
-                    <span className="text-sm text-white/80 font-semibold font-alexandria">{article.author}</span>
-                    <span className="text-xs text-white/40 font-alexandria">خبير تقني</span>
+                  {/* Category Badge over image */}
+                  <div className="absolute top-4 right-4 z-20">
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md ${article.categoryColor || article.category_color} font-alexandria`}>
+                      {article.category}
+                    </span>
                   </div>
                 </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
+
+                {/* Content Container */}
+                <div className="flex flex-col flex-1 p-6 relative">
+                  <div className="flex items-center gap-4 text-xs text-white/40 mb-4 font-alexandria">
+                    <span>{article.date}</span>
+                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {article.readTime || article.read_time}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white mb-3 leading-snug group-hover:text-purple-300 transition-colors duration-300 font-alexandria line-clamp-2">
+                    {article.title}
+                  </h3>
+                  
+                  <p className="text-sm text-white/50 leading-relaxed font-alexandria flex-1 mb-6 line-clamp-3">
+                    {article.excerpt}
+                  </p>
+
+                  {/* Author Footer */}
+                  <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                    <img 
+                      src={article.authorAvatar || article.author_avatar || 'https://i.pravatar.cc/150'} 
+                      alt={article.author || article.author_name}
+                      className="w-8 h-8 rounded-full object-cover border border-white/10"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-sm text-white/80 font-semibold font-alexandria">{article.author || article.author_name}</span>
+                      <span className="text-xs text-white/40 font-alexandria">خبير تقني</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
