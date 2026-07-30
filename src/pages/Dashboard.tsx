@@ -598,7 +598,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-full bg-[#F5F7F9] flex overflow-hidden font-sans text-slate-800 relative">
+    <div className="h-screen w-full bg-[#F5F7F9] flex overflow-hidden font-sans text-slate-800 relative z-10">
       
       {/* SECTION A: Sidebar Panel */}
       <aside className="w-72 bg-white border-r border-slate-200 flex flex-col justify-between shadow-[2px_0_15px_rgba(0,0,0,0.02)] z-10 shrink-0">

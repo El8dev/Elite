@@ -3,44 +3,7 @@ import { motion } from 'motion/react';
 import { Clock, User } from 'lucide-react';
 import { fetchPublicArticles, Article } from '../services/articles.service';
 
-const defaultFallbackArticles: Article[] = [
-  {
-    id: 'default-1',
-    title: 'كيف يغير الذكاء الاصطناعي مستقبل تطوير البرمجيات في 2026؟',
-    excerpt: 'نظرة عميقة على تأثير نماذج الذكاء الاصطناعي المتقدمة في تسريع كتابة الأكواد، وتحسين جودة البرامج واكتشاف الثغرات الأمنية بشكل استباقي.',
-    category: 'الذكاء الاصطناعي',
-    categoryColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
-    date: '21 يوليو 2026',
-    readTime: '5 دقائق',
-    author: 'أحمد علي',
-    authorAvatar: 'https://i.pravatar.cc/150?u=ahmed',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=450',
-  },
-  {
-    id: 'default-2',
-    title: 'دليل الشركات الشامل للانتقال إلى الأنظمة السحابية (Cloud ERP)',
-    excerpt: 'لماذا يجب على الشركات المتوسطة والكبيرة الاستغناء عن السيرفرات المحلية والانتقال إلى الحلول السحابية الحديثة لضمان أمان وتوفر البيانات؟',
-    category: 'أنظمة الأعمال',
-    categoryColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
-    date: '15 يوليو 2026',
-    readTime: '8 دقائق',
-    author: 'سارة محمد',
-    authorAvatar: 'https://i.pravatar.cc/150?u=sara',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800&h=450',
-  },
-  {
-    id: 'default-3',
-    title: 'أهمية تجربة المستخدم (UI/UX) في زيادة مبيعات المتاجر الإلكترونية',
-    excerpt: 'خطوات عملية لتحسين واجهات المتاجر الإلكترونية لتقليل معدلات التخلي عن السلة وزيادة ولاء العملاء والمبيعات بنسبة تصل إلى 40%.',
-    category: 'UI/UX',
-    categoryColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    date: '10 يوليو 2026',
-    readTime: '4 دقائق',
-    author: 'عمر خالد',
-    authorAvatar: 'https://i.pravatar.cc/150?u=omar',
-    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800&h=450',
-  }
-];
+
 
 export const TechBlogSection: React.FC = () => {
   const [articlesList, setArticlesList] = useState<Article[]>([]);
@@ -52,12 +15,12 @@ export const TechBlogSection: React.FC = () => {
       try {
         const data = await fetchPublicArticles();
         if (isMounted) {
-          setArticlesList(data.length > 0 ? data : defaultFallbackArticles);
+          setArticlesList(data || []);
         }
       } catch (err) {
-        console.warn('Could not fetch articles from Supabase, using defaults:', err);
+        console.warn('Could not fetch articles from Supabase:', err);
         if (isMounted) {
-          setArticlesList(defaultFallbackArticles);
+          setArticlesList([]);
         }
       } finally {
         if (isMounted) setLoading(false);
@@ -103,6 +66,10 @@ export const TechBlogSection: React.FC = () => {
                 <div className="h-4 bg-white/10 rounded w-4/5" />
               </div>
             ))}
+          </div>
+        ) : articlesList.length === 0 ? (
+          <div className="text-center text-white/50 py-12 font-alexandria">
+            لا توجد مقالات متاحة حالياً.
           </div>
         ) : (
           /* Grid */
