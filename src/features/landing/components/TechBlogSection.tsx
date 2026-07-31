@@ -60,7 +60,7 @@ export const TechBlogSection: React.FC = () => {
 
         {/* Loading Skeletons */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8" dir={i18n.dir()}>
             {[1, 2, 3].map((n) => (
               <div key={n} className="rounded-2xl bg-card border border-border/50 p-6 animate-pulse">
                 <div className="w-full h-48 bg-muted rounded-xl mb-4" />
@@ -76,7 +76,7 @@ export const TechBlogSection: React.FC = () => {
           </div>
         ) : (
           /* Grid */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8" dir={i18n.dir()}>
             {articlesList.map((article, index) => (
               <motion.article
                 key={article.id}

@@ -29,12 +29,10 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
       initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
       whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      className="group relative mb-8 overflow-hidden rounded-3xl bg-card shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-border transition-all hover:ring-primary/50"
-      style={{ isolation: 'isolate' }}
+      className="group relative mb-8 overflow-hidden rounded-3xl bg-card shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-border transition-all hover:ring-primary/50 break-inside-avoid"
     >
       <div 
-        className="relative cursor-pointer overflow-hidden aspect-[4/3] md:aspect-auto md:h-auto" 
+        className="relative cursor-pointer overflow-hidden aspect-auto h-auto" 
         onClick={() => {
           playHoverTick();
           onProjectClick(project.id);
@@ -43,7 +41,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
         <motion.img
           src={project.imageUrls?.[0] || project.imageUrl}
           alt={project.title}
-          className="w-full h-full md:h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
