@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /llms-ar.txt
 
 # Specifically allow all AI web crawlers
 User-agent: GPTBot
