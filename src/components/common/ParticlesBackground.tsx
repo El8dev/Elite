@@ -16,6 +16,10 @@ export const ParticlesBackground: React.FC = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
     const isMobile = width < 768;
+    
+    // Completely skip rendering canvas particles on mobile to save GPU cycles
+    if (isMobile) return;
+    
     canvas.width = width;
     canvas.height = height;
 
@@ -151,7 +155,7 @@ export const ParticlesBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-0 hidden md:block"
       aria-hidden="true"
     />
   );
