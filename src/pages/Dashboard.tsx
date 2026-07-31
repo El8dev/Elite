@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3 } from 'lucide-react';
+import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import Cropper, { Area } from 'react-easy-crop';
@@ -58,6 +58,7 @@ const DEFAULT_MEMBER_ROLE = 'Member';
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('manage');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isMasterpiece, setIsMasterpiece] = useState(false);
   const [personalProfileOnly, setPersonalProfileOnly] = useState(false);
   const [items, setItems] = useState<DashboardProject[]>([]);
@@ -605,8 +606,8 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-transparent flex font-outfit text-foreground relative">
       
-      {/* SECTION A: Sidebar (fixed width) */}
-      <aside className="w-72 bg-card/80 backdrop-blur-xl border-r border-border flex flex-col shrink-0 relative z-10">
+      {/* SECTION A: Desktop Sidebar (fixed width) */}
+      <aside className="hidden md:flex w-72 bg-card/80 backdrop-blur-xl border-r border-border flex-col shrink-0 relative z-10">
         <div>
           {/* User Profile */}
           <div className="p-8 border-b border-border flex items-center space-x-4">
@@ -693,24 +694,131 @@ const Dashboard: React.FC = () => {
         </div>
       </aside>
 
+      {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
+        {mobileSidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileSidebarOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            />
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex flex-col z-50 md:hidden shadow-2xl p-6 overflow-y-auto"
+            >
+              <div className="flex items-center justify-between pb-6 border-b border-border mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold border border-primary/20 overflow-hidden">
+                    {avatarPreview || avatarUrl ? (
+                      <img src={avatarPreview || avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      profileName ? profileName.charAt(0).toUpperCase() : 'A'
+                    )}
+                  </div>
+                  <div>
+                    <h2 className="font-medium text-foreground truncate">{profileName || 'User'}</h2>
+                    <p className="text-xs text-muted-foreground truncate">{profileJobTitle || 'Developer'}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setMobileSidebarOpen(false)}
+                  className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <nav className="space-y-2 flex-1">
+                <button 
+                  onClick={() => { setActiveTab('manage'); setMobileSidebarOpen(false); }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                >
+                  <FolderKanban size={18} />
+                  <span>{t('dashboard.my_projects')}</span>
+                </button>
+                {accountStatus === 'approved' && (
+                  <>
+                    <button 
+                      onClick={() => { setActiveTab('publish'); setMobileSidebarOpen(false); }}
+                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                    >
+                      <Plus size={18} />
+                      <span>{t('dashboard.publish_project')}</span>
+                    </button>
+                    <button 
+                      onClick={() => { setActiveTab('articles'); setMobileSidebarOpen(false); }}
+                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                    >
+                      <FileText size={18} />
+                      <span>{t('dashboard.articles')}</span>
+                    </button>
+                  </>
+                )}
+                <button 
+                  onClick={() => { setActiveTab('profile'); setMobileSidebarOpen(false); }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                >
+                  <User size={18} />
+                  <span>{t('dashboard.profile')}</span>
+                </button>
+                {isSystemAdmin && (
+                  <button 
+                    onClick={() => { setActiveTab('admin'); setMobileSidebarOpen(false); }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                  >
+                    <Shield size={18} />
+                    <span>{t('dashboard.admin')}</span>
+                  </button>
+                )}
+              </nav>
+
+              <div className="pt-4 border-t border-border mt-auto">
+                <button 
+                  onClick={handleSignOut}
+                  className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                >
+                  <LogOut size={18} />
+                  <span>{t('dashboard.sign_out')}</span>
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* SECTION B: Main Workspace */}
       <main className="flex-1 flex flex-col bg-transparent relative z-0 overflow-hidden">
         {/* Header */}
         <header className="h-20 px-4 md:px-10 flex items-center justify-between border-b border-border bg-background/40 backdrop-blur-md shrink-0">
-          <h1 className="text-xl font-medium text-foreground">
-            {activeTab === 'manage' && t('dashboard.my_projects')}
-            {activeTab === 'publish' && t('dashboard.publish_project')}
-            {activeTab === 'articles' && t('dashboard.articles')}
-            {activeTab === 'profile' && t('dashboard.profile')}
-            {activeTab === 'admin' && t('dashboard.admin')}
-          </h1>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              className="w-10 h-10 rounded-xl bg-card border border-border/80 flex items-center justify-center text-foreground md:hidden"
+              aria-label="Open mobile menu"
+            >
+              <Menu size={20} />
+            </button>
+            <h1 className="text-lg sm:text-xl font-medium text-foreground">
+              {activeTab === 'manage' && t('dashboard.my_projects')}
+              {activeTab === 'publish' && t('dashboard.publish_project')}
+              {activeTab === 'articles' && t('dashboard.articles')}
+              {activeTab === 'profile' && t('dashboard.profile')}
+              {activeTab === 'admin' && t('dashboard.admin')}
+            </h1>
+          </div>
           <div className="flex items-center gap-4">
             <ThemeLanguageToggle />
           </div>
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 p-10 overflow-y-auto">
+        <div className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
           <div className="max-w-5xl mx-auto h-full">
 
             {/* Pending Account Banner */}

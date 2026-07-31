@@ -46,14 +46,14 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
     <motion.button
       onClick={() => onClick?.(profile.id)}
       onMouseMove={handleMouseMove}
-      className="flex w-full flex-col items-center rounded-2xl border border-white/[0.055] bg-[#0e0e10]/50 backdrop-blur-2xl p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none md:p-8 relative overflow-hidden group"
+      className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0e0e10]/60 backdrop-blur-xl p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none md:p-8 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
       whileHover={{
-        borderColor: 'rgba(139,92,246,0.28)',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.45), 0 0 30px rgba(139,92,246,0.08)',
+        borderColor: 'rgba(139,92,246,0.35)',
+        boxShadow: '0 20px 50px rgba(139,92,246,0.12), 0 0 30px rgba(139,92,246,0.08)',
       }}
       data-magnetic
     >
@@ -89,17 +89,17 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         <img
           src={profile.avatarUrl}
           alt={profile.fullName}
-          className="relative h-20 w-20 rounded-full object-cover ring-2 ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 md:h-24 md:w-24 z-10"
+          className="relative h-20 w-20 rounded-full object-cover ring-2 ring-purple-500/20 dark:ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 md:h-24 md:w-24 z-10"
           loading="lazy"
         />
       </div>
 
       <h3 className="mt-4 text-lg font-bold text-foreground font-outfit">{profile.fullName}</h3>
-      <p className="mt-0.5 text-sm font-semibold text-purple-400/80 font-jetbrains tracking-widest uppercase">
+      <p className="mt-0.5 text-sm font-semibold text-purple-600 dark:text-purple-400 font-jetbrains tracking-widest uppercase">
         {profile.title}
       </p>
 
-      <p className="mt-3 text-center text-sm leading-relaxed text-muted-foreground font-outfit line-clamp-2 min-h-[40px]">
+      <p className="mt-3 text-center text-sm leading-relaxed text-slate-700 dark:text-slate-300 font-outfit line-clamp-2 min-h-[40px]">
         {profile.bio}
       </p>
 
