@@ -44,7 +44,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
     <motion.button
       onClick={() => onClick?.(profile.id)}
       onMouseMove={handleMouseMove}
-      className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0e0e10]/60 backdrop-blur-xl p-4 md:p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
+      className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0e0e10]/60 backdrop-blur-xl p-2 md:p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -87,17 +87,17 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         <img
           src={profile.avatarUrl}
           alt={profile.fullName}
-          className="relative h-16 w-16 md:h-24 md:w-24 rounded-full object-cover ring-2 ring-purple-500/20 dark:ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 z-10"
+          className="relative h-12 w-12 md:h-24 md:w-24 rounded-full object-cover ring-2 ring-purple-500/20 dark:ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 z-10"
           loading="lazy"
         />
       </div>
 
-      <h3 className="mt-4 text-lg font-bold text-foreground font-outfit">{profile.fullName}</h3>
-      <p className="mt-0.5 text-sm font-semibold text-purple-600 dark:text-purple-400 font-jetbrains tracking-widest uppercase">
+      <h3 className="mt-4 text-sm md:text-lg font-bold text-foreground font-outfit">{profile.fullName}</h3>
+      <p className="mt-0.5 text-[10px] md:text-sm font-semibold text-purple-600 dark:text-purple-400 font-jetbrains tracking-widest uppercase">
         {profile.title}
       </p>
 
-      <p className="mt-3 text-center text-sm leading-relaxed text-slate-700 dark:text-slate-300 font-outfit line-clamp-2 min-h-[40px]">
+      <p className="mt-2 md:mt-3 text-center text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300 font-outfit line-clamp-2 min-h-[30px] md:min-h-[40px]">
         {profile.bio}
       </p>
 
@@ -108,7 +108,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
           return (
             <span
               key={skill}
-              className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs md:text-sm font-semibold font-jetbrains tracking-wide"
+              className="inline-flex items-center rounded-md px-1 py-0.5 md:px-1.5 md:py-0.5 text-[10px] md:text-sm font-semibold font-jetbrains tracking-wide"
               style={{ background: bg, color: text, border: `1px solid ${border}` }}
             >
               {skill}
