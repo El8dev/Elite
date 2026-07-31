@@ -49,7 +49,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
       </div>
 
-      <div className="relative p-5 sm:p-6 bg-card text-card-foreground">
+      <div className="relative p-4 md:p-6 bg-card text-card-foreground">
         <div className="mb-4 flex items-center justify-between">
           <button
             onClick={() => onDeveloperClick(developer.id, (developer as any).username)}

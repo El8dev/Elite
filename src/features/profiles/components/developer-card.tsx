@@ -27,13 +27,11 @@ function getTechColor(skill: string): { bg: string; text: string; border: string
 export interface DeveloperCardProps {
   profile: DeveloperProfile;
   onClick?: (id: string) => void;
-  onContactClick?: (profile: DeveloperProfile) => void;
 }
 
 export const DeveloperCard: React.FC<DeveloperCardProps> = ({
   profile,
   onClick,
-  onContactClick,
 }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -46,7 +44,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
     <motion.button
       onClick={() => onClick?.(profile.id)}
       onMouseMove={handleMouseMove}
-      className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0e0e10]/60 backdrop-blur-xl p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none md:p-8 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
+      className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#0e0e10]/60 backdrop-blur-xl p-4 md:p-6 text-left transition-all duration-300 hover:-translate-y-2 focus:outline-none relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -89,7 +87,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         <img
           src={profile.avatarUrl}
           alt={profile.fullName}
-          className="relative h-20 w-20 rounded-full object-cover ring-2 ring-purple-500/20 dark:ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 md:h-24 md:w-24 z-10"
+          className="relative h-16 w-16 md:h-24 md:w-24 rounded-full object-cover ring-2 ring-purple-500/20 dark:ring-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105 z-10"
           loading="lazy"
         />
       </div>
@@ -158,21 +156,11 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         {/* View Profile — outlined neon */}
         <button
           onClick={(e) => { e.stopPropagation(); onClick?.(profile.id); }}
-          className="flex-1 py-2.5 text-center text-xs font-semibold text-foreground hover:text-primary bg-secondary/50 border border-border hover:border-primary/40 rounded-xl transition-all font-outfit"
+          className="flex-1 py-2.5 text-center text-xs font-semibold text-foreground hover:text-primary bg-secondary/50 border border-border hover:border-primary/40 rounded-xl transition-all font-outfit touch-target"
           data-cursor-text="VIEW"
           aria-label={`View ${profile.fullName}'s profile`}
         >
           View Profile
-        </button>
-
-        {/* Contact — flat solid button */}
-        <button
-          onClick={(e) => { e.stopPropagation(); onContactClick?.(profile); }}
-          className="flex-1 text-center text-xs font-outfit btn-flat"
-          data-cursor-text="CONTACT"
-          aria-label={`Contact ${profile.fullName}`}
-        >
-          Contact
         </button>
       </div>
     </motion.button>
