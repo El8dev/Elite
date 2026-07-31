@@ -97,7 +97,7 @@ const OurVision: React.FC = () => {
 
           {/* Body Text */}
           <div
-            className={`mb-12 text-center text-base leading-loose text-muted-foreground md:text-lg max-w-3xl mx-auto ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+            className={`mb-12 text-center text-base leading-loose text-muted-foreground md:text-lg max-w-3xl mx-auto whitespace-pre-line ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
             <TypewriterText text={t('vision.desc')} delay={600} speed={25} />

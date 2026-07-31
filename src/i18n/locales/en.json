@@ -84,17 +84,17 @@
     "new_badge": "New"
   },
   "vision": {
-    "title": "Our Vision",
-    "subtitle": "Rapid Development, Affordable Excellence.",
-    "desc": "El8 is an elite Iraqi technical team founded by ambitious youth. We believe that powerful technology should be accessible to everyone, not just those with massive budgets. We deliver state-of-the-art software—from web platforms to AI and hardware integrations—with incredible speed, often shipping full enterprise systems in a single month.",
+    "title": "Elite",
+    "subtitle": "An entity founded on uncompromising standards",
+    "desc": "Not just a tech team, but an entity founded on standards that exempt no one. We test, scrutinize, and isolate until only the rarest of the rare remain — those with exceptional competence and sharp vision, who have undergone a relentless testing journey that extends beyond programming to thinking, deconstructing complex problems, and rebuilding them from scratch.\n\nWe don't just gather programmers; we forge an engineering entity that transcends the concept of traditional teams. From here, we launch innovative digital solutions and contribute to building a more advanced technological future.",
     "services": [
-      "Rapid Web & Mobile App Development",
-      "Desktop Executables (EXE) & Offline Systems",
-      "AI Infrastructure & Data Solutions",
-      "Hardware Integration & Simulation",
-      "Administrative & Commercial Systems",
-      "Affordable Tech Consulting",
-      "Innovative Digital Systems Design"
+      "Professional Web Design & Development",
+      "Smartphone & Web Apps Development",
+      "Administrative, Commercial & Custom Systems Programming",
+      "Integrated Software Solutions for Enterprises",
+      "Hardware, Software & Technical Support Solutions",
+      "Technical Consulting & Digital Transformation Services",
+      "Design & Development of Innovative Digital Systems Based on Client Needs"
     ]
   },
   "auth": {
