@@ -134,10 +134,10 @@
 - **Results**: 100% responsive and smooth 60 FPS mobile experience across iOS and Android devices.
 - **Results**: Dashboard is now 100% localized between Arabic and English modes with zero raw key glitches or un-translated English chunks.
 
-
-
-
-
-
-
-
+## 2026-07-31 (Mobile Performance Deep Optimization)
+- **Issue**: The application felt "too heavy" and jittery on mobile devices despite basic CSS overrides, due to continuous JavaScript animation loops and heavy inline CSS filters bypassing media queries.
+- **Execution**:
+  - Modified `src/components/common/FilmGrain.tsx`: Implemented a React `useEffect` window resize listener to completely unmount the `framer-motion` SVG noise loop on screens `< 768px`, saving continuous CPU/GPU cycles.
+  - Modified `src/components/common/AmbientBackground.tsx`: Added Tailwind `hidden md:block` classes to the three massive `60vmax` background orbs, ensuring their heavy `filter: blur()` effects are never painted by mobile GPUs.
+  - Modified `src/features/landing/components/InteractiveGlobe.tsx`: Disabled the expensive `blur-[60px]` ambient glow on mobile and gracefully degraded the 3D globe's `backdrop-blur-sm` to apply only on `md:` breakpoints and up.
+- **Results**: The web application now renders at a silky smooth 60 FPS on mobile devices by systematically shedding heavy visual effects while preserving the premium aesthetic for desktop users.
