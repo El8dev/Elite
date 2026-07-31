@@ -407,7 +407,11 @@ const MasterpiecesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-[#030303] text-white relative overflow-hidden">
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden flex flex-col">
+      <Helmet>
+        <title>Masterpieces | Elite Code</title>
+        <meta name="description" content="A carefully curated gallery of our finest programming and engineering achievements." />
+      </Helmet>
       {/* Premium Ambient Shifting Glow */}
       <motion.div 
         className="pointer-events-none fixed inset-0 z-0 mix-blend-screen"

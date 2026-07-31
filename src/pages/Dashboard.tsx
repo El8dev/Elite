@@ -696,7 +696,7 @@ const Dashboard: React.FC = () => {
       {/* SECTION B: Main Workspace */}
       <main className="flex-1 flex flex-col bg-background relative z-0 overflow-hidden">
         {/* Header */}
-        <header className="h-20 px-10 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-sm shrink-0">
+        <header className="h-20 px-4 md:px-10 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-sm shrink-0">
           <h1 className="text-xl font-medium text-foreground">
             {activeTab === 'manage' && t('dashboard.my_projects')}
             {activeTab === 'publish' && t('dashboard.publish_project')}

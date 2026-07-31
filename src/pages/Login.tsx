@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { EliteLogo } from '@/components/common/EliteLogo';
+import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 import { useTranslation } from 'react-i18next';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -24,10 +25,10 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ label, id, ...props }) =>
         {...props}
         onFocus={(e) => { setFocused(true); props.onFocus?.(e); }}
         onBlur={(e)  => { setFocused(false); props.onBlur?.(e); }}
-        className={`w-full pt-6 pb-2.5 px-4 rounded-xl bg-white/[0.04] border transition-all font-outfit text-white placeholder-transparent focus:outline-none peer ${
+        className={`w-full pt-6 pb-2.5 px-4 rounded-xl bg-muted/40 border transition-all font-outfit text-foreground placeholder-transparent focus:outline-none peer ${
           focused
             ? 'border-purple-500/50 shadow-[0_0_0_3px_rgba(139,92,246,0.12)]'
-            : 'border-white/10 hover:border-white/20'
+            : 'border-border hover:border-foreground/20'
         } ${props.className ?? ''}`}
         placeholder={label}
         aria-label={label}
@@ -36,8 +37,8 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ label, id, ...props }) =>
         htmlFor={id}
         className={`absolute left-4 font-outfit transition-all duration-200 pointer-events-none ${
           lifted
-            ? 'top-2 text-xs md:text-sm font-semibold tracking-widest uppercase text-purple-400/80'
-            : 'top-1/2 -translate-y-1/2 text-sm text-white/35'
+            ? 'top-2 text-xs md:text-sm font-semibold tracking-widest uppercase text-purple-400'
+            : 'top-1/2 -translate-y-1/2 text-sm text-muted-foreground'
         }`}
       >
         {label}
@@ -97,7 +98,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-[#050505] flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
+    <div className={`min-h-screen bg-background flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
+      
+      {/* Top Controls */}
+      <div className={`absolute top-6 z-50 ${isRTL ? 'left-6' : 'right-6'}`}>
+        <ThemeLanguageToggle />
+      </div>
       {/* ── Dynamic ambient glow ── */}
       <div
         className="pointer-events-none fixed inset-0 z-0 transition-[background] duration-500"
@@ -111,16 +117,16 @@ const Login: React.FC = () => {
       <div
         className="pointer-events-none fixed -top-1/4 -left-1/4 w-[60vmax] h-[60vmax] rounded-full animate-float"
         style={{
-          background: 'radial-gradient(circle, rgba(139,92,246,0.07), transparent 65%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.12), transparent 50%)',
+          willChange: 'transform'
         }}
         aria-hidden="true"
       />
       <div
         className="pointer-events-none fixed -bottom-1/4 -right-1/4 w-[50vmax] h-[50vmax] rounded-full animate-float-delayed"
         style={{
-          background: 'radial-gradient(circle, rgba(34,211,238,0.05), transparent 65%)',
-          filter: 'blur(70px)',
+          background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 50%)',
+          willChange: 'transform'
         }}
         aria-hidden="true"
       />
@@ -135,11 +141,11 @@ const Login: React.FC = () => {
         <div
           className="rounded-3xl p-8 md:p-10 relative overflow-hidden"
           style={{
-            background: 'rgba(12,12,14,0.7)',
-            backdropFilter: 'blur(32px) saturate(1.8)',
-            WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
-            border: '1px solid rgba(255,255,255,0.065)',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 64px rgba(0,0,0,0.65)',
+            background: 'var(--card)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid var(--border)',
+            boxShadow: 'var(--shadow-hover)',
           }}
         >
           {/* Card top shine */}
@@ -171,10 +177,10 @@ const Login: React.FC = () => {
                 transition={{ duration: 0.25 }}
                 className="text-center"
               >
-                <h1 className={`text-2xl font-bold text-white tracking-tight ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                <h1 className={`text-2xl font-bold text-foreground tracking-tight ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                   {isSignUp ? t('auth.create_account') : t('auth.welcome_back')}
                 </h1>
-                <p className={`text-white/35 text-xs mt-1.5 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                <p className={`text-muted-foreground text-xs mt-1.5 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                   {isSignUp ? t('auth.join_community') : t('auth.signin_dashboard')}
                 </p>
               </motion.div>
@@ -231,10 +237,10 @@ const Login: React.FC = () => {
 
             {!isSignUp && (
               <div className="flex items-center justify-between text-xs">
-                <label className="flex items-center gap-2 text-white/35 cursor-pointer select-none">
+                <label className="flex items-center gap-2 text-muted-foreground cursor-pointer select-none">
                   <input
                     type="checkbox"
-                    className="rounded border-white/10 bg-white/5 text-purple-600 focus:ring-purple-500/20"
+                    className="rounded border-border bg-muted/20 text-purple-600 focus:ring-purple-500/20"
                     aria-label={t('auth.remember_me')}
                   />
                   {t('auth.remember_me')}
@@ -282,7 +288,7 @@ const Login: React.FC = () => {
             </button>
 
             {/* Toggle mode */}
-            <div className="text-center pt-3 border-t border-white/[0.05] mt-4">
+            <div className="text-center pt-3 border-t border-border mt-4">
               <button
                 type="button"
                 onClick={() => {
@@ -290,7 +296,7 @@ const Login: React.FC = () => {
                   setErrorMsg('');
                   setSuccessMsg('');
                 }}
-                className={`text-xs text-white/35 hover:text-white/70 transition-colors ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
+                className={`text-xs text-muted-foreground hover:text-foreground transition-colors ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
                 data-cursor-color="violet"
               >
                 {isSignUp ? t('auth.already_have_account') : t('auth.dont_have_account')}
@@ -303,7 +309,7 @@ const Login: React.FC = () => {
         </div>
 
         {/* ── Footer note ── */}
-        <p className={`text-center text-xs md:text-sm text-white/20 mt-5 ${isRTL ? 'font-alexandria' : 'font-jetbrains'}`}>
+        <p className={`text-center text-xs md:text-sm text-muted-foreground mt-5 ${isRTL ? 'font-alexandria' : 'font-jetbrains'}`}>
           {t('auth.built_in_iraq')}
         </p>
       </motion.div>
