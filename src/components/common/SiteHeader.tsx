@@ -65,7 +65,7 @@ export const SiteHeader: React.FC = () => {
                   <Link
                     to={item.path}
                     onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                    className={`relative px-4 py-2 min-h-[38px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group ${
+                    className={`relative px-4 py-2 min-h-[44px] touch-target inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group ${
                       isActive ? 'text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
@@ -96,7 +96,7 @@ export const SiteHeader: React.FC = () => {
             <Link
               to="/login"
               onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-              className={`relative px-5 py-2 min-h-[40px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group text-foreground dark:text-white border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 shadow-[0_0_20px_-4px_rgba(139,92,246,0.3)]`}
+              className={`relative px-5 py-2 min-h-[44px] touch-target inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group text-foreground dark:text-white border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 shadow-[0_0_20px_-4px_rgba(139,92,246,0.3)]`}
             >
               {t('nav.login')}
             </Link>
@@ -110,7 +110,7 @@ export const SiteHeader: React.FC = () => {
           <ThemeLanguageToggle />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="w-10 h-10 rounded-xl bg-card border border-border/80 flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
+            className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-xl bg-card border border-border/80 flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -136,7 +136,7 @@ export const SiteHeader: React.FC = () => {
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-between ${
+                    className={`px-4 py-3 min-h-[44px] rounded-xl text-sm font-semibold transition-all flex items-center justify-between ${
                       isActive ? 'bg-primary/15 text-primary border border-primary/20' : 'text-foreground hover:bg-secondary'
                     }`}
                   >

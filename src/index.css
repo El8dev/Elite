@@ -261,6 +261,23 @@
     scrollbar-width: none;
   }
 
+  /* ── Mobile-First UI Utilities ────────────────────────────────────────── */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .text-readable {
+    @apply max-w-[70ch] mx-auto;
+  }
+
+  /* Ensure smooth horizontal scrolling for complex components on mobile */
+  .mobile-scroll-x {
+    @apply overflow-x-auto snap-x snap-mandatory flex-nowrap hide-scrollbar;
+  }
+  .mobile-scroll-x > * {
+    @apply snap-start;
+  }
+
   /* ── Mobile Performance Overrides ─────────────────────────────────────── */
   @media (max-width: 768px) {
     /* Disable expensive blur filters on mobile GPUs */

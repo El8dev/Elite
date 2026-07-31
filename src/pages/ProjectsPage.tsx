@@ -189,7 +189,7 @@ const ShowcaseFeed: React.FC<{
   }
 
   return (
-    <div className="mx-auto max-w-[1400px] px-4 md:px-8">
+    <div className="mx-auto max-w-7xl px-4 md:px-8">
       <motion.div
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
         animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
