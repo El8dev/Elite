@@ -289,7 +289,7 @@ const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick 
           </span>
         </motion.div>
 
-        <div className="relative z-20 px-6 pb-6 -mt-4">
+        <div className="relative z-20 px-4 pb-4 md:px-6 md:pb-6 -mt-4">
           {item.profiles && (
             <div className="flex items-center gap-2.5 mb-4">
               {item.profiles.avatar_url && (

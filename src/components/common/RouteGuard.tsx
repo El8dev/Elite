@@ -17,11 +17,14 @@ const PUBLIC_ROUTES = [...SYSTEM_PUBLIC_ROUTES, ...routePublicPaths];
 
 function matchPublicRoute(path: string, patterns: string[]) {
   return patterns.some(pattern => {
-    if (pattern.includes('*')) {
-      const regex = new RegExp('^' + pattern.replace('*', '.*') + '$');
-      return regex.test(path);
-    }
-    return path === pattern;
+    let regexStr = pattern;
+    // Replace React Router params like :identifier with regex matching anything except a slash
+    regexStr = regexStr.replace(/:[^/]+/g, '[^/]+');
+    // Replace asterisks with match-all regex
+    regexStr = regexStr.replace(/\*/g, '.*');
+    
+    const regex = new RegExp('^' + regexStr + '$');
+    return regex.test(path);
   });
 }
 

@@ -302,5 +302,10 @@
     .dark .backdrop-blur {
       background-color: hsl(var(--background) / 0.95) !important;
     }
+    
+    /* Hide extremely expensive ambient glows on mobile to boost FPS */
+    .blur-[60px], .blur-[100px], .blur-[120px], .blur-2xl, .blur-3xl {
+      display: none !important;
+    }
   }
 }
