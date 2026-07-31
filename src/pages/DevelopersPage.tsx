@@ -8,8 +8,10 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowLeft } from 'lucide-react';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
 import { SiteHeader } from '@/components/common/SiteHeader';
+import { useTranslation } from 'react-i18next';
 
 const DevelopersPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [profileGridData, setProfileGridData] = useState<DeveloperProfileType[]>([]);
   const [loadingProfiles, setLoadingProfiles] = useState(false);
@@ -64,10 +66,10 @@ const DevelopersPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#030303]/70 text-white pt-24 pb-20 px-4 md:px-8">
+    <div className="min-h-screen bg-transparent text-white pt-24 pb-20 px-4 md:px-8">
       <Helmet>
-        <title>Elite Developers | Our Masterminds</title>
-        <meta name="description" content="Discover the elite developers behind the masterpieces." />
+        <title>{t('developers_page.title', 'Elite Developers | Our Masterminds')}</title>
+        <meta name="description" content={t('developers_page.subtitle', 'Discover the elite developers behind the masterpieces.')} />
       </Helmet>
 
       <SiteHeader />
@@ -82,11 +84,11 @@ const DevelopersPage: React.FC = () => {
         >
           <h1 className="text-4xl md:text-5xl font-bold font-outfit mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-400">
-              Elite Developers
+              {t('developers_page.title', 'Elite Developers')}
             </span>
           </h1>
           <p className="text-white/60 max-w-2xl mx-auto">
-            Meet the creative minds behind the masterpieces.
+            {t('developers_page.subtitle', 'Meet the creative minds behind the masterpieces.')}
           </p>
         </motion.div>
 
