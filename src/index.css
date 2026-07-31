@@ -171,12 +171,17 @@
 
   /* ── Flat Vector Illustration Style (Storyset / Manypixels aesthetic) ── */
   .card-flat {
-    background: #0f0f11;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1.5px solid hsl(var(--border));
     border-radius: 24px; /* Playful rounded corners */
     /* Solid offset shadow mimicking vector illustration depth */
     box-shadow: 6px 6px 0px rgba(139, 92, 246, 0.15);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dark .card-flat {
+    background: #0f0f11;
+    border: 2px solid rgba(255, 255, 255, 0.1);
   }
   .card-flat:hover {
     transform: translate(-4px, -4px);
@@ -217,12 +222,17 @@
   }
 
   .input-flat {
-    background: #0f0f11;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: hsl(var(--card));
+    border: 1.5px solid hsl(var(--border));
     border-radius: 16px;
     padding: 0.75rem 1.25rem;
-    color: white;
+    color: hsl(var(--foreground));
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dark .input-flat {
+    background: #0f0f11;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: white;
   }
   .input-flat:focus {
     outline: none;

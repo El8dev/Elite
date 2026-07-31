@@ -50,7 +50,7 @@ const AmbientBackground: React.FC = () => {
 
       {/* ── Subtle vignette at edges ── */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 opacity-20 dark:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%)',

@@ -43,7 +43,7 @@ export const TechBlogSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
-            className={`text-3xl md:text-5xl font-bold text-white mb-2 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
+            className={`text-3xl md:text-5xl font-bold text-foreground mb-2 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
             {t('tech_blog.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{t('tech_blog.title2')}</span>
           </motion.h2>
@@ -52,7 +52,7 @@ export const TechBlogSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: 0.1 }}
-            className={`text-white/60 max-w-2xl text-sm md:text-base leading-relaxed mb-4 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
+            className={`text-muted-foreground max-w-2xl text-sm md:text-base leading-relaxed mb-4 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
             {t('tech_blog.subtitle')}
           </motion.p>
@@ -62,16 +62,16 @@ export const TechBlogSection: React.FC = () => {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
             {[1, 2, 3].map((n) => (
-              <div key={n} className="rounded-2xl bg-white/5 border border-white/10 p-6 animate-pulse">
-                <div className="w-full h-48 bg-white/10 rounded-xl mb-4" />
-                <div className="h-4 bg-white/10 rounded w-1/3 mb-4" />
-                <div className="h-6 bg-white/10 rounded w-5/6 mb-2" />
-                <div className="h-4 bg-white/10 rounded w-4/5" />
+              <div key={n} className="rounded-2xl bg-card border border-border/50 p-6 animate-pulse">
+                <div className="w-full h-48 bg-muted rounded-xl mb-4" />
+                <div className="h-4 bg-muted rounded w-1/3 mb-4" />
+                <div className="h-6 bg-muted rounded w-5/6 mb-2" />
+                <div className="h-4 bg-muted rounded w-4/5" />
               </div>
             ))}
           </div>
         ) : articlesList.length === 0 ? (
-          <div className={`text-center text-white/50 py-12 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <div className={`text-center text-muted-foreground py-12 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('tech_blog.no_articles')}
           </div>
         ) : (
@@ -84,10 +84,10 @@ export const TechBlogSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative flex flex-col card-flat cursor-pointer rounded-2xl bg-[#09090b] border border-white/10 overflow-hidden hover:border-purple-500/30 transition-all duration-300"
+                className="group relative flex flex-col card-flat cursor-pointer rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all duration-300"
               >
                 {/* Image Container */}
-                <div className="relative w-full h-52 overflow-hidden bg-white/5">
+                <div className="relative w-full h-52 overflow-hidden bg-muted">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
                   <img 
                     src={article.image || article.image_url} 
@@ -104,33 +104,33 @@ export const TechBlogSection: React.FC = () => {
 
                 {/* Content Container */}
                 <div className="flex flex-col flex-1 p-6 relative">
-                  <div className="flex items-center gap-4 text-xs text-white/40 mb-4 font-alexandria">
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4 font-alexandria">
                     <span>{article.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-white/20" />
+                    <span className="w-1 h-1 rounded-full bg-border" />
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {article.readTime || article.read_time}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-3 leading-snug group-hover:text-purple-300 transition-colors duration-300 font-alexandria line-clamp-2">
+                  <h3 className="text-xl font-bold text-foreground mb-3 leading-snug group-hover:text-purple-400 transition-colors duration-300 font-alexandria line-clamp-2">
                     {article.title}
                   </h3>
                   
-                  <p className="text-sm text-white/50 leading-relaxed font-alexandria flex-1 mb-6 line-clamp-3">
+                  <p className="text-sm text-muted-foreground leading-relaxed font-alexandria flex-1 mb-6 line-clamp-3">
                     {article.excerpt}
                   </p>
 
                   {/* Author Footer */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-3 pt-4 border-t border-border/50">
                     <img 
                       src={article.authorAvatar || article.author_avatar || 'https://i.pravatar.cc/150'} 
                       alt={article.author || article.author_name}
-                      className="w-8 h-8 rounded-full object-cover border border-white/10"
+                      className="w-8 h-8 rounded-full object-cover border border-border/50"
                     />
                     <div className="flex flex-col">
-                      <span className={`text-sm text-white/80 font-semibold ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{article.author || article.author_name}</span>
-                      <span className={`text-xs text-white/40 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('tech_blog.author_role')}</span>
+                      <span className={`text-sm text-foreground font-semibold ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{article.author || article.author_name}</span>
+                      <span className={`text-xs text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('tech_blog.author_role')}</span>
                     </div>
                   </div>
                 </div>

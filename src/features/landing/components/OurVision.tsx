@@ -80,7 +80,7 @@ const OurVision: React.FC = () => {
 
           {/* Title */}
           <h2
-            className={`mt-2 mb-6 text-center text-4xl md:text-5xl font-extrabold text-white leading-relaxed tracking-normal ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+            className={`mt-2 mb-6 text-center text-4xl md:text-5xl font-extrabold text-foreground leading-relaxed tracking-normal ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
             <SlitScanText text={t('vision.title')} delay={0.2} />
@@ -97,7 +97,7 @@ const OurVision: React.FC = () => {
 
           {/* Body Text */}
           <div
-            className={`mb-12 text-center text-base leading-loose text-white/70 md:text-lg max-w-3xl mx-auto ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+            className={`mb-12 text-center text-base leading-loose text-muted-foreground md:text-lg max-w-3xl mx-auto ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
             <TypewriterText text={t('vision.desc')} delay={600} speed={25} />
@@ -121,15 +121,13 @@ const OurVision: React.FC = () => {
                 <motion.div
                   key={index}
                   onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                  className="relative overflow-hidden flex items-center gap-4 rounded-2xl border border-white/10 p-4.5 backdrop-blur-md transition-all duration-300 cursor-pointer group"
-                  style={{ background: 'rgba(17,17,19,0.40)' }}
+                  className="relative overflow-hidden flex items-center gap-4 rounded-2xl border border-border/50 bg-background/50 dark:bg-[#111113]/40 p-4.5 backdrop-blur-md transition-all duration-300 cursor-pointer group"
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.2, delay: 0.2 + index * 0.03 }}
                   whileHover={{
                     scale: 1.02,
                     borderColor: color.replace('0.9', '0.5'),
-                    backgroundColor: 'rgba(25,25,30,0.65)',
                     boxShadow: `0 0 25px -4px ${color.replace('0.9', '0.35')}, inset 0 0 15px -2px ${color.replace('0.9', '0.15')}`,
                   }}
                 >
@@ -157,7 +155,7 @@ const OurVision: React.FC = () => {
                   </div>
 
                   <span
-                    className={`relative z-10 text-sm font-semibold text-white/90 sm:text-base leading-snug group-hover:text-white transition-colors ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+                    className={`relative z-10 text-sm font-semibold text-foreground sm:text-base leading-snug group-hover:text-primary transition-colors ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
                     dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
                   >
                     {service.title}

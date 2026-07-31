@@ -55,7 +55,7 @@ export const ServicesSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
-            className={`text-3xl md:text-5xl font-bold text-white mb-6 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
+            className={`text-3xl md:text-5xl font-bold text-foreground mb-6 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
             {t('services_section.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{t('services_section.title2')}</span>
           </motion.h2>
@@ -64,7 +64,7 @@ export const ServicesSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: 0.1 }}
-            className={`text-white/60 max-w-2xl mx-auto text-sm md:text-base leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
+            className={`text-muted-foreground max-w-2xl mx-auto text-sm md:text-base leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
             {t('services_section.subtitle')}
           </motion.p>
@@ -92,13 +92,13 @@ export const ServicesSection: React.FC = () => {
               </div>
 
               <div className="relative z-10 flex items-start gap-6">
-                <div className={`shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br ${service.color} bg-opacity-10 border border-white/10 transition-transform duration-500`}>
+                <div className={`shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br ${service.color} bg-opacity-10 border border-border/50 transition-transform duration-500`}>
                   <service.icon className="w-6 h-6 text-white" />
                 </div>
                 
                 <div>
-                  <h3 className={`text-xl font-bold text-white mb-3 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{service.title}</h3>
-                  <p className={`text-sm text-white/50 leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                  <h3 className={`text-xl font-bold text-foreground mb-3 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{service.title}</h3>
+                  <p className={`text-sm text-muted-foreground leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                     {service.description}
                   </p>
                 </div>

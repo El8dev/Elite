@@ -78,6 +78,21 @@
   - Created [articles.service.ts](file:///c:/Users/hayder/Desktop/source/src/features/articles/services/articles.service.ts): Added CRUD helper functions (`fetchPublicArticles`, `fetchArticlesByAuthor`, `createArticle`, `updateArticle`, `deleteArticle`).
   - Modified [TechBlogSection.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/TechBlogSection.tsx): Connected articles list to Supabase with loading skeleton animations.
   - Modified [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Added "Manage Articles" sidebar navigation tab, article listing UI, publish/edit modal dialog, and deletion confirmation modal.
+
+## 2026-07-31 (Light Mode Color Palette & Design Token Refactor)
+- **Issue**: Light mode was severely broken—cards appeared pitch black (`.card-flat` set to `#0f0f11`), landing page text was invisible (white text on light background), and the top header had a forced black background gradient.
+- **Execution**:
+  - Modified [index.css](file:///c:/Users/hayder/Desktop/source/src/index.css): Converted `.card-flat` and `.input-flat` to use theme surface HSL design tokens (`hsl(var(--card))`, `hsl(var(--border))`, `hsl(var(--card-foreground))`) while maintaining dark mode obsidian glass overrides.
+  - Modified [InteractiveGlobe.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/InteractiveGlobe.tsx): Replaced `bg-black/40` and `text-white` with `bg-background/40`, `text-foreground`, `text-muted-foreground`, and `border-border/50`.
+  - Modified [OurVision.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/OurVision.tsx): Replaced fixed white text and dark card styles with `text-foreground`, `text-muted-foreground`, and adaptive grid item backgrounds.
+  - Modified [ServicesSection.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/ServicesSection.tsx): Updated service headers and card text to `text-foreground` and `text-muted-foreground`.
+  - Modified [TechBlogSection.tsx](file:///c:/Users/hayder/Desktop/source/src/features/landing/components/TechBlogSection.tsx): Removed hardcoded `#09090b` card backgrounds and white text; used semantic `text-foreground` and `text-muted-foreground`.
+  - Modified [SiteHeader.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/SiteHeader.tsx): Replaced fixed dark gradient `from-black/90` with adaptive `from-background/95` and theme-aware nav link tokens.
+  - Modified [PremiumFooter.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/PremiumFooter.tsx): Updated brand card background and social buttons to use `bg-card`, `border-border/50`, `text-foreground`, and `text-muted-foreground`.
+  - Modified [ThemeLanguageToggle.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/ThemeLanguageToggle.tsx): Updated toggle pill backgrounds and text to use semantic theme tokens.
+  - Modified [AmbientBackground.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/AmbientBackground.tsx): Made edge vignette overlay theme-aware (`dark:opacity-100 opacity-20`).
+- **Results**: Light mode now renders clean light surfaces, crisp high-contrast typography, and smooth theme switching without any white-on-white text or dark card anomalies.
+
 - **Results**: Developers and admins can now create, update, and delete technical articles directly from the Dashboard, which immediately populate the public Tech Blog section on the website.
 
 
