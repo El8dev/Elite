@@ -569,6 +569,7 @@ const Dashboard: React.FC = () => {
 
     const updates = {
       id: userId,
+      email: session.user.email,
       full_name: profileName,
       username: profileUsername,
       job_title: profileJobTitle,
@@ -699,10 +700,6 @@ const Dashboard: React.FC = () => {
             {activeTab === 'profile' && 'Profile Settings'}
             {activeTab === 'admin' && 'Admin Panel'}
           </h1>
-          <div className="flex items-center space-x-4 text-slate-400">
-            <button className="hover:text-slate-600 transition-colors"><Settings size={20} /></button>
-            <button className="hover:text-slate-600 transition-colors"><Bell size={20} /></button>
-          </div>
         </header>
 
         {/* Content Area */}
