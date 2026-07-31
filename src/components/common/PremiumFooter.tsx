@@ -9,9 +9,9 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const XIcon = ({ className }: { className?: string }) => (
+const TelegramIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.223-.548.223l.188-2.85 5.18-4.686c.223-.195-.054-.304-.346-.108l-6.4 4.024-2.76-.86c-.6-.188-.61-.6.126-.89l10.814-4.17c.5-.188.937.108.846.858z" />
   </svg>
 );
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -62,19 +62,16 @@ export const PremiumFooter: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center justify-between gap-2 pt-4 border-t border-white/5">
-              <a href="#" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Instagram">
+              <a href="https://instagram.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="X">
-                <XIcon className="w-4 h-4" />
-              </a>
-              <a href="#" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5">
+              <a href="https://github.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="GitHub">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="#" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Facebook">
-                <Facebook className="w-4 h-4" />
+              <a href="https://t.me/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Telegram">
+                <TelegramIcon className="w-4 h-4" />
               </a>
-              <a href="#" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="TikTok">
+              <a href="https://tiktok.com/@el8.dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="TikTok">
                 <TikTokIcon className="w-4 h-4" />
               </a>
             </div>
