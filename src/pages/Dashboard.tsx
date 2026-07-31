@@ -1825,6 +1825,28 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
     }
   };
 
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    setUsers(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
+    const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', userId);
+    if (error) {
+      toast.error('Failed to update user role');
+      fetchAllUsers();
+    } else {
+      toast.success('Role updated successfully');
+    }
+  };
+
+  const handleStatusChange = async (userId: string, newStatus: string) => {
+    setUsers(prev => prev.map(u => u.id === userId ? { ...u, account_status: newStatus } : u));
+    const { error } = await supabase.from('profiles').update({ account_status: newStatus }).eq('id', userId);
+    if (error) {
+      toast.error('Failed to update account status');
+      fetchAllUsers();
+    } else {
+      toast.success('Account status updated successfully');
+    }
+  };
+
   if (!isSystemAdmin) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
@@ -1891,7 +1913,8 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Name</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Email</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Account Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Role</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Job Title</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">System Role</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
               </tr>
             </thead>
@@ -1909,15 +1932,28 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
                       {user.email || '—'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-1.5 py-0.5 rounded-full text-xs font-medium border capitalize ${statusClass}`}>
-                        {user.account_status || 'pending'}
-                      </span>
+                      <select
+                        value={user.account_status || 'pending'}
+                        onChange={(e) => handleStatusChange(user.id, e.target.value)}
+                        className={`bg-transparent border border-slate-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:border-primary capitalize ${statusClass}`}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="suspended">Suspended</option>
+                      </select>
                     </td>
                     <td className="px-6 py-4 text-slate-600 whitespace-nowrap">
                       {user.job_title || '—'}
-                      {user.role === SYSTEM_ADMIN_ROLE && (
-                        <span className="ml-2 px-1.5 py-0.5 bg-indigo-50 text-indigo-600 text-xs md:text-sm rounded uppercase font-bold">Admin</span>
-                      )}
+                    </td>
+                    <td className="px-6 py-4 text-slate-600 whitespace-nowrap">
+                      <select
+                        value={user.role || DEFAULT_MEMBER_ROLE}
+                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                        className="bg-transparent border border-slate-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-primary font-medium"
+                      >
+                        <option value={DEFAULT_MEMBER_ROLE}>Member</option>
+                        <option value={SYSTEM_ADMIN_ROLE}>System Administrator</option>
+                      </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
