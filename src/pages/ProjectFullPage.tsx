@@ -94,7 +94,7 @@ const ProjectFullPage: React.FC = () => {
         <meta property="og:title" content={project.title} />
         <meta property="og:description" content={project.description?.substring(0, 155)} />
         <meta property="og:image" content={project.imageUrls[0]} />
-        <link rel="canonical" href={`https://elite-code.com/project/${project.id}`} />
+        <link rel="canonical" href={`https://el8.dev/project/${project.id}`} />
       </Helmet>
 
       <SiteHeader />

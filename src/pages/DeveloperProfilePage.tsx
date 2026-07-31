@@ -158,7 +158,7 @@ const DeveloperProfilePage: React.FC = () => {
         <meta property="og:title" content={`${developer.name} | ${developer.role}`} />
         <meta property="og:description" content={developer.bio.substring(0, 155)} />
         <meta property="og:image" content={developer.avatarUrl} />
-        <link rel="canonical" href={`https://elite-code.com/developer/${developer.username || developer.id}`} />
+        <link rel="canonical" href={`https://el8.dev/developer/${developer.username || developer.id}`} />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8">

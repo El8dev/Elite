@@ -20,7 +20,7 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const BASE_URL = 'https://elite-code.com';
+const BASE_URL = 'https://el8.dev';
 
 async function generateSitemap() {
   console.log('Generating sitemap...');

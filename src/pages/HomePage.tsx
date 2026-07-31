@@ -41,15 +41,15 @@ const HomePage: React.FC = () => {
         <meta property="og:title" content={`El8 Tech | ${t('home.title_part1')} ${t('home.title_part2')}`} />
         <meta property="og:description" content={t('home.subtitle')} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://elite-code.com" />
+        <meta property="og:url" content="https://el8.dev" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "El8 Tech",
-            "url": "https://elite-code.com",
-            "logo": "https://elite-code.com/favicon.png",
+            "url": "https://el8.dev",
+            "logo": "https://el8.dev/favicon.png",
             "email": "el8dev@gmail.com",
             "sameAs": [
               "https://t.me/el8dev",
