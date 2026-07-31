@@ -10,7 +10,7 @@ const ArticlesPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="relative min-h-screen bg-[#030303] selection:bg-[#8B5CF6]/30 selection:text-white font-sans overflow-x-hidden flex flex-col">
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden flex flex-col">
       <Helmet>
         <title>Elite Code | {t('nav.articles')}</title>
         <meta name="description" content={t('tech_blog.subtitle')} />

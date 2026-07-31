@@ -29,7 +29,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
       whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      className="group relative mb-8 overflow-hidden rounded-3xl bg-[#09090b] shadow-[0_8px_32px_rgba(0,0,0,0.4)] ring-1 ring-white/5 transition-all hover:ring-white/10"
+      className="group relative mb-8 overflow-hidden rounded-3xl bg-card shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-border transition-all hover:ring-primary/50"
       style={{ isolation: 'isolate' }}
     >
       <div 
@@ -48,7 +48,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
       </div>
 
-      <div className="relative p-5 sm:p-6 bg-gradient-to-b from-[#09090b] to-[#030303]">
+      <div className="relative p-5 sm:p-6 bg-card text-card-foreground">
         <div className="mb-4 flex items-center justify-between">
           <button
             onClick={() => onDeveloperClick(developer.id, (developer as any).username)}
@@ -63,16 +63,16 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
               />
             </div>
             <div className="text-left">
-              <p className="text-sm font-semibold text-white/90 font-outfit group-hover/dev:text-white transition-colors line-clamp-1">{developer.name}</p>
-              <p className="text-xs md:text-sm uppercase tracking-wider text-purple-400 font-outfit line-clamp-1">{developer.role}</p>
+              <p className="text-sm font-semibold text-foreground/90 font-outfit group-hover/dev:text-foreground transition-colors line-clamp-1">{developer.name}</p>
+              <p className="text-xs md:text-sm uppercase tracking-wider text-primary font-outfit line-clamp-1">{developer.role}</p>
             </div>
           </button>
         </div>
 
-        <h3 className="mb-2 text-xl sm:text-2xl font-bold text-white font-outfit leading-tight line-clamp-2">
+        <h3 className="mb-2 text-xl sm:text-2xl font-bold text-foreground font-outfit leading-tight line-clamp-2">
           {project.title}
         </h3>
-        <p className="mb-5 text-sm sm:text-base leading-relaxed text-white/60 font-outfit line-clamp-2">
+        <p className="mb-5 text-sm sm:text-base leading-relaxed text-muted-foreground font-outfit line-clamp-2">
           {project.description}
         </p>
 
@@ -194,7 +194,7 @@ const ShowcaseFeed: React.FC<{
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
         className="mb-16 mt-20 text-center"
       >
-        <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-7xl">
+        <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-7xl">
           Where Code Meets{' '}
           <span className="bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#3B82F6] bg-clip-text text-transparent">
             Art
@@ -249,7 +249,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#030303] selection:bg-[#8B5CF6]/30 selection:text-white font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
         <title>Projects | Elite Code</title>
         <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />

@@ -13,7 +13,67 @@
 @layer base {
   :root {
     --radius: 0.75rem;
-    /* ── Surfaces ──────────────────────────────────────────────── */
+    /* ── Surfaces (Light) ──────────────────────────────────────────────── */
+    --background: 0 0% 98%;           /* Light gray/white */
+    --foreground: 240 10% 4%;         /* Near black */
+    --card: 0 0% 100%;               /* Pure white */
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    /* ── Brand ─────────────────────────────────────────────────── */
+    --primary: 263 90% 66%;          /* Vibrant purple */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 5% 10%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 263 90% 66%;
+    --accent-foreground: 0 0% 100%;
+    /* ── State ─────────────────────────────────────────────────── */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --info: 217 91% 60%;
+    /* ── UI Shell ──────────────────────────────────────────────── */
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 263 90% 66%;
+    /* ── Charts ────────────────────────────────────────────────── */
+    --chart-1: 263 90% 66%;
+    --chart-2: 243 75% 67%;          
+    --chart-3: 38 92% 50%;           
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    /* ── Sidebar (Light) ───────────────────────────────────────────────── */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 10%;
+    --sidebar-primary: 263 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 90%;
+    --sidebar-accent-foreground: 240 5% 10%;
+    --sidebar-border: 240 6% 90%;
+    --sidebar-ring: 263 90% 66%;
+    /* ── Gradients / Shadows (Light) ───────────────────────────────────── */
+    --gradient-primary: linear-gradient(135deg, hsl(263 90% 66%), hsl(243 75% 67%));
+    --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-hover: 0 12px 30px rgba(0,0,0,0.12);
+    /* ── Neon Accent System ────────────────────────────────────── */
+    --neon-cyan:    189 94% 45%;
+    --neon-emerald: 160 74% 45%;
+    --neon-violet:  263 90% 66%;
+    --neon-amber:   38  92% 50%;
+    /* ── Type Scale ────────────────────────────────────────────── */
+    --text-hero:    clamp(2.5rem, 5vw, 4rem);
+    --text-display: clamp(1.75rem, 3vw, 2.5rem);
+    --text-title:   clamp(1.25rem, 2vw, 1.5rem);
+    --text-body:    0.9375rem;
+    --text-small:   0.875rem;
+    --text-micro:   0.875rem;
+  }
+
+  .dark {
+    /* ── Surfaces (Dark) ──────────────────────────────────────────────── */
     --background: 0 0% 2%;           /* True near-black   #050505 */
     --foreground: 0 0% 98%;
     --card: 240 6% 5%;               /* Deep charcoal     #0A0A0C */
@@ -39,12 +99,6 @@
     --border: 240 5% 12%;
     --input: 240 5% 12%;
     --ring: 263 90% 66%;
-    /* ── Charts ────────────────────────────────────────────────── */
-    --chart-1: 263 90% 66%;
-    --chart-2: 243 75% 67%;          /* Royal Indigo  #6366F1 */
-    --chart-3: 38 92% 50%;           /* Gold          #F59E0B */
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
     /* ── Sidebar ───────────────────────────────────────────────── */
     --sidebar-background: 0 0% 2%;
     --sidebar-foreground: 240 5% 85%;
@@ -55,7 +109,6 @@
     --sidebar-border: 240 5% 12%;
     --sidebar-ring: 263 90% 66%;
     /* ── Gradients / Shadows ───────────────────────────────────── */
-    --gradient-primary: linear-gradient(135deg, hsl(263 90% 66%), hsl(243 75% 67%));
     --shadow-card: 0 4px 30px rgba(0,0,0,0.45);
     --shadow-hover: 0 12px 45px rgba(0,0,0,0.65);
     /* ── Neon Accent System ────────────────────────────────────── */
@@ -63,13 +116,6 @@
     --neon-emerald: 160 74% 51%;     /* #34D399 */
     --neon-violet:  263 90% 66%;     /* #8B5CF6 */
     --neon-amber:   38  92% 50%;     /* #F59E0B */
-    /* ── Type Scale ────────────────────────────────────────────── */
-    --text-hero:    clamp(2.5rem, 5vw, 4rem);
-    --text-display: clamp(1.75rem, 3vw, 2.5rem);
-    --text-title:   clamp(1.25rem, 2vw, 1.5rem);
-    --text-body:    0.9375rem;
-    --text-small:   0.875rem;
-    --text-micro:   0.875rem;
   }
 }
 
@@ -100,10 +146,14 @@
     @apply bg-background text-foreground;
     font-family: 'Alexandria', 'Cairo', 'Outfit', sans-serif;
     overflow-x: hidden;
-    /* Subtle developer-aesthetic dot-grid texture */
-    background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
+    /* Subtle developer-aesthetic dot-grid texture - adaptive */
+    background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
     background-size: 28px 28px;
     background-attachment: fixed;
+  }
+
+  .dark body {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
   }
 
   /* ── Disable system cursor on pointer devices (CustomCursor takes over) ── */
