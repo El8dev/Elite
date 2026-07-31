@@ -53,33 +53,33 @@ export const InteractiveGlobe: React.FC = () => {
             <div className="absolute inset-0 rounded-full border border-cyan-500/20 top-1/2 -translate-y-1/2 h-[80%]" />
             <div className="absolute inset-0 rounded-full border border-cyan-500/20 top-1/2 -translate-y-1/2 h-[40%]" />
             
-            {/* Animated Data Points / Nodes */}
+            {/* Animated Data Points / Nodes (Hidden on mobile) */}
             <motion.div 
-              className="absolute top-[30%] left-[20%] w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_10px_#c084fc]"
+              className="hidden md:block absolute top-[30%] left-[20%] w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_10px_#c084fc]"
               animate={{ opacity: [0.2, 1, 0.2], scale: [1, 1.5, 1] }}
               transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
             />
             <motion.div 
-              className="absolute top-[60%] right-[30%] w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_10px_#22d3ee]"
+              className="hidden md:block absolute top-[60%] right-[30%] w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_10px_#22d3ee]"
               animate={{ opacity: [0.2, 1, 0.2], scale: [1, 1.5, 1] }}
               transition={{ duration: 3, repeat: Infinity }}
             />
             <motion.div 
-              className="absolute bottom-[20%] left-[40%] w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399]"
+              className="hidden md:block absolute bottom-[20%] left-[40%] w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399]"
               animate={{ opacity: [0.2, 1, 0.2], scale: [1, 1.5, 1] }}
               transition={{ duration: 2.5, repeat: Infinity, delay: 1 }}
             />
             
-            {/* Moving Scanner Line */}
+            {/* Moving Scanner Line (Hidden on mobile) */}
             <motion.div 
-              className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"
+              className="hidden md:block absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"
               animate={{ top: ['0%', '100%', '0%'] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
             />
           </motion.div>
 
-          {/* Connection Arc Overlay */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+          {/* Connection Arc Overlay (Hidden on mobile) */}
+          <svg className="hidden md:block absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
             <motion.path 
               d="M 20 30 Q 50 10 70 60"
               fill="transparent"
