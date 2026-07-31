@@ -518,7 +518,7 @@ const MasterpiecesPage: React.FC = () => {
                     key={item.id}
                     item={item}
                     index={index}
-                    onClick={() => navigate(`/project/${item.id}`, { state: { backgroundLocation: location } })}
+                    onClick={() => navigate(`/project/${item.id}`)}
                   />
                 );
               })}

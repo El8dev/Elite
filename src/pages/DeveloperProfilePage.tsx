@@ -128,7 +128,7 @@ const DeveloperProfilePage: React.FC = () => {
   }, [identifier]);
 
   const handleProjectClick = (projectId: string) => {
-    navigate(`/project/${projectId}`, { state: { backgroundLocation: location } });
+    navigate(`/project/${projectId}`);
   };
 
 

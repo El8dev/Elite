@@ -163,7 +163,7 @@ const ShowcaseFeed: React.FC<{
   }, []);
 
   const handleProjectClick = (projectId: string) => {
-    navigate(`/project/${projectId}`, { state: { backgroundLocation: location } });
+    navigate(`/project/${projectId}`);
   };
 
   if (loading) {
