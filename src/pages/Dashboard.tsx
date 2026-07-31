@@ -655,7 +655,7 @@ const Dashboard: React.FC = () => {
                 </button>
                 <button 
                   onClick={() => setActiveTab('articles')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-purple-100 text-purple-600' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
                 >
                   <FileText size={18} />
                   <span>{t('dashboard.articles')}</span>
@@ -672,7 +672,7 @@ const Dashboard: React.FC = () => {
             {isSystemAdmin && (
               <button 
                 onClick={() => setActiveTab('admin')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-purple-100 text-purple-600' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
                 <Shield size={18} />
                 <span>{t('dashboard.admin')}</span>
@@ -685,7 +685,7 @@ const Dashboard: React.FC = () => {
         <div className="p-4 border-t border-border">
           <button 
             onClick={handleSignOut}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
           >
             <LogOut size={18} />
             <span>{t('dashboard.sign_out')}</span>
@@ -890,7 +890,7 @@ const Dashboard: React.FC = () => {
                     <div>
                       <h4 className="font-medium text-foreground flex items-center space-x-2">
                         <span>Masterpiece Badge</span>
-                        <span className="bg-amber-100 text-amber-700 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
+                        <span className="bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
                       </h4>
                       <p className="text-sm text-muted-foreground mt-1">Highlight this project as a masterpiece on your profile.</p>
                       {personalProfileOnly && (
@@ -912,7 +912,7 @@ const Dashboard: React.FC = () => {
                     <div>
                       <h4 className="font-medium text-foreground flex items-center space-x-2">
                         <span>Personal Profile Only</span>
-                        <span className="bg-violet-100 text-violet-700 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
+                        <span className="bg-violet-500/20 text-violet-600 dark:text-violet-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
                       </h4>
                       <p className="text-sm text-muted-foreground mt-1">Show only on your profile — hidden from public feeds.</p>
                     </div>

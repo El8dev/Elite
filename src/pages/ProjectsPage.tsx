@@ -80,12 +80,12 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
         {project.techStack && project.techStack.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
              {project.techStack.slice(0, 3).map((tech, i) => (
-                <span key={i} className="px-1.5 py-0.5 text-xs md:text-sm font-semibold tracking-wider uppercase bg-white/5 border border-white/10 text-white/70 rounded-full font-outfit">
+                <span key={i} className="px-1.5 py-0.5 text-xs md:text-sm font-semibold tracking-wider uppercase bg-secondary/80 border border-border/50 text-foreground/80 rounded-full font-outfit">
                   {tech}
                 </span>
              ))}
              {project.techStack.length > 3 && (
-                <span className="px-2 py-1 text-xs md:text-sm font-semibold text-white/40 font-outfit">+{project.techStack.length - 3}</span>
+                <span className="px-2 py-1 text-xs md:text-sm font-semibold text-muted-foreground font-outfit">+{project.techStack.length - 3}</span>
              )}
           </div>
         )}

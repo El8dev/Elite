@@ -66,7 +66,7 @@ const DevelopersPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-white pt-24 pb-20 px-4 md:px-8">
+    <div className="min-h-screen bg-transparent text-foreground pt-24 pb-20 px-4 md:px-8">
       <Helmet>
         <title>{t('developers_page.title', 'Elite Developers | Our Masterminds')}</title>
         <meta name="description" content={t('developers_page.subtitle', 'Discover the elite developers behind the masterpieces.')} />
@@ -87,7 +87,7 @@ const DevelopersPage: React.FC = () => {
               {t('developers_page.title', 'Elite Developers')}
             </span>
           </h1>
-          <p className="text-white/60 max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             {t('developers_page.subtitle', 'Meet the creative minds behind the masterpieces.')}
           </p>
         </motion.div>
