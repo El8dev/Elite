@@ -36,3 +36,6 @@ history/*.json
 # Ignore zip files in public and dist
 public/**/*.zip
 dist/**/*.zip
+
+# Ignore secret case studies
+readmes/
