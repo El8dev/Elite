@@ -20,9 +20,9 @@ const ProfileHeader: React.FC<{ developer: any }> = ({ developer }) => {
           className="relative h-32 w-32 rounded-full border-2 border-purple-500/20 object-cover shadow-2xl z-10"
         />
       </div>
-      <h1 className="mt-6 text-3xl font-bold text-white font-outfit md:text-4xl">{developer.name}</h1>
+      <h1 className="mt-6 text-3xl font-bold text-foreground font-outfit md:text-4xl">{developer.name}</h1>
       <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-purple-400 font-outfit">{developer.role}</p>
-      <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60 font-outfit">{developer.bio}</p>
+      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground font-outfit">{developer.bio}</p>
     </div>
   );
 };
@@ -31,10 +31,10 @@ const SkillsSection: React.FC<{ skills: string[] }> = ({ skills }) => {
   if (!skills || !skills.length) return null;
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-white/30 font-outfit">Skills</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground font-outfit">Skills</h3>
       <div className="mt-3 flex flex-wrap justify-center gap-2">
         {skills.map((skill) => (
-          <span key={skill} className="inline-flex items-center rounded-md bg-white/5 border border-white/10 px-3 py-1.5 text-xs font-semibold text-purple-300 font-outfit">
+          <span key={skill} className="inline-flex items-center rounded-md bg-secondary border border-border px-3 py-1.5 text-xs font-semibold text-primary font-outfit">
             {skill}
           </span>
         ))}
@@ -44,21 +44,21 @@ const SkillsSection: React.FC<{ skills: string[] }> = ({ skills }) => {
 };
 
 const ProjectGrid: React.FC<{ projects: any[], onProjectClick: (id: string) => void }> = ({ projects, onProjectClick }) => {
-  if (!projects || !projects.length) return <p className="text-center text-white/50">No projects yet.</p>;
+  if (!projects || !projects.length) return <p className="text-center text-muted-foreground">No projects yet.</p>;
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map(proj => (
         <div 
           key={proj.id} 
           onClick={() => onProjectClick(proj.id)}
-          className="group cursor-pointer rounded-2xl bg-white/5 border border-white/10 overflow-hidden hover:border-purple-500/30 transition-all"
+          className="group cursor-pointer rounded-2xl bg-card border border-border overflow-hidden hover:border-purple-500/30 transition-all shadow-sm"
         >
           <div className="aspect-video relative overflow-hidden">
             <img src={proj.imageUrls[0]} alt={proj.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
           </div>
           <div className="p-4">
-            <h3 className="text-lg font-bold text-white font-outfit line-clamp-1">{proj.title}</h3>
-            <p className="text-sm text-white/50 mt-1 line-clamp-2">{proj.description}</p>
+            <h3 className="text-lg font-bold text-foreground font-outfit line-clamp-1">{proj.title}</h3>
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{proj.description}</p>
           </div>
         </div>
       ))}
@@ -135,7 +135,7 @@ const DeveloperProfilePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030303] text-white flex justify-center items-center">
+      <div className="min-h-screen bg-transparent text-foreground flex justify-center items-center">
         <div className="w-10 h-10 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
       </div>
     );
@@ -143,15 +143,15 @@ const DeveloperProfilePage: React.FC = () => {
 
   if (error || !developer) {
     return (
-      <div className="min-h-screen bg-[#030303] text-white flex flex-col justify-center items-center p-8">
+      <div className="min-h-screen bg-transparent text-foreground flex flex-col justify-center items-center p-8">
         <p className="text-red-400 mb-4 bg-red-500/10 p-4 rounded-xl border border-red-500/20">{error || 'Developer not found'}</p>
-        <button onClick={() => navigate(-1)} className="px-6 py-2 bg-white/10 rounded-full hover:bg-white/20 transition-all">Go Back</button>
+        <button onClick={() => navigate(-1)} className="px-6 py-2 bg-secondary rounded-full hover:bg-secondary/80 transition-all">Go Back</button>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24 pb-20">
+    <div className="min-h-screen bg-transparent text-foreground pt-24 pb-20">
       <Helmet>
         <title>{`${developer.name} | ${developer.role} - Elite Code`}</title>
         <meta name="description" content={developer.bio.substring(0, 155)} />
@@ -164,7 +164,7 @@ const DeveloperProfilePage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <button
           onClick={() => navigate(-1)}
-          className="group flex items-center gap-2 px-4 py-2 mb-8 bg-white/5 border border-white/10 rounded-full text-white/70 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.2)] backdrop-blur-md"
+          className="group flex items-center gap-2 px-4 py-2 mb-8 bg-card border border-border rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-all shadow-sm backdrop-blur-md"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm font-medium tracking-wide">Back</span>

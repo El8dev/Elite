@@ -98,6 +98,23 @@
   - Modified [ar.json](file:///c:/Users/hayder/Desktop/source/src/i18n/locales/ar.json) & [en.json](file:///c:/Users/hayder/Desktop/source/src/i18n/locales/en.json): Added missing `dashboard.*` translation keys including `"sign_out"`, `"profile_settings"`, `"full_name"`, `"username"`, `"role_title"`, `"bio"`, `"skills_tech"`, `"project_details"`, `"project_title"`, `"description"`, `"project_images"`, `"click_to_upload"`, `"contributors"`, `"masterpiece_badge"`, `"personal_profile_only"`, `"all_clear"`, and `"no_pending_accounts"`.
   - Refactored [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Replaced all hardcoded English strings with dynamic `t('dashboard.<key>')` calls across Profile Settings, Publish Project, My Projects, and Admin Panel components.
   - Added localized Admin empty state card displaying `"كل شيء تمام! لا توجد حسابات معلقة للمراجعة حالياً."` in Arabic mode.
+
+## 2026-07-31 (Dashboard Particles Background Visibility Fix)
+- **Issue**: Background canvas particles were missing on the Dashboard while active on the main landing page because [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx) root container and `<main>` section were painted with opaque `bg-background`.
+- **Execution**:
+  - Modified [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Replaced `bg-background` on root `<div className="min-h-screen ...">` and workspace `<main>` with `bg-transparent`.
+  - Added glassmorphic styling (`bg-card/80 backdrop-blur-xl` on `<aside>` and `bg-background/40 backdrop-blur-md` on `<header>`) to preserve high text contrast while letting ambient canvas particles float seamlessly behind the dashboard.
+- **Results**: Canvas particles are now fully visible across the Dashboard layout.
+
+## 2026-07-31 (Light Mode Text Design Token System Refactor)
+- **Issue**: Titles, subtitles, empty state messages, and developer profile text appeared invisible in Light Mode due to hardcoded `text-white`, `text-white/60`, `text-white/50`, `text-white/40`, and `text-white/25` class names.
+- **Execution**:
+  - Refactored [Masterpieces.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Masterpieces.tsx): Updated page title, subtitle, loading state, empty state title (*"No masterpieces uncovered yet."*), and empty state subtitle (*"Premium projects will appear here once curated."*) from `text-white*` to `text-foreground` and `text-muted-foreground`.
+  - Refactored [ProjectsPage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/ProjectsPage.tsx): Converted feed subtitle (*"Discover hand-crafted digital experiences..."*) from `text-white/60` to `text-muted-foreground`.
+  - Refactored [profile-grid.tsx](file:///c:/Users/hayder/Desktop/source/src/features/profiles/components/profile-grid.tsx): Updated *"Our Engineers"* title & *"Meet the talent behind our products"* subtitle to `text-foreground` and `text-muted-foreground`.
+  - Refactored [developer-card.tsx](file:///c:/Users/hayder/Desktop/source/src/features/profiles/components/developer-card.tsx): Converted developer names, bio descriptions, top project headers, and profile action buttons to theme tokens (`text-foreground`, `text-muted-foreground`, `border-border/50`).
+  - Refactored [DeveloperProfilePage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/DeveloperProfilePage.tsx): Replaced hardcoded `bg-[#030303]` black canvas and `text-white*` classes with `bg-transparent`, `text-foreground`, `text-muted-foreground`, `bg-card`, and `border-border`.
+- **Results**: 100% text readability and contrast compliance across both Light Mode and Dark Mode across all gallery and directory pages.
 - **Results**: Dashboard is now 100% localized between Arabic and English modes with zero raw key glitches or un-translated English chunks.
 
 

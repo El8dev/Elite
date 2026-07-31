@@ -301,13 +301,13 @@ const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick 
                 />
               )}
               <div>
-                <p className="text-sm font-semibold text-white/90 font-outfit">{devName}</p>
+                <p className="text-sm font-semibold text-foreground font-outfit">{devName}</p>
                 <p className="text-sm text-amber-400 font-outfit font-medium uppercase tracking-wider">{item.profiles.job_title || 'Developer'}</p>
               </div>
             </div>
           )}
-          <h3 className="text-lg font-bold text-white tracking-tight font-outfit">{item.title}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/60 font-outfit line-clamp-2">
+          <h3 className="text-lg font-bold text-foreground tracking-tight font-outfit">{item.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground font-outfit line-clamp-2">
             {item.description}
           </p>
           <div className="mt-4 flex flex-wrap gap-1.5">
@@ -442,10 +442,10 @@ const MasterpiecesPage: React.FC = () => {
             </span>
             <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-purple-400 to-cyan-400" />
           </div>
-          <h1 className={`text-3xl md:text-5xl font-bold tracking-tight text-white ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <h1 className={`text-3xl md:text-5xl font-bold tracking-tight text-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('masterpieces.title')}
           </h1>
-          <p className={`mt-6 text-sm md:text-base text-white/50 max-w-md mx-auto ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <p className={`mt-6 text-sm md:text-base text-muted-foreground max-w-md mx-auto ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('masterpieces.subtitle')}
           </p>
         </motion.div>
@@ -457,7 +457,7 @@ const MasterpiecesPage: React.FC = () => {
               <motion.div
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
-                className="text-white/40 text-lg"
+                className="text-muted-foreground text-lg"
               >
                 Loading masterpieces...
               </motion.div>
@@ -479,10 +479,10 @@ const MasterpiecesPage: React.FC = () => {
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 </div>
-                <p className="text-white/40 text-lg font-medium">
+                <p className="text-muted-foreground text-lg font-medium">
                   {t('masterpieces.no_masterpieces_yet', 'No masterpieces uncovered yet.')}
                 </p>
-                <p className="text-white/25 text-sm mt-1">
+                <p className="text-muted-foreground/70 text-sm mt-1">
                   {t('masterpieces.premium_projects_will_appear', 'Premium projects will appear here once curated.')}
                 </p>
               </motion.div>
