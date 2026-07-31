@@ -97,18 +97,18 @@ export const InteractiveGlobe: React.FC = () => {
         {/* Footer info for globe */}
         <div className={`flex items-center gap-6 mt-8 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">24/7</span>
-            <span className="text-xs text-white/50">{t('globe.stats_support')}</span>
+            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_1')}</span>
+            <span className="text-xs text-white/50">{t('globe.stats_label_1')}</span>
           </div>
           <div className="w-px h-8 bg-white/10" />
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">99.9%</span>
-            <span className="text-xs text-white/50">{t('globe.stats_stability')}</span>
+            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_2')}</span>
+            <span className="text-xs text-white/50">{t('globe.stats_label_2')}</span>
           </div>
           <div className="w-px h-8 bg-white/10" />
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">&lt;50ms</span>
-            <span className="text-xs text-white/50">{t('globe.stats_speed')}</span>
+            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_3')}</span>
+            <span className="text-xs text-white/50">{t('globe.stats_label_3')}</span>
           </div>
         </div>
 
