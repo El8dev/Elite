@@ -92,10 +92,14 @@
   - Modified [ThemeLanguageToggle.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/ThemeLanguageToggle.tsx): Updated toggle pill backgrounds and text to use semantic theme tokens.
   - Modified [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Converted sidebar active tabs ('articles', 'admin') from fixed light purple to semantic `bg-primary/10 text-primary`, updated signout button to `hover:bg-destructive/10 hover:text-destructive`, and refactored toggle badges to theme-aware alpha tokens.
   - Modified [DevelopersPage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/DevelopersPage.tsx): Swapped hardcoded `text-white` and `text-white/60` for `text-foreground` and `text-muted-foreground`.
-  - Modified [ProjectsPage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/ProjectsPage.tsx): Updated tech stack badges to use theme-aware background and border tokens (`bg-secondary/80`, `border-border/50`).
-- **Results**: Dashboard and all inner pages now seamlessly inherit the semantic design token architecture for flawless Light and Dark mode rendering.
+## 2026-07-31 (Dashboard Full i18n & Arabic Localization Fix)
+- **Issue**: `dashboard.sign_out` raw key chunk appeared in the sidebar due to key mismatch (`logout` vs `sign_out`), and multiple Dashboard sections (Profile Settings, Publish Project form, Contributors, Badges, and Admin empty state) contained hardcoded English strings in Arabic mode.
+- **Execution**:
+  - Modified [ar.json](file:///c:/Users/hayder/Desktop/source/src/i18n/locales/ar.json) & [en.json](file:///c:/Users/hayder/Desktop/source/src/i18n/locales/en.json): Added missing `dashboard.*` translation keys including `"sign_out"`, `"profile_settings"`, `"full_name"`, `"username"`, `"role_title"`, `"bio"`, `"skills_tech"`, `"project_details"`, `"project_title"`, `"description"`, `"project_images"`, `"click_to_upload"`, `"contributors"`, `"masterpiece_badge"`, `"personal_profile_only"`, `"all_clear"`, and `"no_pending_accounts"`.
+  - Refactored [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Replaced all hardcoded English strings with dynamic `t('dashboard.<key>')` calls across Profile Settings, Publish Project, My Projects, and Admin Panel components.
+  - Added localized Admin empty state card displaying `"كل شيء تمام! لا توجد حسابات معلقة للمراجعة حالياً."` in Arabic mode.
+- **Results**: Dashboard is now 100% localized between Arabic and English modes with zero raw key glitches or un-translated English chunks.
 
-- **Results**: Developers and admins can now create, update, and delete technical articles directly from the Dashboard, which immediately populate the public Tech Blog section on the website.
 
 
 

@@ -732,12 +732,12 @@ const Dashboard: React.FC = () => {
               <>
                 {loading ? (
                   <div className="flex items-center justify-center h-64 text-muted-foreground">
-                    <p>Loading projects...</p>
+                    <p>{t('dashboard.loading_projects')}</p>
                   </div>
                 ) : items.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                     <FolderKanban size={48} className="mb-4 opacity-20" />
-                    <p>No projects found. Publish your first project!</p>
+                    <p>{t('dashboard.no_projects_found')}</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -785,44 +785,44 @@ const Dashboard: React.FC = () => {
 
             {activeTab === 'publish' && (accountStatus === 'approved' || isSystemAdmin) && (
               <form onSubmit={handlePublish} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
-                <h2 className="text-2xl font-medium text-foreground mb-8">Project Details</h2>
+                <h2 className="text-2xl font-medium text-foreground mb-8">{t('dashboard.project_details')}</h2>
                 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">Project Title</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.project_title')}</label>
                     <input 
                       type="text" 
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
-                      placeholder="Enter a descriptive title"
+                      placeholder={t('dashboard.title_placeholder')}
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">Description</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.description')}</label>
                     <textarea 
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
-                      placeholder="Describe your project's goals and outcomes..."
+                      placeholder={t('dashboard.description_placeholder')}
                       required
                     ></textarea>
                   </div>
 
                   {/* Image Upload Section */}
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">Project Images (Up to 10)</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.project_images')}</label>
                     <div className="bg-background border border-dashed border-input rounded-xl p-6 flex flex-col items-center justify-center transition-colors hover:bg-secondary">
                       <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-3">
                         <ImageIcon size={24} />
                       </div>
-                      <p className="text-sm font-medium text-foreground mb-1">Click to upload images</p>
-                      <p className="text-xs text-muted-foreground mb-4">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                      <p className="text-sm font-medium text-foreground mb-1">{t('dashboard.click_to_upload')}</p>
+                      <p className="text-xs text-muted-foreground mb-4">{t('dashboard.supported_formats')}</p>
                       <label className="px-4 py-2 bg-card border border-input text-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-secondary transition-colors shadow-sm flex items-center space-x-2">
                         <Upload size={16} />
-                        <span>Select Files</span>
+                        <span>{t('dashboard.select_files')}</span>
                         <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
                       </label>
                     </div>
@@ -849,20 +849,20 @@ const Dashboard: React.FC = () => {
                   {/* Add Contributors Section */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="block text-sm font-medium text-muted-foreground">Contributors</label>
+                      <label className="block text-sm font-medium text-muted-foreground">{t('dashboard.contributors')}</label>
                       <button 
                         type="button" 
                         onClick={() => setIsContributorModalOpen(true)}
                         className="text-sm text-primary hover:text-primary/80 font-medium flex items-center space-x-1"
                       >
                         <Plus size={16} />
-                        <span>Add Team Member</span>
+                        <span>{t('dashboard.add_team_member')}</span>
                       </button>
                     </div>
                     {selectedContributors.length === 0 ? (
                       <div className="w-full px-4 py-4 rounded-xl bg-background border border-input text-sm text-muted-foreground flex items-center space-x-2">
                         <Users size={16} className="text-muted-foreground" />
-                        <span>No contributors added yet.</span>
+                        <span>{t('dashboard.no_contributors')}</span>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2">
@@ -889,10 +889,10 @@ const Dashboard: React.FC = () => {
                   <div className={`flex items-center justify-between py-4 border-y border-border transition-opacity ${personalProfileOnly ? 'opacity-40 pointer-events-none' : ''}`}>
                     <div>
                       <h4 className="font-medium text-foreground flex items-center space-x-2">
-                        <span>Masterpiece Badge</span>
-                        <span className="bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
+                        <span>{t('dashboard.masterpiece_badge')}</span>
+                        <span className="bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">{t('dashboard.new_badge')}</span>
                       </h4>
-                      <p className="text-sm text-muted-foreground mt-1">Highlight this project as a masterpiece on your profile.</p>
+                      <p className="text-sm text-muted-foreground mt-1">{t('dashboard.masterpiece_desc')}</p>
                       {personalProfileOnly && (
                         <p className="text-xs text-violet-500 mt-1">Disabled — cannot combine with Personal Profile Only.</p>
                       )}
@@ -911,10 +911,10 @@ const Dashboard: React.FC = () => {
                   <div className="flex items-center justify-between py-4 border-b border-border">
                     <div>
                       <h4 className="font-medium text-foreground flex items-center space-x-2">
-                        <span>Personal Profile Only</span>
-                        <span className="bg-violet-500/20 text-violet-600 dark:text-violet-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
+                        <span>{t('dashboard.personal_profile_only')}</span>
+                        <span className="bg-violet-500/20 text-violet-600 dark:text-violet-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">{t('dashboard.new_badge')}</span>
                       </h4>
-                      <p className="text-sm text-muted-foreground mt-1">Show only on your profile — hidden from public feeds.</p>
+                      <p className="text-sm text-muted-foreground mt-1">{t('dashboard.personal_profile_desc')}</p>
                     </div>
                     <button 
                       type="button"
@@ -938,10 +938,10 @@ const Dashboard: React.FC = () => {
                       {isSubmitting ? (
                         <>
                           <Loader2 size={18} className="animate-spin" />
-                          <span>Publishing...</span>
+                          <span>{t('dashboard.publishing')}</span>
                         </>
                       ) : (
-                        <span>Publish Now</span>
+                        <span>{t('dashboard.publish_now')}</span>
                       )}
                     </button>
                   </div>
@@ -951,7 +951,7 @@ const Dashboard: React.FC = () => {
 
             {activeTab === 'profile' && (
               <form onSubmit={handleProfileSubmit} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
-                <h2 className="text-2xl font-medium text-foreground mb-8 text-center">Profile Settings</h2>
+                <h2 className="text-2xl font-medium text-foreground mb-8 text-center">{t('dashboard.profile_settings')}</h2>
                 
                 {/* Avatar Upload */}
                 <div className="relative group w-32 h-32 rounded-full overflow-hidden border-4 border-card shadow-md mx-auto mb-8 bg-muted">
@@ -970,7 +970,7 @@ const Dashboard: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.full_name')}</label>
                     <input 
                       type="text" 
                       value={profileName}
@@ -980,7 +980,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">Username</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.username')}</label>
                     <input 
                       type="text" 
                       value={profileUsername}
@@ -992,7 +992,7 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Role / Title</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.role_title')}</label>
                   <input 
                     type="text" 
                     value={profileJobTitle}
@@ -1004,24 +1004,24 @@ const Dashboard: React.FC = () => {
                   {isSystemAdmin && (
                     <p className="text-xs text-indigo-500 mt-1.5 flex items-center gap-1 font-medium bg-indigo-500/10 px-1.5 py-0.5 rounded-lg w-fit border border-indigo-500/20">
                       <Shield size={12} className="text-indigo-600" />
-                      System Administrator
+                      {t('dashboard.system_administrator')}
                     </p>
                   )}
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Bio</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.bio')}</label>
                   <textarea 
                     value={profileBio}
                     onChange={(e) => setProfileBio(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
-                    placeholder="Tell us a little about yourself..."
+                    placeholder="..."
                   ></textarea>
                 </div>
 
                 {/* Dynamic Skills System */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Skills & Technologies</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.skills_tech')}</label>
                   <div className="flex space-x-2 mb-3">
                     <input 
                       type="text" 
@@ -1034,7 +1034,7 @@ const Dashboard: React.FC = () => {
                         }
                       }}
                       className="flex-1 px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
-                      placeholder="e.g. React, Python, UI/UX"
+                      placeholder={t('dashboard.skills_placeholder')}
                     />
                     <button 
                       type="button"
@@ -1083,9 +1083,9 @@ const Dashboard: React.FC = () => {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span>Saving...</span>
+                        <span>{t('dashboard.saving')}</span>
                       </span>
-                    ) : 'Save Changes'}
+                    ) : t('dashboard.save_changes')}
                   </button>
                 </div>
               </form>
@@ -1556,7 +1556,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
           }`}
         >
           <Clock size={16} />
-          <span>Pending Approvals</span>
+          <span>{t('dashboard.pending_approvals')}</span>
         </button>
         <button
           type="button"
@@ -1568,7 +1568,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
           }`}
         >
           <UserCog size={16} />
-          <span>Manage All Users</span>
+          <span>{t('dashboard.manage_users')}</span>
         </button>
       </nav>
 
@@ -1605,6 +1605,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
   adminLoading,
   setAdminLoading,
 }) => {
+  const { t } = useTranslation();
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1675,10 +1676,10 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
 
   if (pendingUsers.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
-        <CheckCircle size={48} className="mb-4 opacity-20" />
-        <p className="text-lg font-medium text-foreground">All Clear!</p>
-        <p className="text-sm text-muted-foreground mt-2">No pending accounts to review.</p>
+      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground p-8 border border-dashed border-border rounded-2xl bg-card">
+        <CheckCircle size={48} className="mb-4 text-emerald-500/40" />
+        <p className="text-lg font-medium text-foreground">{t('dashboard.all_clear')}</p>
+        <p className="text-sm text-muted-foreground mt-2 text-center">{t('dashboard.no_pending_accounts')}</p>
       </div>
     );
   }
@@ -1686,7 +1687,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <p className="text-sm text-muted-foreground">{pendingUsers.length} account{pendingUsers.length !== 1 ? 's' : ''} awaiting review</p>
+        <p className="text-sm text-muted-foreground">{pendingUsers.length} {t('dashboard.accounts_awaiting_review')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1737,7 +1738,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
                 className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50 flex items-center space-x-1.5"
               >
                 <XCircle size={16} />
-                <span>Reject</span>
+                <span>{t('dashboard.reject')}</span>
               </button>
               <button
                 onClick={() => handleAction(user.id, 'approved')}
@@ -1745,7 +1746,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
                 className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-1.5"
               >
                 <CheckCircle size={16} />
-                <span>Approve</span>
+                <span>{t('dashboard.approve')}</span>
               </button>
             </div>
           </motion.div>
