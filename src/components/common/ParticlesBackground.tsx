@@ -15,11 +15,14 @@ export const ParticlesBackground: React.FC = () => {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
+    const isMobile = width < 768;
     canvas.width = width;
     canvas.height = height;
 
     const particles: Particle[] = [];
-    const particleCount = Math.floor((width * height) / 7500); // Dense, vibrant particle field
+    const particleCount = isMobile 
+      ? Math.min(25, Math.floor((width * height) / 12000))
+      : Math.floor((width * height) / 7500); // Dense field on desktop, lightweight on mobile
 
     class Particle {
       x: number;
@@ -88,12 +91,19 @@ export const ParticlesBackground: React.FC = () => {
           glowColor = 'rgba(245, 158, 11, 0.6)';
         }
 
-        ctx.shadowBlur = this.size > 1.8 ? 10 : 4;
-        ctx.shadowColor = glowColor;
+        // Disable shadowBlur on mobile to eliminate GPU lag
+        if (!isMobile) {
+          ctx.shadowBlur = this.size > 1.8 ? 10 : 4;
+          ctx.shadowColor = glowColor;
+        }
+
         ctx.fillStyle = colorStr;
         ctx.arc(drawX, drawY, this.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0; // Reset for performance
+
+        if (!isMobile) {
+          ctx.shadowBlur = 0; // Reset for performance
+        }
       }
     }
 
