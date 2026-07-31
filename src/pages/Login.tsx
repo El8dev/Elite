@@ -98,7 +98,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-background flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
+    <div className={`min-h-screen bg-transparent flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
       
       {/* Top Controls */}
       <div className={`absolute top-6 z-50 ${isRTL ? 'left-6' : 'right-6'}`}>

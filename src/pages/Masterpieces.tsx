@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { EliteLogo } from '@/components/common/EliteLogo';
+import { Helmet } from 'react-helmet-async';
 
 const AnimatedEliteLogo: React.FC = () => {
   const pathD_top =
@@ -407,7 +408,7 @@ const MasterpiecesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden flex flex-col">
+    <div className="relative min-h-screen bg-transparent text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden flex flex-col">
       <Helmet>
         <title>Masterpieces | Elite Code</title>
         <meta name="description" content="A carefully curated gallery of our finest programming and engineering achievements." />

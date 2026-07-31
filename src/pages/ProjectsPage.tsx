@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import type { Developer, Project } from '@/data/portfolioData';
 import { fetchPublicProjects } from '@/features/projects/services/projects.service';
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
+import { useTranslation } from 'react-i18next';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
@@ -105,6 +106,7 @@ const ShowcaseFeed: React.FC<{
   const [feedItems, setFeedItems] = useState<Array<{ dev: Developer; proj: Project }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     let isMounted = true;
@@ -195,13 +197,13 @@ const ShowcaseFeed: React.FC<{
         className="mb-16 mt-20 text-center"
       >
         <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-7xl">
-          Where Code Meets{' '}
+          {t('home.title_part1')}{' '}
           <span className="bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#3B82F6] bg-clip-text text-transparent">
-            Art
+            {t('home.title_part2')}
           </span>
         </h1>
         <p className="mx-auto max-w-2xl font-outfit text-lg text-white/60 sm:text-xl">
-          Discover hand-crafted digital experiences built by the world's most elite developers.
+          {t('home.subtitle')}
         </p>
       </motion.div>
 
@@ -249,7 +251,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-transparent text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
         <title>Projects | Elite Code</title>
         <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />

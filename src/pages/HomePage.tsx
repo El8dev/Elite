@@ -34,7 +34,7 @@ const HomePage: React.FC = () => {
   const bgTemplate = useMotionTemplate`radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(139,92,246,0.06) 0%, rgba(99,102,241,0.03) 40%, transparent 70%)`;
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-foreground font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
         <title>Elite Code | {t('home.title_part1')} {t('home.title_part2')}</title>
         <meta name="description" content={t('home.subtitle')} />

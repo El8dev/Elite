@@ -12,6 +12,12 @@
     "title_part2": "Art",
     "subtitle": "Discover hand-crafted digital experiences built by the world's most elite developers."
   },
+  "developers_page": {
+    "title": "Elite Developers",
+    "subtitle": "Meet the creative minds behind the masterpieces.",
+    "our_engineers": "Our Engineers",
+    "our_engineers_desc": "Meet the talent behind our products"
+  },
   "footer": {
     "brand_desc": "Building digital bridges for the future. The elite platform for developing the latest technical systems, applications, and websites to global standards.",
     "start_project": "Start your project with us",
