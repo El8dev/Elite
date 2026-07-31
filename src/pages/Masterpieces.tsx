@@ -480,10 +480,10 @@ const MasterpiecesPage: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-white/40 text-lg font-medium">
-                  No masterpieces uncovered yet.
+                  {t('masterpieces.no_masterpieces_yet', 'No masterpieces uncovered yet.')}
                 </p>
                 <p className="text-white/25 text-sm mt-1">
-                  Premium projects will appear here once curated.
+                  {t('masterpieces.premium_projects_will_appear', 'Premium projects will appear here once curated.')}
                 </p>
               </motion.div>
             </div>

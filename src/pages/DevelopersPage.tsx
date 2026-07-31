@@ -27,7 +27,7 @@ const DevelopersPage: React.FC = () => {
           id: profile.id,
           username: profile.username || '',
           fullName: profile.full_name || '',
-          title: profile.role || '',
+          title: profile.job_title || profile.role || '',
           bio: profile.bio || '',
           avatarUrl: profile.avatar_url || 'https://via.placeholder.com/150',
           skills: profile.skills || [],

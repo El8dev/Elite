@@ -121,7 +121,9 @@
     "badge": "Masterpiece",
     "elite_collection": "The Elite Collection",
     "title": "Masterpieces",
-    "subtitle": "A carefully curated gallery of our finest programming and engineering achievements"
+    "subtitle": "A carefully curated gallery of our finest programming and engineering achievements",
+    "no_masterpieces_yet": "No masterpieces uncovered yet.",
+    "premium_projects_will_appear": "Premium projects will appear here once curated."
   },
   "tech_blog": {
     "badge": "Tech Blog",
