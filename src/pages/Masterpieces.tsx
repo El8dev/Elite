@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { Project } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { EliteLogo } from '@/components/common/EliteLogo';
@@ -95,6 +96,8 @@ const AnimatedEliteLogo: React.FC = () => {
 // ------------------------------------------------------------------
 const SectionIntro: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const { playSubBassDrop } = useCinematicSound();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   useEffect(() => {
     const timer = setTimeout(() => {
       playSubBassDrop?.();
@@ -153,12 +156,12 @@ const SectionIntro: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
           {/* Phase 5: "MASTERPIECES" text */}
           <motion.span
-            className="text-xs md:text-sm font-semibold tracking-[0.35em] text-purple-400 uppercase mt-2 font-outfit"
+            className={`text-xs md:text-sm font-semibold tracking-[0.35em] text-purple-400 uppercase mt-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1], delay: 0.9 }}
           >
-            Masterpieces
+            {t('masterpieces.title')}
           </motion.span>
         </div>
       </div>
@@ -192,6 +195,8 @@ interface MasterpieceCardProps {
 }
 
 const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick }) => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -278,8 +283,8 @@ const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick 
           <svg className="w-3 h-3 text-black" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className="text-xs md:text-sm font-bold tracking-wider text-black uppercase font-alexandria">
-            رائعة
+          <span className={`text-xs md:text-sm font-bold tracking-wider text-black uppercase ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+            {t('masterpieces.badge')}
           </span>
         </motion.div>
 
@@ -324,6 +329,8 @@ const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick 
 // Masterpieces Page
 // ------------------------------------------------------------------
 const MasterpiecesPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const navigate = useNavigate();
   const location = useLocation();
   const [showIntro, setShowIntro] = useState(true);
@@ -425,16 +432,16 @@ const MasterpiecesPage: React.FC = () => {
         >
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="h-px w-16 md:w-24 bg-gradient-to-l from-transparent via-purple-400 to-cyan-400" />
-            <span className="text-lg md:text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-200 to-cyan-300 font-alexandria">
-              مجموعة النخبة
+            <span className={`text-lg md:text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-200 to-cyan-300 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+              {t('masterpieces.elite_collection')}
             </span>
             <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-purple-400 to-cyan-400" />
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white font-alexandria">
-            الروائع
+          <h1 className={`text-3xl md:text-5xl font-bold tracking-tight text-white ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+            {t('masterpieces.title')}
           </h1>
-          <p className="mt-6 text-sm md:text-base text-white/50 max-w-md mx-auto font-alexandria">
-            معرض منتقى بعناية لأفضل إنجازاتنا البرمجية والهندسية
+          <p className={`mt-6 text-sm md:text-base text-white/50 max-w-md mx-auto ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+            {t('masterpieces.subtitle')}
           </p>
         </motion.div>
 

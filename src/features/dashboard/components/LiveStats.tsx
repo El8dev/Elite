@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useInView, useSpring, useTransform } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 // Counter component for animated numbers
 const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: string; label: string }> = ({ value, duration = 2, suffix = '', label }) => {
@@ -21,13 +22,13 @@ const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: str
   return (
     <div ref={ref} className="flex flex-col items-center justify-center p-6 bg-white/[0.02] border border-white/5 rounded-2xl relative overflow-hidden group">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      <div className="flex items-baseline gap-1">
+      <div className="flex items-baseline gap-1" dir="ltr">
         <span className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-jetbrains">
           <motion.span>{displayValue}</motion.span>
         </span>
         <span className="text-2xl font-bold text-cyan-400">{suffix}</span>
       </div>
-      <span className="mt-3 text-sm md:text-base text-white/60 font-alexandria text-center">{label}</span>
+      <span className="mt-3 text-sm md:text-base text-white/60 text-center font-inherit">{label}</span>
     </div>
   );
 };
@@ -39,24 +40,27 @@ const technologies = [
 ];
 
 export const LiveStats: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
+
   return (
     <section className="relative w-full py-16 z-10 border-y border-white/5 bg-black/40" id="stats">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Number Counters */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16" dir="rtl">
-          <AnimatedCounter value={20} suffix="+" label="مشروع مكتمل" />
-          <AnimatedCounter value={10} suffix="+" label="مطور نخبة" />
-          <AnimatedCounter value={99} suffix="%" label="رضا العملاء" />
-          <AnimatedCounter value={100} suffix="K+" label="سطر برمجي" />
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16 ${isRTL ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.dir()}>
+          <AnimatedCounter value={20} suffix="+" label={t('stats.completed_project')} />
+          <AnimatedCounter value={10} suffix="+" label={t('stats.elite_developer')} />
+          <AnimatedCounter value={99} suffix="%" label={t('stats.customer_satisfaction')} />
+          <AnimatedCounter value={100} suffix="K+" label={t('stats.lines_of_code')} />
         </div>
 
       </div>
 
       {/* Endless Tech Marquee */}
       <div className="w-full overflow-hidden flex flex-col items-center border-t border-white/5 pt-12 pb-4">
-        <p className="text-xs text-white/40 uppercase tracking-[0.3em] font-alexandria mb-8 text-center">
-          تقنيات نعتمد عليها لبناء المستقبل
+        <p className={`text-xs text-white/40 uppercase tracking-[0.3em] mb-8 text-center ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          {t('stats.tech_stack')}
         </p>
         
         <div className="relative flex overflow-x-hidden w-full group">

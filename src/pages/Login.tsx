@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { EliteLogo } from '@/components/common/EliteLogo';
+import { useTranslation } from 'react-i18next';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // FloatingLabel Input
@@ -49,6 +50,8 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ label, id, ...props }) =>
 // Login Page
 // ──────────────────────────────────────────────────────────────────────────────
 const Login: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const navigate = useNavigate();
   const { signInWithUsername, signUpWithUsername } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -78,7 +81,7 @@ const Login: React.FC = () => {
       if (error) {
         setErrorMsg(error.message);
       } else {
-        setSuccessMsg('Account created! You can now sign in.');
+        setSuccessMsg(t('auth.account_created'));
         setIsSignUp(false);
         setPassword('');
       }
@@ -94,7 +97,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 font-outfit relative overflow-hidden">
+    <div className={`min-h-screen bg-[#050505] flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
       {/* ── Dynamic ambient glow ── */}
       <div
         className="pointer-events-none fixed inset-0 z-0 transition-[background] duration-500"
@@ -168,13 +171,11 @@ const Login: React.FC = () => {
                 transition={{ duration: 0.25 }}
                 className="text-center"
               >
-                <h1 className="text-2xl font-bold text-white tracking-tight font-outfit">
-                  {isSignUp ? 'Create Account' : 'Welcome Back'}
+                <h1 className={`text-2xl font-bold text-white tracking-tight ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                  {isSignUp ? t('auth.create_account') : t('auth.welcome_back')}
                 </h1>
-                <p className="text-white/35 text-xs mt-1.5 font-outfit">
-                  {isSignUp
-                    ? 'Join the Elite engineering community'
-                    : 'Sign in to your el8.dev dashboard'}
+                <p className={`text-white/35 text-xs mt-1.5 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                  {isSignUp ? t('auth.join_community') : t('auth.signin_dashboard')}
                 </p>
               </motion.div>
             </AnimatePresence>
@@ -209,7 +210,7 @@ const Login: React.FC = () => {
 
             <FloatingInput
               id="username"
-              label="Username"
+              label={t('auth.username')}
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -219,7 +220,7 @@ const Login: React.FC = () => {
 
             <FloatingInput
               id="password"
-              label="Password"
+              label={t('auth.password')}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -234,16 +235,16 @@ const Login: React.FC = () => {
                   <input
                     type="checkbox"
                     className="rounded border-white/10 bg-white/5 text-purple-600 focus:ring-purple-500/20"
-                    aria-label="Remember me"
+                    aria-label={t('auth.remember_me')}
                   />
-                  Remember me
+                  {t('auth.remember_me')}
                 </label>
                 <a
                   href="#"
                   className="text-purple-400 hover:text-purple-300 transition-colors font-semibold"
                   data-cursor-color="violet"
                 >
-                  Forgot password?
+                  {t('auth.forgot_password')}
                 </a>
               </div>
             )}
@@ -260,7 +261,7 @@ const Login: React.FC = () => {
                 boxShadow: loading ? 'none' : '0 4px 24px rgba(139,92,246,0.35)',
                 transition: 'background-position 0.5s ease, box-shadow 0.3s ease',
               }}
-              data-cursor-text={loading ? '' : isSignUp ? 'SIGN UP' : 'SIGN IN'}
+              data-cursor-text={loading ? '' : isSignUp ? t('auth.sign_up') : t('auth.sign_in')}
               aria-busy={loading}
             >
               {/* Shimmer overlay */}
@@ -273,10 +274,10 @@ const Login: React.FC = () => {
                 }}
                 aria-hidden="true"
               />
-              <span className="relative z-10 font-outfit tracking-wide">
+              <span className={`relative z-10 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {loading
-                  ? (isSignUp ? 'Creating Account…' : 'Signing In…')
-                  : (isSignUp ? 'Create Account' : 'Sign In')}
+                  ? (isSignUp ? t('auth.creating_account') : t('auth.signing_in'))
+                  : (isSignUp ? t('auth.create_account') : t('auth.sign_in'))}
               </span>
             </button>
 
@@ -289,14 +290,12 @@ const Login: React.FC = () => {
                   setErrorMsg('');
                   setSuccessMsg('');
                 }}
-                className="text-xs text-white/35 hover:text-white/70 transition-colors font-outfit"
+                className={`text-xs text-white/35 hover:text-white/70 transition-colors ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
                 data-cursor-color="violet"
               >
-                {isSignUp
-                  ? 'Already have an account? '
-                  : "Don't have an account? "}
+                {isSignUp ? t('auth.already_have_account') : t('auth.dont_have_account')}
                 <span className="text-purple-400 font-semibold hover:text-purple-300">
-                  {isSignUp ? 'Sign In' : 'Sign Up'}
+                  {isSignUp ? t('auth.sign_in') : t('auth.sign_up')}
                 </span>
               </button>
             </div>
@@ -304,8 +303,8 @@ const Login: React.FC = () => {
         </div>
 
         {/* ── Footer note ── */}
-        <p className="text-center text-xs md:text-sm text-white/20 mt-5 font-jetbrains">
-          el8.dev · Elite Tech IQ · بنيت في العراق
+        <p className={`text-center text-xs md:text-sm text-white/20 mt-5 ${isRTL ? 'font-alexandria' : 'font-jetbrains'}`}>
+          {t('auth.built_in_iraq')}
         </p>
       </motion.div>
     </div>
@@ -313,3 +312,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+

@@ -5,6 +5,7 @@ import { Search, User, Briefcase, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { supabase } from '@/lib/supabase';
+import { useTranslation } from 'react-i18next';
 
 // Inline styles for the CommandMenu to override any conflicts and provide pure glassmorphism
 const overlayStyle: React.CSSProperties = {
@@ -31,6 +32,8 @@ const dialogStyle: React.CSSProperties = {
 };
 
 export const CommandMenu: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [projects, setProjects] = useState<any[]>([]);
@@ -100,12 +103,12 @@ export const CommandMenu: React.FC = () => {
             className="w-full h-full flex flex-col font-outfit"
             shouldFilter={true}
           >
-            <div className="flex items-center px-4 py-4 border-b border-white/10" dir="rtl">
-              <Search className="w-5 h-5 text-white/50 ml-3" />
+            <div className={`flex items-center px-4 py-4 border-b border-white/10 ${isRTL ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.dir()}>
+              <Search className={`w-5 h-5 text-white/50 ${isRTL ? 'ml-3' : 'mr-3'}`} />
               <Command.Input
                 value={search}
                 onValueChange={setSearch}
-                placeholder="ابحث عن مشاريع، مطورين..."
+                placeholder={t('command_menu.search_placeholder')}
                 className="flex-1 bg-transparent border-none outline-none text-white placeholder-white/40 text-lg w-full"
                 autoFocus
               />
@@ -114,10 +117,12 @@ export const CommandMenu: React.FC = () => {
               </div>
             </div>
 
-            <Command.List className="max-h-[350px] overflow-y-auto p-2" dir="rtl">
-              <Command.Empty className="py-10 text-center text-sm text-white/50">لا يوجد نتائج لـ "{search}"</Command.Empty>
+            <Command.List className="max-h-[350px] overflow-y-auto p-2" dir={i18n.dir()}>
+              <Command.Empty className={`py-10 text-center text-sm text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                {t('command_menu.no_results', { search })}
+              </Command.Empty>
 
-              <Command.Group heading="المطورين المعتمدين" className="text-xs font-semibold text-white/40 px-2 py-2">
+              <Command.Group heading={t('command_menu.approved_devs')} className={`text-xs font-semibold text-white/40 px-2 py-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {developers.map(dev => (
                   <Command.Item
                     key={`dev-${dev.id}`}
@@ -137,7 +142,7 @@ export const CommandMenu: React.FC = () => {
                 ))}
               </Command.Group>
 
-              <Command.Group heading="المشاريع" className="text-xs font-semibold text-white/40 px-2 py-2 mt-2">
+              <Command.Group heading={t('command_menu.projects')} className={`text-xs font-semibold text-white/40 px-2 py-2 mt-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {projects.map(proj => (
                   <Command.Item
                     key={`proj-${proj.id}`}

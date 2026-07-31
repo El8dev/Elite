@@ -122,8 +122,8 @@ const Dashboard: React.FC = () => {
   const [articleTitle, setArticleTitle] = useState('');
   const [articleExcerpt, setArticleExcerpt] = useState('');
   const [articleContent, setArticleContent] = useState('');
-  const [articleCategory, setArticleCategory] = useState('الذكاء الاصطناعي');
-  const [articleReadTime, setArticleReadTime] = useState('5 دقائق');
+  const [articleCategory, setArticleCategory] = useState(''); // Will be set with translation if needed, or keep generic keys
+  const [articleReadTime, setArticleReadTime] = useState('');
   const [articleImageUrl, setArticleImageUrl] = useState('');
   const [articleSubmitting, setArticleSubmitting] = useState(false);
   const [articleToDelete, setArticleToDelete] = useState<string | null>(null);
@@ -173,15 +173,15 @@ const Dashboard: React.FC = () => {
       setArticleExcerpt(article.excerpt);
       setArticleContent(article.content || '');
       setArticleCategory(article.category);
-      setArticleReadTime(article.read_time || article.readTime || '5 دقائق');
+      setArticleReadTime(article.read_time || article.readTime || '5 minutes');
       setArticleImageUrl(article.image_url || article.image || '');
     } else {
       setEditingArticleId(null);
       setArticleTitle('');
       setArticleExcerpt('');
       setArticleContent('');
-      setArticleCategory('الذكاء الاصطناعي');
-      setArticleReadTime('5 دقائق');
+      setArticleCategory(t('dashboard_articles.cat_ai'));
+      setArticleReadTime('5 minutes');
       setArticleImageUrl('');
     }
     setArticleModalOpen(true);
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
   const handleSaveArticle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!articleTitle || !articleExcerpt || !currentUserId) {
-      toast.error('يرجى ملء جميع الحقول المطلوبة');
+      toast.error(t('dashboard_articles.fill_required'));
       return;
     }
 
@@ -205,7 +205,7 @@ const Dashboard: React.FC = () => {
           read_time: articleReadTime,
           image_url: articleImageUrl,
         });
-        toast.success('تم تحديث المقال بنجاح!');
+        toast.success(t('dashboard_articles.update_success'));
       } else {
         await createArticle({
           title: articleTitle,
@@ -215,17 +215,17 @@ const Dashboard: React.FC = () => {
           read_time: articleReadTime,
           image_url: articleImageUrl || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800&h=450',
           author_id: currentUserId,
-          author_name: profileName || 'محرر التقنية',
+          author_name: profileName || 'Tech Editor',
           author_avatar: avatarUrl || avatarPreview || 'https://i.pravatar.cc/150',
         });
-        toast.success('تم نشر المقال بنجاح!');
+        toast.success(t('dashboard_articles.publish_success'));
       }
 
       setArticleModalOpen(false);
       fetchUserArticles(currentUserId);
     } catch (err: any) {
       console.error('Error saving article:', err);
-      toast.error(`حدث خطأ أثناء حفظ المقال: ${err.message}`);
+      toast.error(`${t('dashboard_articles.save_error')}${err.message}`);
     } finally {
       setArticleSubmitting(false);
     }
@@ -235,12 +235,12 @@ const Dashboard: React.FC = () => {
     if (!articleToDelete || !currentUserId) return;
     try {
       await deleteArticle(articleToDelete);
-      toast.success('تم حذف المقال بنجاح');
+      toast.success(t('dashboard_articles.delete_success'));
       setArticleToDelete(null);
       fetchUserArticles(currentUserId);
     } catch (err: any) {
       console.error('Error deleting article:', err);
-      toast.error(`فشل حذف المقال: ${err.message}`);
+      toast.error(`${t('dashboard_articles.delete_error')}${err.message}`);
     }
   };
 
@@ -1113,45 +1113,45 @@ const Dashboard: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground font-alexandria">إدارة المقالات والمدونة</h2>
-                    <p className="text-sm text-muted-foreground mt-1 font-alexandria">قم بنشر وتعديل المقالات التقنية الخاصة بك ليراها زوار الموقع</p>
+                    <h2 className="text-xl font-semibold text-foreground font-alexandria">{t('dashboard_articles.title')}</h2>
+                    <p className="text-sm text-muted-foreground mt-1 font-alexandria">{t('dashboard_articles.desc')}</p>
                   </div>
                   <button
                     onClick={() => openArticleModal()}
                     className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center space-x-2 shadow-sm font-alexandria"
                   >
                     <Plus size={18} />
-                    <span>كتابة مقال جديد</span>
+                    <span>{t('dashboard_articles.write_new')}</span>
                   </button>
                 </div>
 
                 {userArticlesLoading ? (
                   <div className="flex items-center justify-center h-64 text-muted-foreground">
                     <Loader2 size={24} className="animate-spin mr-3" />
-                    <p className="font-alexandria">جاري تحميل المقالات...</p>
+                    <p className="font-alexandria">{t('dashboard_articles.loading')}</p>
                   </div>
                 ) : userArticles.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-64 bg-card rounded-2xl border border-border p-8 text-center">
                     <FileText size={48} className="mb-4 text-purple-300" />
-                    <h3 className="text-lg font-medium text-foreground font-alexandria">لا توجد مقالات منشورة بعد</h3>
-                    <p className="text-sm text-muted-foreground mt-1 mb-6 font-alexandria">ابدأ بنشر مقالك التقني الأول ليظهر في قسم المقالات العام</p>
+                    <h3 className="text-lg font-medium text-foreground font-alexandria">{t('dashboard_articles.no_articles')}</h3>
+                    <p className="text-sm text-muted-foreground mt-1 mb-6 font-alexandria">{t('dashboard_articles.start_publishing')}</p>
                     <button
                       onClick={() => openArticleModal()}
                       className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm font-alexandria"
                     >
-                      كتابة مقال جديد
+                      {t('dashboard_articles.write_new')}
                     </button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6" dir={i18n.dir()}>
                     {userArticles.map((article) => (
                       <div key={article.id} className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
                         <div>
                           <div className="flex items-center justify-between mb-3">
                             <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-600 border border-purple-200 font-alexandria">
-                              {article.category || 'عام'}
+                              {article.category || t('dashboard_articles.cat_general')}
                             </span>
-                            <span className="text-xs text-muted-foreground font-alexandria">{article.read_time || article.readTime || '5 دقائق'}</span>
+                            <span className="text-xs text-muted-foreground font-alexandria">{article.read_time || article.readTime || '5 minutes'}</span>
                           </div>
                           <h3 className="font-semibold text-foreground text-lg mb-2 line-clamp-1 font-alexandria">{article.title}</h3>
                           <p className="text-sm text-muted-foreground line-clamp-3 mb-4 font-alexandria">{article.excerpt}</p>
@@ -1159,20 +1159,20 @@ const Dashboard: React.FC = () => {
 
                         <div className="flex items-center justify-between pt-4 border-t border-border">
                           <span className="text-xs text-muted-foreground font-alexandria">
-                            {article.created_at ? new Date(article.created_at).toLocaleDateString('ar-EG') : 'حديثاً'}
+                            {article.created_at ? new Date(article.created_at).toLocaleDateString(i18n.language === 'ar' ? 'ar-EG' : 'en-US') : t('dashboard_articles.recently')}
                           </span>
                           <div className="flex items-center space-x-2 space-x-reverse">
                             <button
                               onClick={() => openArticleModal(article)}
                               className="p-2 rounded-lg text-muted-foreground hover:text-purple-600 hover:bg-purple-100 transition-colors"
-                              title="تعديل المقال"
+                              title={t('dashboard_articles.edit_article')}
                             >
                               <Edit3 size={18} />
                             </button>
                             <button
                               onClick={() => setArticleToDelete(article.id)}
                               className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-100 transition-colors"
-                              title="حذف المقال"
+                              title={t('dashboard_articles.delete_article')}
                             >
                               <Trash2 size={18} />
                             </button>
@@ -1191,11 +1191,11 @@ const Dashboard: React.FC = () => {
 
       {/* Create / Edit Article Modal */}
       {articleModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4 overflow-y-auto" dir="rtl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4 overflow-y-auto" dir={i18n.dir()}>
           <div className="bg-card rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-2xl border border-border my-8">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-foreground font-alexandria">
-                {editingArticleId ? 'تعديل المقال' : 'نشر مقال جديد'}
+                {editingArticleId ? t('dashboard_articles.edit_article') : t('dashboard_articles.publish_new')}
               </h3>
               <button 
                 onClick={() => setArticleModalOpen(false)} 
@@ -1207,76 +1207,76 @@ const Dashboard: React.FC = () => {
 
             <form onSubmit={handleSaveArticle} className="space-y-4 font-alexandria">
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-1">عنوان المقال</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.article_title')}</label>
                 <input
                   type="text"
                   required
                   value={articleTitle}
                   onChange={(e) => setArticleTitle(e.target.value)}
-                  placeholder="مثال: كيف يغير الذكاء الاصطناعي مستقبل البرمجة؟"
+                  placeholder={t('dashboard_articles.title_placeholder')}
                   className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-foreground mb-1">التصنيف</label>
+                  <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.category')}</label>
                   <select
                     value={articleCategory}
                     onChange={(e) => setArticleCategory(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                   >
-                    <option value="الذكاء الاصطناعي">الذكاء الاصطناعي</option>
-                    <option value="تطوير الويب">تطوير الويب</option>
-                    <option value="أنظمة الأعمال">أنظمة الأعمال</option>
-                    <option value="UI/UX">تجربة المستخدم UI/UX</option>
-                    <option value="أمن المعلومات">أمن المعلومات</option>
-                    <option value="عام">عام</option>
+                    <option value={t('dashboard_articles.cat_ai')}>{t('dashboard_articles.cat_ai')}</option>
+                    <option value={t('dashboard_articles.cat_web')}>{t('dashboard_articles.cat_web')}</option>
+                    <option value={t('dashboard_articles.cat_business')}>{t('dashboard_articles.cat_business')}</option>
+                    <option value={t('dashboard_articles.cat_uiux')}>{t('dashboard_articles.cat_uiux')}</option>
+                    <option value={t('dashboard_articles.cat_security')}>{t('dashboard_articles.cat_security')}</option>
+                    <option value={t('dashboard_articles.cat_general')}>{t('dashboard_articles.cat_general')}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-foreground mb-1">وقت القراءة المقدر</label>
+                  <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.read_time')}</label>
                   <input
                     type="text"
                     value={articleReadTime}
                     onChange={(e) => setArticleReadTime(e.target.value)}
-                    placeholder="مثال: 5 دقائق"
+                    placeholder={t('dashboard_articles.read_time_placeholder')}
                     className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-1">رابط غلاف المقال (صورة URL)</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.cover_url')}</label>
                 <input
                   type="url"
                   value={articleImageUrl}
                   onChange={(e) => setArticleImageUrl(e.target.value)}
                   placeholder="https://images.unsplash.com/photo-..."
-                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground dir-ltr text-left"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground ltr text-left"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-1">الملخص الموجز (Excerpt)</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.excerpt')}</label>
                 <textarea
                   required
                   rows={2}
                   value={articleExcerpt}
                   onChange={(e) => setArticleExcerpt(e.target.value)}
-                  placeholder="موجز قصير يظهر في بطاقة المقال الرئيسية..."
+                  placeholder={t('dashboard_articles.excerpt_placeholder')}
                   className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-1">المحتوى الكامل للمقال</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.content')}</label>
                 <textarea
                   rows={5}
                   value={articleContent}
                   onChange={(e) => setArticleContent(e.target.value)}
-                  placeholder="اكتب نص المقال الكامل هنا..."
+                  placeholder={t('dashboard_articles.content_placeholder')}
                   className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground resize-none"
                 />
               </div>
@@ -1287,7 +1287,7 @@ const Dashboard: React.FC = () => {
                   onClick={() => setArticleModalOpen(false)}
                   className="px-5 py-2.5 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
                 >
-                  إلغاء
+                  {t('dashboard_articles.cancel')}
                 </button>
                 <button
                   type="submit"
@@ -1297,10 +1297,10 @@ const Dashboard: React.FC = () => {
                   {articleSubmitting ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      <span>جاري الحفظ...</span>
+                      <span>{t('dashboard_articles.saving')}</span>
                     </>
                   ) : (
-                    <span>{editingArticleId ? 'حفظ التعديلات' : 'نشر المقال'}</span>
+                    <span>{editingArticleId ? t('dashboard_articles.save_changes') : t('dashboard_articles.publish')}</span>
                   )}
                 </button>
               </div>
@@ -1311,29 +1311,29 @@ const Dashboard: React.FC = () => {
 
       {/* Delete Article Confirmation Modal */}
       {articleToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/30 backdrop-blur-sm p-4" dir="rtl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/30 backdrop-blur-sm p-4" dir={i18n.dir()}>
           <div className="bg-card rounded-2xl p-6 shadow-xl w-full max-w-sm border border-border font-alexandria">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-foreground">تأكيد حذف المقال</h3>
+              <h3 className="text-lg font-bold text-foreground">{t('dashboard_articles.confirm_delete')}</h3>
               <button onClick={() => setArticleToDelete(null)} className="text-muted-foreground hover:text-foreground transition-colors">
                 <X size={20} />
               </button>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              هل أنت تأكد من رغبتك في حذف هذا المقال؟ لا يمكن التراجع عن هذا الإجراء بعد تنفيذه.
+              {t('dashboard_articles.delete_warning')}
             </p>
             <div className="flex justify-end space-x-3 space-x-reverse">
               <button 
                 onClick={() => setArticleToDelete(null)}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
               >
-                إلغاء
+                {t('dashboard_articles.cancel')}
               </button>
               <button 
                 onClick={handleConfirmDeleteArticle}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-sm"
               >
-                تأكيد الحذف
+                {t('dashboard_articles.delete')}
               </button>
             </div>
           </div>
