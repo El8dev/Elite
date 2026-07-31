@@ -15,6 +15,7 @@ import { SlitScanText } from '@/components/common/SlitScanText';
 import { TypewriterText } from '@/components/common/TypewriterText';
 
 import { useCinematicSound } from '@/hooks/useCinematicSound';
+import { useTranslation } from 'react-i18next';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Service icon color mapping
@@ -43,15 +44,18 @@ const SERVICE_GLOW = [
 // OurVision
 // ──────────────────────────────────────────────────────────────────────────────
 const OurVision: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { playHoverTick } = useCinematicSound();
+  const servicesList = t('vision.services', { returnObjects: true }) as string[];
+
   const services = [
-    { title: 'تصميم وتطوير مواقع الويب الاحترافية',            icon: Globe      },
-    { title: 'تطوير تطبيقات الهواتف الذكية وتطبيقات الويب',    icon: Smartphone },
-    { title: 'برمجة الأنظمة الإدارية والتجارية',               icon: Database   },
-    { title: 'تطوير الحلول البرمجية المتكاملة',                icon: Layers     },
-    { title: 'تقديم حلول الهاردوير والسوفتوير',                icon: Cpu        },
-    { title: 'الاستشارات التقنية وخدمات التحويل الرقمي',       icon: Lightbulb  },
-    { title: 'تصميم الأنظمة الرقمية المبتكرة',                  icon: Layout     },
+    { title: servicesList[0], icon: Globe      },
+    { title: servicesList[1], icon: Smartphone },
+    { title: servicesList[2], icon: Database   },
+    { title: servicesList[3], icon: Layers     },
+    { title: servicesList[4], icon: Cpu        },
+    { title: servicesList[5], icon: Lightbulb  },
+    { title: servicesList[6], icon: Layout     },
   ];
 
   return (
@@ -76,27 +80,27 @@ const OurVision: React.FC = () => {
 
           {/* Title */}
           <h2
-            className="mt-2 mb-6 text-center text-4xl md:text-5xl font-extrabold text-white leading-relaxed tracking-normal font-alexandria"
-            dir="rtl"
+            className={`mt-2 mb-6 text-center text-4xl md:text-5xl font-extrabold text-white leading-relaxed tracking-normal ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
-            <SlitScanText text="رؤيتنا" delay={0.2} />
+            <SlitScanText text={t('vision.title')} delay={0.2} />
           </h2>
           <motion.p 
-            className="mb-10 text-center text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 md:text-2xl tracking-wide font-alexandria" 
-            dir="rtl"
+            className={`mb-10 text-center text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 md:text-2xl tracking-wide ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`} 
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            الفكرة عليكم والتطبيق علينة
+            {t('vision.subtitle')}
           </motion.p>
 
           {/* Body Text */}
           <div
-            className="mb-12 text-center text-base leading-loose text-white/70 md:text-lg max-w-3xl mx-auto font-alexandria"
-            dir="rtl"
+            className={`mb-12 text-center text-base leading-loose text-white/70 md:text-lg max-w-3xl mx-auto ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
-            <TypewriterText text="Elite هو فريق تقني عراقي تأسس على أيدي مجموعة من الشباب العراقيين الطموحين وانطلق برؤية تسعى إلى تقديم حلول رقمية مبتكرة والمساهمة في بناء مستقبل تقني أكثر تطورًا انطلاقًا من تطوير البرمجيات والأنظمة الرقمية وتصميم وتطوير مواقع الويب والتطبيقات وتقديم حلول الهاردوير والسوفتوير إلى جانب بناء الأنظمة الإدارية والتجارية وتوفير الحلول التقنية المخصصة للأفراد والشركات والمؤسسات." delay={600} speed={25} />
+            <TypewriterText text={t('vision.desc')} delay={600} speed={25} />
           </div>
 
           <div className="mb-6" />
@@ -153,8 +157,8 @@ const OurVision: React.FC = () => {
                   </div>
 
                   <span
-                    className="relative z-10 text-sm font-semibold text-white/90 sm:text-base font-alexandria leading-snug group-hover:text-white transition-colors"
-                    dir="rtl"
+                    className={`relative z-10 text-sm font-semibold text-white/90 sm:text-base leading-snug group-hover:text-white transition-colors ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
+                    dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
                   >
                     {service.title}
                   </span>

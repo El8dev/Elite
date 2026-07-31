@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Globe, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const InteractiveGlobe: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  
   return (
-    <section className="relative w-full py-24 bg-black/40 border-y border-white/5 overflow-hidden flex flex-col items-center justify-center font-outfit">
+    <section className="relative w-full py-24 bg-black/40 border-y border-white/5 overflow-hidden flex flex-col items-center justify-center">
       
       {/* Background stars/dots */}
       <div className="absolute inset-0 z-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -15,14 +18,14 @@ export const InteractiveGlobe: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className={`mb-12 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-6 font-alexandria text-sm">
-            <Globe className="w-4 h-4" /> وصول عالمي
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-6 text-sm">
+            <Globe className="w-4 h-4" /> {t('globe.badge')}
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 font-alexandria">نصل إليك أينما كنت</h2>
-          <p className="text-white/50 text-sm md:text-base font-alexandria max-w-xl mx-auto">
-            منصتنا الرقمية لا تعترف بالحدود. سواء كنت في الشرق الأوسط أو في أي مكان حول العالم، خوادمنا وفرقنا التقنية مستعدة لدعم مشروعك.
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">{t('globe.title')}</h2>
+          <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto">
+            {t('globe.desc')}
           </p>
         </motion.div>
 
@@ -92,20 +95,20 @@ export const InteractiveGlobe: React.FC = () => {
         </div>
         
         {/* Footer info for globe */}
-        <div className="flex items-center gap-6 mt-8">
+        <div className={`flex items-center gap-6 mt-8 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
           <div className="flex flex-col items-center">
             <span className="text-xl font-bold text-white font-jetbrains">24/7</span>
-            <span className="text-xs text-white/50 font-alexandria">دعم فني</span>
+            <span className="text-xs text-white/50">{t('globe.stats_support')}</span>
           </div>
           <div className="w-px h-8 bg-white/10" />
           <div className="flex flex-col items-center">
             <span className="text-xl font-bold text-white font-jetbrains">99.9%</span>
-            <span className="text-xs text-white/50 font-alexandria">استقرار الخوادم</span>
+            <span className="text-xs text-white/50">{t('globe.stats_stability')}</span>
           </div>
           <div className="w-px h-8 bg-white/10" />
           <div className="flex flex-col items-center">
             <span className="text-xl font-bold text-white font-jetbrains">&lt;50ms</span>
-            <span className="text-xs text-white/50 font-alexandria">سرعة الاستجابة</span>
+            <span className="text-xs text-white/50">{t('globe.stats_speed')}</span>
           </div>
         </div>
 

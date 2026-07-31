@@ -41,11 +41,6 @@ const AppContent: React.FC = () => {
   const state = location.state as { backgroundLocation?: Location };
   const backgroundLocation = state?.backgroundLocation;
 
-  React.useEffect(() => {
-    document.documentElement.dir = 'rtl';
-    document.documentElement.lang = 'ar';
-  }, []);
-
   return (
     <AuthProvider>
       <RouteGuard>

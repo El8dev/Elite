@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Linkedin, Github, MessageSquare, Facebook, ArrowLeft, Shield, Instagram } from 'lucide-react';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
+import { useTranslation } from 'react-i18next';
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -23,6 +24,7 @@ import { ContactAgencyModal } from '@/features/landing/components/ContactAgencyM
 import { ClientTrackerModal } from '@/features/projects/components/ClientTrackerModal';
 
 export const PremiumFooter: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTrackerOpen, setIsTrackerOpen] = useState(false);
   const { playHoverTick } = useCinematicSound();
@@ -34,23 +36,23 @@ export const PremiumFooter: React.FC = () => {
         <div className="flex flex-col gap-6 mb-16">
           
           {/* Brand Column Card */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between" dir="rtl">
+          <div className={`rounded-2xl bg-white/[0.04] border border-white/10 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
             <div>
               <h3 
-                className="text-2xl font-bold tracking-widest text-white mb-4 select-none"
+                className="text-2xl font-bold tracking-widest text-white mb-4 select-none font-outfit"
               >
                 ELITE
               </h3>
-              <p className="text-sm text-white/50 font-alexandria leading-relaxed mb-6">
-                نبني جسوراً رقمية للمستقبل. منصة النخبة لتطوير أحدث الأنظمة التقنية والتطبيقات والمواقع بمقاييس عالمية.
+              <p className="text-sm text-white/50 leading-relaxed mb-6">
+                {t('footer.brand_desc')}
               </p>
               <div className="flex flex-col gap-3 mb-8">
                 <button 
                   onClick={() => setIsModalOpen(true)}
                   onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                  className="w-full max-w-sm flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600/20 text-purple-400 hover:bg-purple-600 hover:text-white border border-purple-500/30 hover:border-purple-500 transition-all font-alexandria text-sm"
+                  className={`w-full max-w-sm flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600/20 text-purple-400 hover:bg-purple-600 hover:text-white border border-purple-500/30 hover:border-purple-500 transition-all text-sm`}
                 >
-                  ابدأ مشروعك معنا <ArrowLeft className="w-4 h-4" />
+                  {t('footer.start_project')} {i18n.language === 'ar' ? <ArrowLeft className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4 rotate-180" />}
                 </button>
               </div>
             </div>
@@ -73,9 +75,9 @@ export const PremiumFooter: React.FC = () => {
 
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className={`border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
           <p className="text-xs text-white/40 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Elite Tech IQ. All rights reserved.
+            {t('footer.rights', { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>
