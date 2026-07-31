@@ -603,10 +603,10 @@ const Dashboard: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-background flex font-outfit text-foreground relative">
+    <div className="min-h-screen bg-transparent flex font-outfit text-foreground relative">
       
       {/* SECTION A: Sidebar (fixed width) */}
-      <aside className="w-72 bg-card border-r border-border flex flex-col shrink-0 relative z-10">
+      <aside className="w-72 bg-card/80 backdrop-blur-xl border-r border-border flex flex-col shrink-0 relative z-10">
         <div>
           {/* User Profile */}
           <div className="p-8 border-b border-border flex items-center space-x-4">
@@ -694,9 +694,9 @@ const Dashboard: React.FC = () => {
       </aside>
 
       {/* SECTION B: Main Workspace */}
-      <main className="flex-1 flex flex-col bg-background relative z-0 overflow-hidden">
+      <main className="flex-1 flex flex-col bg-transparent relative z-0 overflow-hidden">
         {/* Header */}
-        <header className="h-20 px-4 md:px-10 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-sm shrink-0">
+        <header className="h-20 px-4 md:px-10 flex items-center justify-between border-b border-border bg-background/40 backdrop-blur-md shrink-0">
           <h1 className="text-xl font-medium text-foreground">
             {activeTab === 'manage' && t('dashboard.my_projects')}
             {activeTab === 'publish' && t('dashboard.publish_project')}

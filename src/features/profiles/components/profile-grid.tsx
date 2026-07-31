@@ -21,16 +21,16 @@ export const ProfileGrid: React.FC<ProfileGridProps> = ({ profiles, onDeveloperC
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
         >
-          <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl font-outfit">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl font-outfit">
             {t('developers_page.our_engineers', 'Our Engineers')}
           </h2>
-          <p className="mt-2 text-sm text-white/50 font-outfit">
+          <p className="mt-2 text-sm text-muted-foreground font-outfit">
             {t('developers_page.our_engineers_desc', 'Meet the talent behind our products')}
           </p>
         </motion.div>
 
         {profiles.length === 0 ? (
-          <div className="text-center text-white/30 py-20 text-lg font-outfit">
+          <div className="text-center text-muted-foreground py-20 text-lg font-outfit">
             No developers have joined ELITE yet.
           </div>
         ) : (

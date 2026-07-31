@@ -202,7 +202,7 @@ const ShowcaseFeed: React.FC<{
             {t('home.title_part2')}
           </span>
         </h1>
-        <p className="mx-auto max-w-2xl font-outfit text-lg text-white/60 sm:text-xl">
+        <p className="mx-auto max-w-2xl font-outfit text-lg text-muted-foreground sm:text-xl">
           {t('home.subtitle')}
         </p>
       </motion.div>

@@ -94,12 +94,12 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         />
       </div>
 
-      <h3 className="mt-4 text-lg font-bold text-white font-outfit">{profile.fullName}</h3>
+      <h3 className="mt-4 text-lg font-bold text-foreground font-outfit">{profile.fullName}</h3>
       <p className="mt-0.5 text-sm font-semibold text-purple-400/80 font-jetbrains tracking-widest uppercase">
         {profile.title}
       </p>
 
-      <p className="mt-3 text-center text-sm leading-relaxed text-white/55 font-outfit line-clamp-2 min-h-[40px]">
+      <p className="mt-3 text-center text-sm leading-relaxed text-muted-foreground font-outfit line-clamp-2 min-h-[40px]">
         {profile.bio}
       </p>
 
@@ -121,8 +121,8 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
 
       {/* ── Project thumbnails ── */}
       {profile.projects && profile.projects.length > 0 && (
-        <div className="mt-5 w-full pt-4 border-t border-white/[0.05]">
-          <p className="text-xs md:text-sm font-bold text-white/30 uppercase tracking-widest mb-2.5 font-jetbrains">
+        <div className="mt-5 w-full pt-4 border-t border-border/50">
+          <p className="text-xs md:text-sm font-bold text-muted-foreground/70 uppercase tracking-widest mb-2.5 font-jetbrains">
             Top Projects
           </p>
           <div className="grid grid-cols-3 gap-2">
@@ -132,7 +132,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
               return (
                 <div
                   key={(proj as any).id}
-                  className="relative aspect-[4/3] rounded-lg overflow-hidden border border-white/[0.05] bg-black/40 group/thumb"
+                  className="relative aspect-[4/3] rounded-lg overflow-hidden border border-border/50 bg-secondary/30 group/thumb"
                   title={(proj as any).title}
                 >
                   {imgUrl ? (
@@ -143,7 +143,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center">
-                      <span className="text-xs text-white/20 font-jetbrains">N/A</span>
+                      <span className="text-xs text-muted-foreground/40 font-jetbrains">N/A</span>
                     </div>
                   )}
                 </div>
@@ -158,7 +158,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
         {/* View Profile — outlined neon */}
         <button
           onClick={(e) => { e.stopPropagation(); onClick?.(profile.id); }}
-          className="flex-1 py-2.5 text-center text-xs font-semibold text-white/75 hover:text-white bg-transparent border border-white/10 hover:border-purple-500/40 rounded-xl hover:bg-white/[0.04] transition-all font-outfit hover:shadow-[0_0_14px_rgba(139,92,246,0.15)]"
+          className="flex-1 py-2.5 text-center text-xs font-semibold text-foreground hover:text-primary bg-secondary/50 border border-border hover:border-primary/40 rounded-xl transition-all font-outfit"
           data-cursor-text="VIEW"
           aria-label={`View ${profile.fullName}'s profile`}
         >
