@@ -90,8 +90,10 @@
   - Modified [SiteHeader.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/SiteHeader.tsx): Replaced fixed dark gradient `from-black/90` with adaptive `from-background/95` and theme-aware nav link tokens.
   - Modified [PremiumFooter.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/PremiumFooter.tsx): Updated brand card background and social buttons to use `bg-card`, `border-border/50`, `text-foreground`, and `text-muted-foreground`.
   - Modified [ThemeLanguageToggle.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/ThemeLanguageToggle.tsx): Updated toggle pill backgrounds and text to use semantic theme tokens.
-  - Modified [AmbientBackground.tsx](file:///c:/Users/hayder/Desktop/source/src/components/common/AmbientBackground.tsx): Made edge vignette overlay theme-aware (`dark:opacity-100 opacity-20`).
-- **Results**: Light mode now renders clean light surfaces, crisp high-contrast typography, and smooth theme switching without any white-on-white text or dark card anomalies.
+  - Modified [Dashboard.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/Dashboard.tsx): Converted sidebar active tabs ('articles', 'admin') from fixed light purple to semantic `bg-primary/10 text-primary`, updated signout button to `hover:bg-destructive/10 hover:text-destructive`, and refactored toggle badges to theme-aware alpha tokens.
+  - Modified [DevelopersPage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/DevelopersPage.tsx): Swapped hardcoded `text-white` and `text-white/60` for `text-foreground` and `text-muted-foreground`.
+  - Modified [ProjectsPage.tsx](file:///c:/Users/hayder/Desktop/source/src/pages/ProjectsPage.tsx): Updated tech stack badges to use theme-aware background and border tokens (`bg-secondary/80`, `border-border/50`).
+- **Results**: Dashboard and all inner pages now seamlessly inherit the semantic design token architecture for flawless Light and Dark mode rendering.
 
 - **Results**: Developers and admins can now create, update, and delete technical articles directly from the Dashboard, which immediately populate the public Tech Blog section on the website.
 
