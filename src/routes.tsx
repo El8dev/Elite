@@ -1,4 +1,5 @@
 import HomePage from './pages/HomePage';
+import ProjectsPage from './pages/ProjectsPage';
 import DevelopersPage from './pages/DevelopersPage';
 import DeveloperProfilePage from './pages/DeveloperProfilePage';
 import ProjectFullPage from './pages/ProjectFullPage';
@@ -28,6 +29,12 @@ export const routes: RouteConfig[] = [
     name: 'Home',
     path: '/',
     element: <HomePage />,
+    public: true,
+  },
+  {
+    name: 'Projects',
+    path: '/projects',
+    element: <ProjectsPage />,
     public: true,
   },
   {

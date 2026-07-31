@@ -30,8 +30,8 @@ export const PremiumFooter: React.FC = () => {
   return (
     <>
     <footer className="relative w-full bg-transparent pt-16 pb-8 overflow-hidden z-20 font-outfit">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
+      <div className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col gap-6 mb-16">
           
           {/* Brand Column Card */}
           <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between" dir="rtl">
@@ -48,16 +48,9 @@ export const PremiumFooter: React.FC = () => {
                 <button 
                   onClick={() => setIsModalOpen(true)}
                   onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600/20 text-purple-400 hover:bg-purple-600 hover:text-white border border-purple-500/30 hover:border-purple-500 transition-all font-alexandria text-sm"
+                  className="w-full max-w-sm flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600/20 text-purple-400 hover:bg-purple-600 hover:text-white border border-purple-500/30 hover:border-purple-500 transition-all font-alexandria text-sm"
                 >
                   ابدأ مشروعك معنا <ArrowLeft className="w-4 h-4" />
-                </button>
-                <button 
-                  onClick={() => setIsTrackerOpen(true)}
-                  onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all font-alexandria text-xs border border-white/5"
-                >
-                  <Shield className="w-3 h-3" /> بوابة العملاء
                 </button>
               </div>
             </div>
@@ -77,17 +70,7 @@ export const PremiumFooter: React.FC = () => {
             </div>
           </div>
 
-          {/* Legal Card */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between" dir="rtl">
-            <div>
-              <h4 className="text-base font-bold text-white mb-5 uppercase tracking-wider font-alexandria border-b border-purple-500/30 pb-3">قانوني</h4>
-              <ul className="space-y-4">
-                <li><a href="#" className="text-sm text-white/60 hover:text-purple-300 transition-colors font-alexandria flex items-center gap-2"><span>•</span> شروط الاستخدام</a></li>
-                <li><a href="#" className="text-sm text-white/60 hover:text-purple-300 transition-colors font-alexandria flex items-center gap-2"><span>•</span> سياسة الخصوصية</a></li>
-                <li><a href="#" className="text-sm text-white/60 hover:text-purple-300 transition-colors font-alexandria flex items-center gap-2"><span>•</span> تراخيص البرمجيات</a></li>
-              </ul>
-            </div>
-          </div>
+
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between">
