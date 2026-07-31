@@ -601,7 +601,6 @@ const Dashboard: React.FC = () => {
     setProfileLoading(false);
   };
 
-  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background flex font-outfit text-foreground relative">
