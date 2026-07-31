@@ -36,14 +36,14 @@ export const PremiumFooter: React.FC = () => {
         <div className="flex flex-col gap-6 mb-16">
           
           {/* Brand Column Card */}
-          <div className={`rounded-2xl bg-white/[0.04] border border-white/10 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+          <div className={`rounded-2xl bg-card border border-border/50 p-6 md:p-8 backdrop-blur-md hover:border-purple-500/30 transition-all duration-300 flex flex-col justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
             <div>
               <h3 
-                className="text-2xl font-bold tracking-widest text-white mb-4 select-none font-outfit"
+                className="text-2xl font-bold tracking-widest text-foreground mb-4 select-none font-outfit"
               >
                 ELITE
               </h3>
-              <p className="text-sm text-white/50 leading-relaxed mb-6">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                 {t('footer.brand_desc')}
               </p>
               <div className="flex flex-col gap-3 mb-8">
@@ -56,17 +56,17 @@ export const PremiumFooter: React.FC = () => {
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-between gap-2 pt-4 border-t border-white/5">
-              <a href="https://instagram.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Instagram">
+            <div className="flex items-center justify-between gap-2 pt-4 border-t border-border/50">
+              <a href="https://instagram.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-muted/40 flex items-center justify-center text-muted-foreground hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-border/40" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="https://github.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="GitHub">
+              <a href="https://github.com/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-muted/40 flex items-center justify-center text-muted-foreground hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-border/40" aria-label="GitHub">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="https://t.me/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="Telegram">
+              <a href="https://t.me/el8dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-muted/40 flex items-center justify-center text-muted-foreground hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-border/40" aria-label="Telegram">
                 <TelegramIcon className="w-4 h-4" />
               </a>
-              <a href="https://tiktok.com/@el8.dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-white/5" aria-label="TikTok">
+              <a href="https://tiktok.com/@el8.dev" target="_blank" rel="noopener noreferrer" onMouseEnter={() => { if (playHoverTick) playHoverTick(); }} className="w-9 h-9 rounded-full bg-muted/40 flex items-center justify-center text-muted-foreground hover:text-purple-400 hover:bg-purple-500/10 transition-all border border-border/40" aria-label="TikTok">
                 <TikTokIcon className="w-4 h-4" />
               </a>
             </div>
@@ -75,8 +75,8 @@ export const PremiumFooter: React.FC = () => {
 
         </div>
 
-        <div className={`border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
-          <p className="text-xs text-white/40 mb-4 md:mb-0">
+        <div className={`border-t border-border/50 pt-8 flex flex-col md:flex-row items-center justify-between ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
+          <p className="text-xs text-muted-foreground mb-4 md:mb-0">
             {t('footer.rights', { year: new Date().getFullYear() })}
           </p>
         </div>

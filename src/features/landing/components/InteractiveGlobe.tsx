@@ -7,10 +7,10 @@ export const InteractiveGlobe: React.FC = () => {
   const { t, i18n } = useTranslation();
   
   return (
-    <section className="relative w-full py-24 bg-black/40 border-y border-white/5 overflow-hidden flex flex-col items-center justify-center">
+    <section className="relative w-full py-24 bg-background/40 border-y border-border/50 overflow-hidden flex flex-col items-center justify-center">
       
       {/* Background stars/dots */}
-      <div className="absolute inset-0 z-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="absolute inset-0 z-0" style={{ backgroundImage: 'radial-gradient(rgba(139,92,246,0.12) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
         
@@ -23,8 +23,8 @@ export const InteractiveGlobe: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-6 text-sm">
             <Globe className="w-4 h-4" /> {t('globe.badge')}
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">{t('globe.title')}</h2>
-          <p className="text-white/50 text-sm md:text-base max-w-xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">{t('globe.title')}</h2>
+          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto">
             {t('globe.desc')}
           </p>
         </motion.div>
@@ -37,9 +37,9 @@ export const InteractiveGlobe: React.FC = () => {
           
           {/* The Globe Sphere */}
           <motion.div 
-            className="relative w-full h-full rounded-full border border-cyan-500/30 overflow-hidden bg-black/50 backdrop-blur-sm"
+            className="relative w-full h-full rounded-full border border-cyan-500/30 overflow-hidden bg-card/50 backdrop-blur-sm"
             style={{
-              boxShadow: 'inset -20px -20px 50px rgba(0,0,0,0.9), inset 10px 10px 30px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.2)'
+              boxShadow: 'inset -20px -20px 50px rgba(0,0,0,0.4), inset 10px 10px 30px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.2)'
             }}
             animate={{ rotateZ: 360 }}
             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
@@ -97,18 +97,18 @@ export const InteractiveGlobe: React.FC = () => {
         {/* Footer info for globe */}
         <div className={`flex items-center gap-6 mt-8 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'}`}>
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_1')}</span>
-            <span className="text-xs text-white/50">{t('globe.stats_label_1')}</span>
+            <span className="text-xl font-bold text-foreground font-jetbrains">{t('globe.stats_value_1')}</span>
+            <span className="text-xs text-muted-foreground">{t('globe.stats_label_1')}</span>
           </div>
-          <div className="w-px h-8 bg-white/10" />
+          <div className="w-px h-8 bg-border/40" />
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_2')}</span>
-            <span className="text-xs text-white/50">{t('globe.stats_label_2')}</span>
+            <span className="text-xl font-bold text-foreground font-jetbrains">{t('globe.stats_value_2')}</span>
+            <span className="text-xs text-muted-foreground">{t('globe.stats_label_2')}</span>
           </div>
-          <div className="w-px h-8 bg-white/10" />
+          <div className="w-px h-8 bg-border/40" />
           <div className="flex flex-col items-center">
-            <span className="text-xl font-bold text-white font-jetbrains">{t('globe.stats_value_3')}</span>
-            <span className="text-xs text-white/50">{t('globe.stats_label_3')}</span>
+            <span className="text-xl font-bold text-foreground font-jetbrains">{t('globe.stats_value_3')}</span>
+            <span className="text-xs text-muted-foreground">{t('globe.stats_label_3')}</span>
           </div>
         </div>
 
