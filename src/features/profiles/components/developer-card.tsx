@@ -123,7 +123,7 @@ export const DeveloperCard: React.FC<DeveloperCardProps> = ({
           <p className="text-xs md:text-sm font-bold text-muted-foreground/70 uppercase tracking-widest mb-2.5 font-jetbrains">
             Top Projects
           </p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {profile.projects.slice(0, 3).map((proj) => {
               const imagesRaw = (proj as any).imageUrls || (proj as any).imageUrl || [];
               const imgUrl = Array.isArray(imagesRaw) ? imagesRaw[0] : imagesRaw;
