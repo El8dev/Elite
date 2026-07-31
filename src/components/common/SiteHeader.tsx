@@ -7,7 +7,8 @@ import { EliteLogo } from '@/components/common/EliteLogo';
 import { ArrowLeft } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { name: 'المشاريع', path: '/' },
+  { name: 'الرئيسية', path: '/' },
+  { name: 'المشاريع', path: '/projects' },
   { name: 'المطورين', path: '/developers' },
   { name: 'الروائع', path: '/masterpieces' },
   { name: 'المقالات', path: '/articles' },
