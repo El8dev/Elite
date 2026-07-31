@@ -18,12 +18,15 @@
     "rights": "© {{year}} Elite Tech IQ. All rights reserved."
   },
   "globe": {
-    "badge": "Global Reach",
-    "title": "We Reach You Wherever You Are",
-    "desc": "Our digital platform knows no borders. Whether you are in the Middle East or anywhere in the world, our servers and technical teams are ready to support your project.",
-    "stats_support": "Technical Support",
-    "stats_stability": "Server Stability",
-    "stats_speed": "Response Time"
+    "badge": "El8 Team (Elite)",
+    "title": "Iraqi Engineering & AI Experts",
+    "desc": "We are an Iraqi team of engineering students and AI/Programming engineers. We specialize in AI, Web Development, Deployment, Parallel Processing, AI Training, Synthetic Data, Local Models Deployment, Cybersecurity, Databases, and Virtual Laboratories for study.",
+    "stats_value_1": "AI / ML",
+    "stats_label_1": "Training & Deployment",
+    "stats_value_2": "Web Dev",
+    "stats_label_2": "Modern Architectures",
+    "stats_value_3": "Data",
+    "stats_label_3": "Security & Databases"
   },
   "dashboard": {
     "my_projects": "My Projects",
