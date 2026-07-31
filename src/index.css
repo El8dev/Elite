@@ -280,10 +280,15 @@
 
   /* ── Mobile Performance Overrides ─────────────────────────────────────── */
   @media (max-width: 768px) {
-    /* Disable expensive blur filters on mobile GPUs */
+    html {
+      font-size: 12px !important; /* Shrink all rem-based units globally */
+    }
+
+    /* Disable expensive blur filters and shadows on mobile GPUs */
     *, *::before, *::after {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
     }
     
     /* For elements that relied on backdrop-blur, give them an opaque or solid background */
@@ -304,7 +309,7 @@
     }
     
     /* Hide extremely expensive ambient glows on mobile to boost FPS */
-    .blur-[60px], .blur-[100px], .blur-[120px], .blur-2xl, .blur-3xl {
+    .\blur-\[60px\], .\blur-\[100px\], .\blur-\[120px\], .blur-2xl, .blur-3xl {
       display: none !important;
     }
   }

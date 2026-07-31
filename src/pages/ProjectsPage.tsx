@@ -49,7 +49,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
       </div>
 
-      <div className="relative p-4 md:p-6 bg-card text-card-foreground">
+      <div className="relative p-2 md:p-6 bg-card text-card-foreground">
         <div className="mb-4 flex items-center justify-between">
           <button
             onClick={() => onDeveloperClick(developer.id, (developer as any).username)}
@@ -60,27 +60,27 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
               <img
                 src={developer.avatarUrl}
                 alt={developer.name}
-                className="relative h-10 w-10 rounded-full object-cover ring-2 ring-white/10 transition-all group-hover/dev:ring-purple-500/50"
+                className="relative h-6 w-6 md:h-10 md:w-10 rounded-full object-cover ring-2 ring-white/10 transition-all group-hover/dev:ring-purple-500/50"
               />
             </div>
             <div className="text-left">
-              <p className="text-sm font-semibold text-foreground/90 font-outfit group-hover/dev:text-foreground transition-colors line-clamp-1">{developer.name}</p>
-              <p className="text-xs md:text-sm uppercase tracking-wider text-primary font-outfit line-clamp-1">{developer.role}</p>
+              <p className="text-[11px] md:text-sm font-semibold text-foreground/90 font-outfit group-hover/dev:text-foreground transition-colors line-clamp-1">{developer.name}</p>
+              <p className="text-[9px] md:text-sm uppercase tracking-wider text-primary font-outfit line-clamp-1">{developer.role}</p>
             </div>
           </button>
         </div>
 
-        <h3 className="mb-2 text-xl sm:text-2xl font-bold text-foreground font-outfit leading-tight line-clamp-2">
+        <h3 className="mb-2 text-sm sm:text-2xl font-bold text-foreground font-outfit leading-tight line-clamp-2">
           {project.title}
         </h3>
-        <p className="mb-5 text-sm sm:text-base leading-relaxed text-muted-foreground font-outfit line-clamp-2">
+        <p className="mb-5 text-[11px] sm:text-base leading-relaxed text-muted-foreground font-outfit line-clamp-2">
           {project.description}
         </p>
 
         {project.techStack && project.techStack.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
              {project.techStack.slice(0, 3).map((tech, i) => (
-                <span key={i} className="px-1.5 py-0.5 text-xs md:text-sm font-semibold tracking-wider uppercase bg-secondary/80 border border-border/50 text-foreground/80 rounded-full font-outfit">
+                <span key={i} className="px-1 py-0.5 text-[9px] md:text-sm font-semibold tracking-wider uppercase bg-secondary/80 border border-border/50 text-foreground/80 rounded-full font-outfit">
                   {tech}
                 </span>
              ))}

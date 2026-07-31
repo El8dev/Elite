@@ -284,19 +284,19 @@ const MasterpieceCard: React.FC<MasterpieceCardProps> = ({ item, index, onClick 
           <svg className="w-3 h-3 text-black" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className={`text-xs md:text-sm font-bold tracking-wider text-black uppercase ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <span className={`text-[9px] md:text-sm font-bold tracking-wider text-black uppercase ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('masterpieces.badge')}
           </span>
         </motion.div>
 
-        <div className="relative z-20 px-4 pb-4 md:px-6 md:pb-6 -mt-4">
+        <div className="relative z-20 px-2 pb-2 md:px-6 md:pb-6 -mt-4">
           {item.profiles && (
             <div className="flex items-center gap-2.5 mb-4">
               {item.profiles.avatar_url && (
                 <img
                   src={item.profiles.avatar_url}
                   alt={devName}
-                  className="h-8 w-8 rounded-full object-cover ring-2 ring-purple-500/20"
+                  className="h-5 w-5 md:h-8 md:w-8 rounded-full object-cover ring-2 ring-purple-500/20"
                   loading="lazy"
                 />
               )}
@@ -430,22 +430,22 @@ const MasterpiecesPage: React.FC = () => {
       <div className="pt-20 relative z-10">
         {/* Header Section */}
         <motion.div
-          className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16 text-center"
+          className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? 20 : 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
         >
-          <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="h-px w-16 md:w-24 bg-gradient-to-l from-transparent via-purple-400 to-cyan-400" />
-            <span className={`text-lg md:text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-200 to-cyan-300 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px w-12 md:w-24 bg-gradient-to-l from-transparent via-purple-400 to-cyan-400" />
+            <span className={`text-sm md:text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-purple-200 to-cyan-300 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
               {t('masterpieces.elite_collection')}
             </span>
-            <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-purple-400 to-cyan-400" />
+            <div className="h-px w-12 md:w-24 bg-gradient-to-r from-transparent via-purple-400 to-cyan-400" />
           </div>
-          <h1 className={`text-3xl md:text-5xl font-bold tracking-tight text-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <h1 className={`text-2xl md:text-5xl font-bold tracking-tight text-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('masterpieces.title')}
           </h1>
-          <p className={`mt-6 text-sm md:text-base text-muted-foreground max-w-md mx-auto ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+          <p className={`mt-3 md:mt-6 text-xs md:text-base text-muted-foreground max-w-md mx-auto ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
             {t('masterpieces.subtitle')}
           </p>
         </motion.div>
