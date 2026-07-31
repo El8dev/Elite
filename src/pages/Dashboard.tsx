@@ -64,11 +64,14 @@ const Dashboard: React.FC = () => {
   const [items, setItems] = useState<DashboardProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   // Publish form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [liveUrl, setLiveUrl] = useState('');
+  const [githubUrl, setGithubUrl] = useState('');
+  const [mainImageIndex, setMainImageIndex] = useState(0);
   const [publishLoading, setPublishLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState<File[]>([]);
@@ -347,6 +350,13 @@ const Dashboard: React.FC = () => {
         }
       }
 
+      // ── Task 1.5: Reorder for Main Image ──
+      if (mainImageIndex > 0 && mainImageIndex < uploadedImageUrls.length) {
+        const mainImg = uploadedImageUrls[mainImageIndex];
+        uploadedImageUrls.splice(mainImageIndex, 1);
+        uploadedImageUrls.unshift(mainImg);
+      }
+
       // ── Task 2: Insert project into the database ──
       const { data: newProject, error: insertError } = await supabase
         .from('projects')
@@ -358,6 +368,8 @@ const Dashboard: React.FC = () => {
             personal_profile_only: personalProfileOnly,
             owner_id: currentUserId,
             image_url: uploadedImageUrls,
+            live_url: liveUrl,
+            github_url: githubUrl,
           }
         ])
         .select('id')
@@ -391,6 +403,9 @@ const Dashboard: React.FC = () => {
       toast.success('Project published successfully!');
       setTitle('');
       setDescription('');
+      setLiveUrl('');
+      setGithubUrl('');
+      setMainImageIndex(0);
       setIsMasterpiece(false);
       setPersonalProfileOnly(false);
       setImages([]);
@@ -427,6 +442,11 @@ const Dashboard: React.FC = () => {
     URL.revokeObjectURL(imagePreviewUrls[index]);
     setImages((prev) => prev.filter((_, i) => i !== index));
     setImagePreviewUrls((prev) => prev.filter((_, i) => i !== index));
+    if (mainImageIndex === index) {
+      setMainImageIndex(0);
+    } else if (mainImageIndex > index) {
+      setMainImageIndex(prev => prev - 1);
+    }
   };
 
   // ── Search registered profiles for contributor picker ──
@@ -909,7 +929,9 @@ const Dashboard: React.FC = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.description')}</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">
+                      {t('dashboard.description')} <span className="text-xs text-primary ml-2 font-normal">(Markdown supported)</span>
+                    </label>
                     <textarea 
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -917,6 +939,29 @@ const Dashboard: React.FC = () => {
                       placeholder={t('dashboard.description_placeholder')}
                       required
                     ></textarea>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Live URL</label>
+                      <input 
+                        type="url" 
+                        value={liveUrl}
+                        onChange={(e) => setLiveUrl(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
+                        placeholder="https://your-project.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">GitHub URL</label>
+                      <input 
+                        type="url" 
+                        value={githubUrl}
+                        onChange={(e) => setGithubUrl(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
+                        placeholder="https://github.com/username/repo"
+                      />
+                    </div>
                   </div>
 
                   {/* Image Upload Section */}
@@ -937,9 +982,18 @@ const Dashboard: React.FC = () => {
                     {imagePreviewUrls.length > 0 && (
                       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {imagePreviewUrls.map((url, index) => (
-                          <div key={index} className="relative group rounded-lg overflow-hidden border border-input aspect-square bg-muted">
+                          <div key={index} className={`relative group rounded-lg overflow-hidden border-2 aspect-square bg-muted ${mainImageIndex === index ? 'border-primary' : 'border-transparent'}`}>
                             <img src={url} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                              {mainImageIndex !== index && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => { e.preventDefault(); setMainImageIndex(index); }}
+                                  className="px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full shadow-sm hover:bg-primary/90 transition-colors"
+                                >
+                                  Set Main
+                                </button>
+                              )}
                               <button
                                 type="button"
                                 onClick={() => removeImage(index)}
@@ -948,6 +1002,11 @@ const Dashboard: React.FC = () => {
                                 <Trash2 size={14} />
                               </button>
                             </div>
+                            {mainImageIndex === index && (
+                              <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                MAIN
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -1379,7 +1438,7 @@ const Dashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.content')}</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">{t('dashboard_articles.content')} <span className="text-xs text-primary ml-2 font-normal">(Markdown supported)</span></label>
                 <textarea
                   rows={5}
                   value={articleContent}
@@ -1713,7 +1772,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
   adminLoading,
   setAdminLoading,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
 
   useEffect(() => {

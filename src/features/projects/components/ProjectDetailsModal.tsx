@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Project } from '@/types';
 import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ProjectDetailsModalProps {
   project: Project | null;
@@ -164,9 +166,11 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
                 </div>
               </div>
               
-              <p className="text-white/60 leading-relaxed text-sm whitespace-pre-wrap mb-8 font-outfit">
-                {project.description}
-              </p>
+              <div className="prose prose-invert prose-sm max-w-none text-white/70 leading-relaxed mb-8 font-outfit prose-headings:text-white prose-a:text-[#8B5CF6] hover:prose-a:text-[#A855F7] prose-a:no-underline hover:prose-a:underline">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {project.description}
+                </ReactMarkdown>
+              </div>
               
               {project.techStack && project.techStack.length > 0 && (
                 <div className="mb-8">
