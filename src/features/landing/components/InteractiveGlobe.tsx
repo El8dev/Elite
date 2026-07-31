@@ -33,11 +33,11 @@ export const InteractiveGlobe: React.FC = () => {
         <div className="relative w-64 h-64 md:w-80 md:h-80 my-8 perspective-[1000px]">
           
           {/* Ambient Glow behind globe */}
-          <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-[60px]" />
+          <div className="hidden md:block absolute inset-0 bg-cyan-500/20 rounded-full blur-[60px]" />
           
           {/* The Globe Sphere */}
           <motion.div 
-            className="relative w-full h-full rounded-full border border-cyan-500/30 overflow-hidden bg-card/50 backdrop-blur-sm"
+            className="relative w-full h-full rounded-full border border-cyan-500/30 overflow-hidden bg-card/50 md:backdrop-blur-sm"
             style={{
               boxShadow: 'inset -20px -20px 50px rgba(0,0,0,0.4), inset 10px 10px 30px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.2)'
             }}

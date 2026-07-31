@@ -19,7 +19,7 @@ const AmbientBackground: React.FC = () => {
     >
       {/* ── Orb 1 — Violet (top-left drift) ── */}
       <div
-        className="absolute -top-[20%] -left-[15%] h-[55vmax] w-[55vmax] rounded-full animate-float will-change-transform"
+        className="hidden md:block absolute -top-[20%] -left-[15%] h-[55vmax] w-[55vmax] rounded-full animate-float will-change-transform"
         style={{
           background:
             'radial-gradient(circle at center, rgba(139,92,246,0.09) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)',
@@ -29,7 +29,7 @@ const AmbientBackground: React.FC = () => {
 
       {/* ── Orb 2 — Cyan (bottom-right drift, delayed) ── */}
       <div
-        className="absolute -bottom-[25%] -right-[10%] h-[60vmax] w-[60vmax] rounded-full animate-float-delayed will-change-transform"
+        className="hidden md:block absolute -bottom-[25%] -right-[10%] h-[60vmax] w-[60vmax] rounded-full animate-float-delayed will-change-transform"
         style={{
           background:
             'radial-gradient(circle at center, rgba(34,211,238,0.055) 0%, rgba(34,211,238,0.025) 40%, transparent 70%)',
@@ -39,7 +39,7 @@ const AmbientBackground: React.FC = () => {
 
       {/* ── Orb 3 — Emerald (center-right, mid-speed) ── */}
       <div
-        className="absolute top-[35%] right-[5%] h-[40vmax] w-[40vmax] rounded-full will-change-transform"
+        className="hidden md:block absolute top-[35%] right-[5%] h-[40vmax] w-[40vmax] rounded-full will-change-transform"
         style={{
           background:
             'radial-gradient(circle at center, rgba(52,211,153,0.045) 0%, transparent 65%)',
