@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Monitor, Smartphone, Database, Check, Calculator, Clock, Cpu, ShoppingCart, Layout } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-const PROJECT_TYPES = [
-  { id: 'web', title: 'موقع ويب / منصة', icon: <Monitor className="w-6 h-6" />, basePrice: 2000 },
-  { id: 'app', title: 'تطبيق هواتف', icon: <Smartphone className="w-6 h-6" />, basePrice: 4000 },
-  { id: 'system', title: 'نظام إدارة (ERP)', icon: <Database className="w-6 h-6" />, basePrice: 6000 },
+const getProjectTypes = (t: any) => [
+  { id: 'web', title: t('cost_estimator.types.web'), icon: <Monitor className="w-6 h-6" />, basePrice: 2000 },
+  { id: 'app', title: t('cost_estimator.types.app'), icon: <Smartphone className="w-6 h-6" />, basePrice: 4000 },
+  { id: 'system', title: t('cost_estimator.types.system'), icon: <Database className="w-6 h-6" />, basePrice: 6000 },
 ];
 
-const FEATURES = [
-  { id: 'ecommerce', title: 'متجر إلكتروني / دفع', icon: <ShoppingCart className="w-5 h-5" />, price: 1500 },
-  { id: 'ai', title: 'دمج الذكاء الاصطناعي', icon: <Cpu className="w-5 h-5" />, price: 2500 },
-  { id: 'dashboard', title: 'لوحة تحكم مخصصة', icon: <Layout className="w-5 h-5" />, price: 1000 },
+const getFeatures = (t: any) => [
+  { id: 'ecommerce', title: t('cost_estimator.features_list.ecommerce'), icon: <ShoppingCart className="w-5 h-5" />, price: 1500 },
+  { id: 'ai', title: t('cost_estimator.features_list.ai'), icon: <Cpu className="w-5 h-5" />, price: 2500 },
+  { id: 'dashboard', title: t('cost_estimator.features_list.dashboard'), icon: <Layout className="w-5 h-5" />, price: 1000 },
 ];
 
-const TIMELINES = [
-  { id: 'relaxed', title: 'مرن (أكثر من شهرين)', multiplier: 1 },
-  { id: 'normal', title: 'طبيعي (شهر إلى شهرين)', multiplier: 1.2 },
-  { id: 'urgent', title: 'عاجل (أقل من شهر)', multiplier: 1.5 },
+const getTimelines = (t: any) => [
+  { id: 'relaxed', title: t('cost_estimator.timelines.relaxed'), multiplier: 1 },
+  { id: 'normal', title: t('cost_estimator.timelines.normal'), multiplier: 1.2 },
+  { id: 'urgent', title: t('cost_estimator.timelines.urgent'), multiplier: 1.5 },
 ];
 
 export const CostEstimator: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
+
+  const PROJECT_TYPES = getProjectTypes(t);
+  const FEATURES = getFeatures(t);
+  const TIMELINES = getTimelines(t);
+
   const [selectedType, setSelectedType] = useState(PROJECT_TYPES[0].id);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [selectedTimeline, setSelectedTimeline] = useState(TIMELINES[1].id);
@@ -40,7 +48,7 @@ export const CostEstimator: React.FC = () => {
     if (timeline) total = total * timeline.multiplier;
 
     setEstimatedCost(Math.round(total));
-  }, [selectedType, selectedFeatures, selectedTimeline]);
+  }, [selectedType, selectedFeatures, selectedTimeline, PROJECT_TYPES, FEATURES, TIMELINES]);
 
   const toggleFeature = (id: string) => {
     setSelectedFeatures(prev => 
@@ -56,30 +64,30 @@ export const CostEstimator: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" dir={i18n.dir()}>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-white mb-4 font-alexandria"
+            className={`text-3xl md:text-5xl font-bold text-white mb-4 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
-            حاسبة التكلفة <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">الذكية</span>
+            {t('cost_estimator.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{t('cost_estimator.title2')}</span>
           </motion.h2>
-          <p className="text-white/50 font-alexandria max-w-xl mx-auto text-sm md:text-base">
-            اختر مواصفات مشروعك واحصل على تقدير فوري للتكلفة. هذه الأداة تساعدك على تخطيط ميزانيتك بشفافية تامة.
+          <p className={`text-white/50 max-w-xl mx-auto text-sm md:text-base ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+            {t('cost_estimator.subtitle')}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" dir="rtl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
           
           {/* Options Column */}
           <div className="lg:col-span-2 space-y-10">
             
             {/* Project Type */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <h3 className="text-lg font-bold text-white mb-4 font-alexandria flex items-center gap-2">
+              <h3 className={`text-lg font-bold text-white mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 <span className="flex items-center justify-center w-6 h-6 rounded bg-purple-500/20 text-purple-400 text-xs">1</span> 
-                نوع المشروع
+                {t('cost_estimator.project_type')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {PROJECT_TYPES.map(type => (
@@ -103,9 +111,9 @@ export const CostEstimator: React.FC = () => {
 
             {/* Features */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-              <h3 className="text-lg font-bold text-white mb-4 font-alexandria flex items-center gap-2">
+              <h3 className={`text-lg font-bold text-white mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 <span className="flex items-center justify-center w-6 h-6 rounded bg-cyan-500/20 text-cyan-400 text-xs">2</span> 
-                الميزات الإضافية
+                {t('cost_estimator.features')}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {FEATURES.map(feature => {
@@ -135,9 +143,9 @@ export const CostEstimator: React.FC = () => {
 
             {/* Timeline */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-              <h3 className="text-lg font-bold text-white mb-4 font-alexandria flex items-center gap-2">
+              <h3 className={`text-lg font-bold text-white mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 <span className="flex items-center justify-center w-6 h-6 rounded bg-emerald-500/20 text-emerald-400 text-xs">3</span> 
-                الجدول الزمني
+                {t('cost_estimator.timeline')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {TIMELINES.map(timeline => (
@@ -173,11 +181,11 @@ export const CostEstimator: React.FC = () => {
                 <Calculator className="w-8 h-8 text-white/80" />
               </div>
               
-              <h4 className="text-sm font-bold text-white/60 mb-2 font-alexandria uppercase tracking-wider">
-                التكلفة التقديرية
+              <h4 className={`text-sm font-bold text-white/60 mb-2 uppercase tracking-wider ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                {t('cost_estimator.est_cost')}
               </h4>
               
-              <div className="flex items-start justify-center gap-1 mb-8">
+              <div className="flex items-start justify-center gap-1 mb-8" dir="ltr">
                 <span className="text-2xl text-cyan-400 mt-2 font-jetbrains">$</span>
                 <AnimatePresence mode="popLayout">
                   <motion.span 
@@ -194,12 +202,12 @@ export const CostEstimator: React.FC = () => {
 
               <div className="w-full h-px bg-white/10 mb-8" />
               
-              <p className="text-xs text-white/40 font-alexandria mb-8 leading-relaxed">
-                * هذا التقدير هو حساب أولي يعتمد على الخيارات المختارة. قد تختلف التكلفة النهائية بناءً على التفاصيل الدقيقة والمتطلبات الخاصة بالمشروع.
+              <p className={`text-xs text-white/40 mb-8 leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                {t('cost_estimator.disclaimer')}
               </p>
 
-              <button className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-purple-400 hover:text-white transition-all font-alexandria shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]">
-                طلب عرض سعر رسمي
+              <button className={`w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-purple-400 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                {t('cost_estimator.request_quote')}
               </button>
             </div>
           </motion.div>

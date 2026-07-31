@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ContactAgencyModalProps {
   isOpen: boolean;
@@ -8,6 +9,8 @@ interface ContactAgencyModalProps {
 }
 
 export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, onClose }) => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -46,7 +49,7 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="w-full max-w-xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-purple-500/10 pointer-events-auto relative"
-              dir="rtl"
+              dir={i18n.dir()}
             >
               {/* Background ambient glow inside modal */}
               <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 blur-[100px] rounded-full pointer-events-none" />
@@ -71,56 +74,56 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 border border-emerald-500/50">
                       <Sparkles className="w-8 h-8 text-emerald-400" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 font-alexandria">تم إرسال طلبك بنجاح!</h3>
-                    <p className="text-white/50 font-alexandria">سيتواصل معك فريقنا التقني في أقرب وقت ممكن لدراسة متطلبات مشروعك.</p>
+                    <h3 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_title')}</h3>
+                    <p className={`text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_desc')}</p>
                   </motion.div>
                 ) : (
                   <>
                     <div className="mb-8">
-                      <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 font-alexandria">ابدأ مشروعك مع النخبة</h2>
-                      <p className="text-sm text-white/50 font-alexandria">أخبرنا عن فكرتك، وسنقوم بتحويلها إلى واقع رقمي مبهر.</p>
+                      <h2 className={`text-2xl md:text-3xl font-bold text-white mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.title')}</h2>
+                      <p className={`text-sm text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.subtitle')}</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="space-y-2">
-                          <label className="text-xs font-semibold text-white/70 font-alexandria">الاسم الكريم</label>
-                          <input required type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors font-alexandria text-sm" placeholder="محمد أحمد" />
+                          <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.name')}</label>
+                          <input required type="text" className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.name_placeholder')} />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-xs font-semibold text-white/70 font-alexandria">البريد الإلكتروني</label>
-                          <input required type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors font-alexandria text-sm" placeholder="email@example.com" />
+                          <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.email')}</label>
+                          <input required type="email" className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder="email@example.com" />
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs font-semibold text-white/70 font-alexandria">نوع المشروع</label>
-                        <select required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors font-alexandria text-sm appearance-none">
-                          <option value="" className="bg-[#0a0a0c]">اختر نوع المشروع...</option>
-                          <option value="web" className="bg-[#0a0a0c]">تطوير موقع ويب تفاعلي</option>
-                          <option value="app" className="bg-[#0a0a0c]">تطوير تطبيق هواتف ذكية</option>
-                          <option value="system" className="bg-[#0a0a0c]">بناء نظام إداري (ERP/CRM)</option>
-                          <option value="ai" className="bg-[#0a0a0c]">حلول الذكاء الاصطناعي</option>
-                          <option value="uiux" className="bg-[#0a0a0c]">تصميم واجهات (UI/UX)</option>
-                          <option value="other" className="bg-[#0a0a0c]">استشارة تقنية / أخرى</option>
+                        <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.project_type')}</label>
+                        <select required className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm appearance-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                          <option value="" className="bg-[#0a0a0c]">{t('contact.type_placeholder')}</option>
+                          <option value="web" className="bg-[#0a0a0c]">{t('contact.type_web')}</option>
+                          <option value="app" className="bg-[#0a0a0c]">{t('contact.type_app')}</option>
+                          <option value="system" className="bg-[#0a0a0c]">{t('contact.type_system')}</option>
+                          <option value="ai" className="bg-[#0a0a0c]">{t('contact.type_ai')}</option>
+                          <option value="uiux" className="bg-[#0a0a0c]">{t('contact.type_uiux')}</option>
+                          <option value="other" className="bg-[#0a0a0c]">{t('contact.type_other')}</option>
                         </select>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs font-semibold text-white/70 font-alexandria">تفاصيل الفكرة / المشروع</label>
-                        <textarea required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors font-alexandria text-sm resize-none" placeholder="اشرح لنا فكرتك باختصار..." />
+                        <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.details')}</label>
+                        <textarea required rows={4} className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm resize-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.details_placeholder')} />
                       </div>
 
                       <button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:opacity-90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] font-alexandria disabled:opacity-50 mt-4"
+                        className={`w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:opacity-90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] disabled:opacity-50 mt-4 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
                       >
                         {isSubmitting ? (
-                          <span className="animate-pulse">جاري إرسال الطلب...</span>
+                          <span className="animate-pulse">{t('contact.sending')}</span>
                         ) : (
                           <>
-                            إرسال طلب التسعير <Send className="w-4 h-4 mr-2" />
+                            {t('contact.submit')} <Send className={`w-4 h-4 ${isRTL ? 'mr-2' : 'ml-2'}`} />
                           </>
                         )}
                       </button>

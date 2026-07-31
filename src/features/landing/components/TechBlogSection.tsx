@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Clock, User } from 'lucide-react';
 import { fetchPublicArticles, Article } from '@/features/articles/services/articles.service';
+import { useTranslation } from 'react-i18next';
 
 
 
 export const TechBlogSection: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
   const [articlesList, setArticlesList] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,29 +38,29 @@ export const TechBlogSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-10 gap-4" dir="rtl">
+        <div className="flex flex-col items-center text-center mb-10 gap-4" dir={i18n.dir()}>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
-            className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-wide font-alexandria"
+            className={`text-3xl md:text-5xl font-bold text-white mb-2 tracking-wide ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
-            المدونة <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">التقنية</span>
+            {t('tech_blog.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{t('tech_blog.title2')}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: 0.1 }}
-            className="text-white/60 max-w-2xl text-sm md:text-base font-alexandria leading-relaxed mb-4"
+            className={`text-white/60 max-w-2xl text-sm md:text-base leading-relaxed mb-4 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
           >
-            مقالات حصرية من خبراء Elite، تغطي أحدث تقنيات البرمجة، أنظمة الذكاء الاصطناعي، وتوجهات تصميم الواجهات.
+            {t('tech_blog.subtitle')}
           </motion.p>
         </div>
 
         {/* Loading Skeletons */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir="rtl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
             {[1, 2, 3].map((n) => (
               <div key={n} className="rounded-2xl bg-white/5 border border-white/10 p-6 animate-pulse">
                 <div className="w-full h-48 bg-white/10 rounded-xl mb-4" />
@@ -68,12 +71,12 @@ export const TechBlogSection: React.FC = () => {
             ))}
           </div>
         ) : articlesList.length === 0 ? (
-          <div className="text-center text-white/50 py-12 font-alexandria">
-            لا توجد مقالات متاحة حالياً.
+          <div className={`text-center text-white/50 py-12 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+            {t('tech_blog.no_articles')}
           </div>
         ) : (
           /* Grid */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir="rtl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
             {articlesList.map((article, index) => (
               <motion.article
                 key={article.id}
@@ -126,8 +129,8 @@ export const TechBlogSection: React.FC = () => {
                       className="w-8 h-8 rounded-full object-cover border border-white/10"
                     />
                     <div className="flex flex-col">
-                      <span className="text-sm text-white/80 font-semibold font-alexandria">{article.author || article.author_name}</span>
-                      <span className="text-xs text-white/40 font-alexandria">خبير تقني</span>
+                      <span className={`text-sm text-white/80 font-semibold ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{article.author || article.author_name}</span>
+                      <span className={`text-xs text-white/40 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('tech_blog.author_role')}</span>
                     </div>
                   </div>
                 </div>
