@@ -3,12 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProfileByUsernameOrId } from '@/features/profiles/services/profiles.service';
 import { fetchProjectsByOwner } from '@/features/projects/services/projects.service';
-import { sendContactMessage } from '@/features/landing/services/contacts.service';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
-import { MessageCircle, Instagram, Linkedin, ArrowLeft, ExternalLink, Github, Heart, Eye } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github, Heart, Eye } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'sonner';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 
 // --- Local Components ---
 const ProfileHeader: React.FC<{ developer: any }> = ({ developer }) => {
@@ -78,12 +76,7 @@ const DeveloperProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Contact Drawer state
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [contactName, setContactName] = useState('');
-  const [contactEmail, setContactEmail] = useState('');
-  const [contactMessage, setContactMessage] = useState('');
-  const [isSubmittingContact, setIsSubmittingContact] = useState(false);
+
 
   useEffect(() => {
     const loadDeveloperData = async () => {
@@ -138,31 +131,7 @@ const DeveloperProfilePage: React.FC = () => {
     navigate(`/project/${projectId}`, { state: { backgroundLocation: location } });
   };
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
-      toast.error('Please fill in all fields.');
-      return;
-    }
-    setIsSubmittingContact(true);
-    try {
-      await sendContactMessage({
-        developer_id: developer?.id,
-        sender_name: contactName,
-        sender_email: contactEmail,
-        message: contactMessage
-      });
-      toast.success(`Message sent successfully to ${developer?.name}!`);
-      setIsContactOpen(false);
-      setContactName('');
-      setContactEmail('');
-      setContactMessage('');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to send message');
-    } finally {
-      setIsSubmittingContact(false);
-    }
-  };
+
 
   if (loading) {
     return (
@@ -208,123 +177,17 @@ const DeveloperProfilePage: React.FC = () => {
         >
           <ProfileHeader developer={developer} />
           
-          <div className="mt-6 flex justify-center">
-            <button
-              onClick={() => setIsContactOpen(true)}
-              className="px-8 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white font-semibold rounded-full transition-all shadow-lg shadow-purple-950/20 font-outfit text-xs tracking-wider uppercase"
-            >
-              Direct Contact Form
-            </button>
-          </div>
 
           <div className="mt-8">
             <SkillsSection skills={developer.skills} />
           </div>
 
-          {(developer.whatsappNumber || developer.instagramUrl || developer.linkedinUrl) && (
-            <motion.div
-              className="mt-8 flex justify-center gap-4"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              {developer.whatsappNumber && (
-                <a
-                  href={`https://wa.me/${developer.whatsappNumber.replace(/[\s+]/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white/5 border border-white/10 text-emerald-400 rounded-full hover:bg-white/15 hover:scale-110 transition-all shadow-md"
-                  title="Chat on WhatsApp"
-                >
-                  <MessageCircle size={24} />
-                </a>
-              )}
-              {developer.instagramUrl && (
-                <a
-                  href={developer.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white/5 border border-white/10 text-pink-400 rounded-full hover:bg-white/15 hover:scale-110 transition-all shadow-md"
-                  title="Instagram Profile"
-                >
-                  <Instagram size={24} />
-                </a>
-              )}
-              {developer.linkedinUrl && (
-                <a
-                  href={developer.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 bg-white/5 border border-white/10 text-blue-400 rounded-full hover:bg-white/15 hover:scale-110 transition-all shadow-md"
-                  title="LinkedIn Profile"
-                >
-                  <Linkedin size={24} />
-                </a>
-              )}
-            </motion.div>
-          )}
 
           <div className="mt-10">
             <ProjectGrid projects={devProjects} onProjectClick={handleProjectClick} />
           </div>
         </motion.div>
       </div>
-
-      <Sheet open={isContactOpen} onOpenChange={setIsContactOpen}>
-        <SheetContent className="bg-[#09090b]/95 border-l border-white/5 text-white backdrop-blur-xl p-8 max-w-md w-full">
-          <SheetHeader className="mb-6 text-left">
-            <SheetTitle className="text-xl font-bold text-white font-outfit">Contact {developer.name}</SheetTitle>
-            <SheetDescription className="text-sm text-white/50 font-outfit mt-1">
-              Send a direct message to this developer. They will get back to you shortly.
-            </SheetDescription>
-          </SheetHeader>
-          <form onSubmit={handleContactSubmit} className="space-y-5">
-            <div>
-              <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 font-outfit">Your Name</label>
-              <input 
-                type="text" 
-                required 
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                disabled={isSubmittingContact}
-                className="w-full input-flat font-outfit" 
-                placeholder="e.g. Alex Chen" 
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 font-outfit">Your Email</label>
-              <input 
-                type="email" 
-                required 
-                value={contactEmail}
-                onChange={(e) => setContactEmail(e.target.value)}
-                disabled={isSubmittingContact}
-                className="w-full input-flat font-outfit" 
-                placeholder="alex@example.com" 
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-white/60 uppercase tracking-wider mb-2 font-outfit">Message</label>
-              <textarea 
-                required 
-                rows={4} 
-                value={contactMessage}
-                onChange={(e) => setContactMessage(e.target.value)}
-                disabled={isSubmittingContact}
-                className="w-full input-flat font-outfit resize-none" 
-                placeholder="Describe your project request..." 
-              />
-            </div>
-            <button 
-              type="submit" 
-              disabled={isSubmittingContact}
-              className="w-full btn-flat mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmittingContact ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
-        </SheetContent>
-      </Sheet>
 
       <PremiumFooter />
     </div>

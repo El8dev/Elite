@@ -7,9 +7,11 @@ import { InteractiveGlobe } from '@/features/landing/components/InteractiveGlobe
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
+import { useTranslation } from 'react-i18next';
 
 const HomePage: React.FC = () => {
   const reduceMotion = useReducedMotionPref();
+  const { t } = useTranslation();
   
   // Dynamic Shifting Background Coordinates
   const mouseX = useMotionValue(0);
@@ -32,10 +34,10 @@ const HomePage: React.FC = () => {
   const bgTemplate = useMotionTemplate`radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(139,92,246,0.06) 0%, rgba(99,102,241,0.03) 40%, transparent 70%)`;
 
   return (
-    <div className="relative min-h-screen bg-[#030303] selection:bg-[#8B5CF6]/30 selection:text-white font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
-        <title>Elite Code | Premium Developer Portfolios</title>
-        <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />
+        <title>Elite Code | {t('home.title_part1')} {t('home.title_part2')}</title>
+        <meta name="description" content={t('home.subtitle')} />
       </Helmet>
 
       {!reduceMotion && (

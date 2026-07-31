@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "developers": "Developers",
+    "masterpieces": "Masterpieces",
+    "articles": "Articles",
+    "login": "Login"
+  },
+  "home": {
+    "title_part1": "Where Code Meets",
+    "title_part2": "Art",
+    "subtitle": "Discover hand-crafted digital experiences built by the world's most elite developers."
+  },
+  "footer": {
+    "brand_desc": "Building digital bridges for the future. The elite platform for developing the latest technical systems, applications, and websites to global standards.",
+    "start_project": "Start your project with us",
+    "rights": "© {{year}} Elite Tech IQ. All rights reserved."
+  },
+  "globe": {
+    "badge": "Global Reach",
+    "title": "We Reach You Wherever You Are",
+    "desc": "Our digital platform knows no borders. Whether you are in the Middle East or anywhere in the world, our servers and technical teams are ready to support your project.",
+    "stats_support": "Technical Support",
+    "stats_stability": "Server Stability",
+    "stats_speed": "Response Time"
+  },
+  "dashboard": {
+    "my_projects": "My Projects",
+    "publish_project": "Publish New Project",
+    "articles": "Articles & Blog Management",
+    "profile": "Profile Settings",
+    "admin": "Admin Panel",
+    "logout": "Sign Out",
+    "no_session": "No active session. Please log in."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "subtitle": "The idea is yours, the execution is ours",
+    "desc": "Elite is an Iraqi technical team founded by ambitious Iraqi youth, launched with a vision to provide innovative digital solutions and contribute to building a more advanced technological future through software development, digital systems, website and app design, hardware and software solutions, as well as building administrative and commercial systems and providing custom technical solutions for individuals, companies, and institutions.",
+    "services": [
+      "Professional website design and development",
+      "Smartphone app and web app development",
+      "Administrative and commercial systems programming",
+      "Integrated software solutions development",
+      "Hardware and software solutions",
+      "Technical consulting and digital transformation services",
+      "Innovative digital systems design"
+    ]
+  }
+}

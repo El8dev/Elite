@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { getCroppedImg } from '@/lib/cropImage';
 import { toast } from 'sonner';
 import { Article, fetchArticlesByAuthor, createArticle, updateArticle, deleteArticle } from '@/features/articles/services/articles.service';
+import { useTranslation } from 'react-i18next';
+import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 
 // Define the type based on requirements
 interface DashboardProject {
@@ -61,6 +63,7 @@ const Dashboard: React.FC = () => {
   const [items, setItems] = useState<DashboardProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const { t } = useTranslation();
   
   // Publish form state
   const [title, setTitle] = useState('');
@@ -598,25 +601,27 @@ const Dashboard: React.FC = () => {
     setProfileLoading(false);
   };
 
+  const { t } = useTranslation();
+
   return (
-    <div className="h-screen w-full bg-[#F5F7F9] flex overflow-hidden font-sans text-slate-800 relative z-10">
+    <div className="min-h-screen bg-background flex font-outfit text-foreground relative">
       
-      {/* SECTION A: Sidebar Panel */}
-      <aside className="w-72 bg-white border-r border-slate-200 flex flex-col justify-between shadow-[2px_0_15px_rgba(0,0,0,0.02)] z-10 shrink-0">
+      {/* SECTION A: Sidebar (fixed width) */}
+      <aside className="w-72 bg-card border-r border-border flex flex-col shrink-0 relative z-10">
         <div>
           {/* User Profile */}
-          <div className="p-8 border-b border-slate-100 flex items-center space-x-4">
+          <div className="p-8 border-b border-border flex items-center space-x-4">
             {isProfileFetching ? (
               <div className="w-full flex items-center space-x-4 animate-pulse">
-                <div className="w-12 h-12 bg-slate-200 rounded-full shrink-0"></div>
+                <div className="w-12 h-12 bg-muted rounded-full shrink-0"></div>
                 <div className="space-y-2 flex-1">
-                  <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                  <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
                 </div>
               </div>
             ) : (
               <>
-                <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 font-semibold text-lg border border-blue-100 overflow-hidden shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-lg border border-primary/20 overflow-hidden shrink-0">
                   {avatarPreview || avatarUrl ? (
                     <img src={avatarPreview || avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
@@ -624,8 +629,8 @@ const Dashboard: React.FC = () => {
                   )}
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="font-medium text-slate-800 truncate">{profileName || 'User'}</h2>
-                  <p className="text-xs text-slate-500 truncate">{profileJobTitle || 'Developer'}</p>
+                  <h2 className="font-medium text-foreground truncate">{profileName || 'User'}</h2>
+                  <p className="text-xs text-muted-foreground truncate">{profileJobTitle || 'Developer'}</p>
                 </div>
               </>
             )}
@@ -635,71 +640,74 @@ const Dashboard: React.FC = () => {
           <nav className="p-4 space-y-2 mt-4">
             <button 
               onClick={() => setActiveTab('manage')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-[#F0F4F8] text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
             >
               <FolderKanban size={18} />
-              <span>Manage Projects</span>
+              <span>{t('dashboard.my_projects')}</span>
             </button>
             {accountStatus === 'approved' && (
               <>
                 <button 
                   onClick={() => setActiveTab('publish')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-[#F0F4F8] text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
                 >
                   <Plus size={18} />
-                  <span>Publish Project</span>
+                  <span>{t('dashboard.publish_project')}</span>
                 </button>
                 <button 
                   onClick={() => setActiveTab('articles')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-[#F0F4F8] text-purple-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-purple-100 text-purple-600' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
                 >
                   <FileText size={18} />
-                  <span>Manage Articles</span>
+                  <span>{t('dashboard.articles')}</span>
                 </button>
               </>
             )}
             <button 
               onClick={() => setActiveTab('profile')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-[#F0F4F8] text-blue-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
             >
               <User size={18} />
-              <span>Profile Settings</span>
+              <span>{t('dashboard.profile')}</span>
             </button>
             {isSystemAdmin && (
               <button 
                 onClick={() => setActiveTab('admin')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-[#F0F4F8] text-purple-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-purple-100 text-purple-600' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
                 <Shield size={18} />
-                <span>Admin Panel</span>
+                <span>{t('dashboard.admin')}</span>
               </button>
             )}
           </nav>
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-border">
           <button 
             onClick={handleSignOut}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
           >
             <LogOut size={18} />
-            <span>Sign Out</span>
+            <span>{t('dashboard.sign_out')}</span>
           </button>
         </div>
       </aside>
 
       {/* SECTION B: Main Workspace */}
-      <main className="flex-1 flex flex-col bg-[#F5F7F9] relative z-0 overflow-hidden">
+      <main className="flex-1 flex flex-col bg-background relative z-0 overflow-hidden">
         {/* Header */}
-        <header className="h-20 px-10 flex items-center justify-between border-b border-slate-200/50 bg-white/50 backdrop-blur-sm shrink-0">
-          <h1 className="text-xl font-medium text-slate-800">
-            {activeTab === 'manage' && 'My Projects'}
-            {activeTab === 'publish' && 'Publish New Project'}
-            {activeTab === 'articles' && 'Articles & Blog Management'}
-            {activeTab === 'profile' && 'Profile Settings'}
-            {activeTab === 'admin' && 'Admin Panel'}
+        <header className="h-20 px-10 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-sm shrink-0">
+          <h1 className="text-xl font-medium text-foreground">
+            {activeTab === 'manage' && t('dashboard.my_projects')}
+            {activeTab === 'publish' && t('dashboard.publish_project')}
+            {activeTab === 'articles' && t('dashboard.articles')}
+            {activeTab === 'profile' && t('dashboard.profile')}
+            {activeTab === 'admin' && t('dashboard.admin')}
           </h1>
+          <div className="flex items-center gap-4">
+            <ThemeLanguageToggle />
+          </div>
         </header>
 
         {/* Content Area */}
@@ -708,13 +716,13 @@ const Dashboard: React.FC = () => {
 
             {/* Pending Account Banner */}
             {!isSystemAdmin && accountStatus === 'pending' && activeTab !== 'profile' && (
-              <div className="mb-8 bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start space-x-4">
-                <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
+              <div className="mb-8 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex items-start space-x-4">
+                <div className="w-12 h-12 bg-amber-500/20 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-amber-800">Account Under Review</h3>
-                  <p className="text-sm text-amber-700 mt-1">
+                  <h3 className="text-lg font-semibold text-amber-700 dark:text-amber-500">Account Under Review</h3>
+                  <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
                     Your ELITE account is currently under review by administrators. You will be able to publish projects and appear in the community directory once your account has been approved.
                   </p>
                 </div>
@@ -724,39 +732,39 @@ const Dashboard: React.FC = () => {
             {activeTab === 'manage' && (
               <>
                 {loading ? (
-                  <div className="flex items-center justify-center h-64 text-slate-400">
+                  <div className="flex items-center justify-center h-64 text-muted-foreground">
                     <p>Loading projects...</p>
                   </div>
                 ) : items.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+                  <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                     <FolderKanban size={48} className="mb-4 opacity-20" />
                     <p>No projects found. Publish your first project!</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {items.map((item) => (
-                      <div key={item.id} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between group hover:shadow-md transition-shadow h-64">
+                      <div key={item.id} className="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col justify-between group hover:shadow-md transition-shadow h-64">
                         <div>
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${item.personal_profile_only ? 'bg-violet-50 text-violet-500' : item.is_masterpiece ? 'bg-amber-50 text-amber-500' : 'bg-teal-50 text-teal-500'}`}>
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${item.personal_profile_only ? 'bg-violet-500/10 text-violet-500' : item.is_masterpiece ? 'bg-amber-500/10 text-amber-500' : 'bg-teal-500/10 text-teal-500'}`}>
                             <FolderKanban size={20} />
                           </div>
-                          <h3 className="font-semibold text-slate-800 mb-1 line-clamp-1" title={item.title}>{item.title}</h3>
-                          <p className="text-sm text-slate-500 line-clamp-3">{item.description}</p>
+                          <h3 className="font-semibold text-foreground mb-1 line-clamp-1" title={item.title}>{item.title}</h3>
+                          <p className="text-sm text-muted-foreground line-clamp-3">{item.description}</p>
                         </div>
-                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-50">
+                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${item.is_masterpiece ? 'bg-amber-50 text-amber-600 border border-amber-200' : 'bg-blue-50 text-blue-600'}`}>
+                            <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${item.is_masterpiece ? 'bg-amber-500/10 text-amber-600' : 'bg-primary/10 text-primary'}`}>
                               {item.is_masterpiece ? 'Masterpiece' : 'Standard'}
                             </span>
                             {item.personal_profile_only && (
-                              <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-50 text-violet-600 border border-violet-200">
+                              <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-500/10 text-violet-600 border border-violet-500/20">
                                 Profile Only
                               </span>
                             )}
                           </div>
                           <button 
                             onClick={() => setItemToDelete(item.id)}
-                            className="text-slate-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                            className="text-muted-foreground hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
                           >
                             <Trash2 size={18} />
                           </button>
@@ -769,36 +777,36 @@ const Dashboard: React.FC = () => {
             )}
 
             {activeTab === 'publish' && accountStatus !== 'approved' && !isSystemAdmin && (
-              <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+              <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                 <Lock size={48} className="mb-4 opacity-30" />
-                <p className="text-lg font-medium text-slate-600">Publishing Locked</p>
-                <p className="text-sm text-slate-400 mt-2 text-center max-w-md">Your account must be approved by an administrator before you can publish projects.</p>
+                <p className="text-lg font-medium text-foreground">Publishing Locked</p>
+                <p className="text-sm text-muted-foreground mt-2 text-center max-w-md">Your account must be approved by an administrator before you can publish projects.</p>
               </div>
             )}
 
             {activeTab === 'publish' && (accountStatus === 'approved' || isSystemAdmin) && (
-              <form onSubmit={handlePublish} className="bg-white rounded-3xl p-10 shadow-sm border border-slate-100 max-w-2xl">
-                <h2 className="text-2xl font-medium text-slate-800 mb-8">Project Details</h2>
+              <form onSubmit={handlePublish} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
+                <h2 className="text-2xl font-medium text-foreground mb-8">Project Details</h2>
                 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Project Title</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Project Title</label>
                     <input 
                       type="text" 
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                       placeholder="Enter a descriptive title"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Description</label>
                     <textarea 
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800 resize-none h-32"
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
                       placeholder="Describe your project's goals and outcomes..."
                       required
                     ></textarea>
@@ -806,14 +814,14 @@ const Dashboard: React.FC = () => {
 
                   {/* Image Upload Section */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Project Images (Up to 10)</label>
-                    <div className="bg-slate-50 border border-dashed border-slate-300 rounded-xl p-6 flex flex-col items-center justify-center transition-colors hover:bg-slate-100">
-                      <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Project Images (Up to 10)</label>
+                    <div className="bg-background border border-dashed border-input rounded-xl p-6 flex flex-col items-center justify-center transition-colors hover:bg-secondary">
+                      <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-3">
                         <ImageIcon size={24} />
                       </div>
-                      <p className="text-sm font-medium text-slate-700 mb-1">Click to upload images</p>
-                      <p className="text-xs text-slate-500 mb-4">SVG, PNG, JPG or GIF (max. 800x400px)</p>
-                      <label className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium cursor-pointer hover:bg-slate-50 transition-colors shadow-sm flex items-center space-x-2">
+                      <p className="text-sm font-medium text-foreground mb-1">Click to upload images</p>
+                      <p className="text-xs text-muted-foreground mb-4">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                      <label className="px-4 py-2 bg-card border border-input text-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-secondary transition-colors shadow-sm flex items-center space-x-2">
                         <Upload size={16} />
                         <span>Select Files</span>
                         <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
@@ -822,9 +830,9 @@ const Dashboard: React.FC = () => {
                     {imagePreviewUrls.length > 0 && (
                       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {imagePreviewUrls.map((url, index) => (
-                          <div key={index} className="relative group rounded-lg overflow-hidden border border-slate-200 aspect-square bg-slate-100">
+                          <div key={index} className="relative group rounded-lg overflow-hidden border border-input aspect-square bg-muted">
                             <img src={url} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                               <button
                                 type="button"
                                 onClick={() => removeImage(index)}
@@ -842,33 +850,33 @@ const Dashboard: React.FC = () => {
                   {/* Add Contributors Section */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="block text-sm font-medium text-slate-700">Contributors</label>
+                      <label className="block text-sm font-medium text-muted-foreground">Contributors</label>
                       <button 
                         type="button" 
                         onClick={() => setIsContributorModalOpen(true)}
-                        className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-1"
+                        className="text-sm text-primary hover:text-primary/80 font-medium flex items-center space-x-1"
                       >
                         <Plus size={16} />
                         <span>Add Team Member</span>
                       </button>
                     </div>
                     {selectedContributors.length === 0 ? (
-                      <div className="w-full px-4 py-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-500 flex items-center space-x-2">
-                        <Users size={16} className="text-slate-400" />
+                      <div className="w-full px-4 py-4 rounded-xl bg-background border border-input text-sm text-muted-foreground flex items-center space-x-2">
+                        <Users size={16} className="text-muted-foreground" />
                         <span>No contributors added yet.</span>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2">
                         {selectedContributors.map(user => (
-                          <div key={user.id} className="flex items-center space-x-2 bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
-                            <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs md:text-sm font-bold">
+                          <div key={user.id} className="flex items-center space-x-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
+                            <div className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs md:text-sm font-bold">
                               {user.name.charAt(0)}
                             </div>
                             <span>{user.name}</span>
                             <button
                               type="button"
                               onClick={() => removeSelectedContributor(user.id)}
-                              className="text-slate-400 hover:text-red-500 transition-colors focus:outline-none"
+                              className="text-muted-foreground hover:text-red-500 transition-colors focus:outline-none"
                             >
                               <X size={14} />
                             </button>
@@ -879,13 +887,13 @@ const Dashboard: React.FC = () => {
                   </div>
 
                   {/* Masterpiece Toggle Switch */}
-                  <div className={`flex items-center justify-between py-4 border-y border-slate-100 transition-opacity ${personalProfileOnly ? 'opacity-40 pointer-events-none' : ''}`}>
+                  <div className={`flex items-center justify-between py-4 border-y border-border transition-opacity ${personalProfileOnly ? 'opacity-40 pointer-events-none' : ''}`}>
                     <div>
-                      <h4 className="font-medium text-slate-800 flex items-center space-x-2">
+                      <h4 className="font-medium text-foreground flex items-center space-x-2">
                         <span>Masterpiece Badge</span>
                         <span className="bg-amber-100 text-amber-700 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
                       </h4>
-                      <p className="text-sm text-slate-500 mt-1">Highlight this project as a masterpiece on your profile.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Highlight this project as a masterpiece on your profile.</p>
                       {personalProfileOnly && (
                         <p className="text-xs text-violet-500 mt-1">Disabled — cannot combine with Personal Profile Only.</p>
                       )}
@@ -894,20 +902,20 @@ const Dashboard: React.FC = () => {
                       type="button"
                       disabled={personalProfileOnly}
                       onClick={() => setIsMasterpiece(!isMasterpiece)}
-                      className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${isMasterpiece ? 'bg-amber-500' : 'bg-slate-200'} ${personalProfileOnly ? 'cursor-not-allowed' : ''}`}
+                      className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${isMasterpiece ? 'bg-amber-500' : 'bg-input'} ${personalProfileOnly ? 'cursor-not-allowed' : ''}`}
                     >
                       <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${isMasterpiece ? 'translate-x-6' : 'translate-x-0'}`} />
                     </button>
                   </div>
 
                   {/* Personal Profile Only Toggle */}
-                  <div className="flex items-center justify-between py-4 border-b border-slate-100">
+                  <div className="flex items-center justify-between py-4 border-b border-border">
                     <div>
-                      <h4 className="font-medium text-slate-800 flex items-center space-x-2">
+                      <h4 className="font-medium text-foreground flex items-center space-x-2">
                         <span>Personal Profile Only</span>
                         <span className="bg-violet-100 text-violet-700 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New</span>
                       </h4>
-                      <p className="text-sm text-slate-500 mt-1">Show only on your profile — hidden from public feeds.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Show only on your profile — hidden from public feeds.</p>
                     </div>
                     <button 
                       type="button"
@@ -916,7 +924,7 @@ const Dashboard: React.FC = () => {
                         setPersonalProfileOnly(next);
                         if (next) setIsMasterpiece(false);
                       }}
-                      className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${personalProfileOnly ? 'bg-violet-500' : 'bg-slate-200'}`}
+                      className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${personalProfileOnly ? 'bg-violet-500' : 'bg-input'}`}
                     >
                       <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${personalProfileOnly ? 'translate-x-6' : 'translate-x-0'}`} />
                     </button>
@@ -926,7 +934,7 @@ const Dashboard: React.FC = () => {
                     <button 
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 min-w-[160px] justify-center"
+                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 min-w-[160px] justify-center"
                     >
                       {isSubmitting ? (
                         <>
@@ -943,19 +951,19 @@ const Dashboard: React.FC = () => {
             )}
 
             {activeTab === 'profile' && (
-              <form onSubmit={handleProfileSubmit} className="bg-white rounded-3xl p-10 shadow-sm border border-slate-100 max-w-2xl">
-                <h2 className="text-2xl font-medium text-slate-800 mb-8 text-center">Profile Settings</h2>
+              <form onSubmit={handleProfileSubmit} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
+                <h2 className="text-2xl font-medium text-foreground mb-8 text-center">Profile Settings</h2>
                 
                 {/* Avatar Upload */}
-                <div className="relative group w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md mx-auto mb-8 bg-slate-50">
+                <div className="relative group w-32 h-32 rounded-full overflow-hidden border-4 border-card shadow-md mx-auto mb-8 bg-muted">
                   {avatarPreview || avatarUrl ? (
                     <img src={avatarPreview || avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl text-blue-500 font-semibold bg-blue-50">
+                    <div className="w-full h-full flex items-center justify-center text-4xl text-primary font-semibold bg-primary/10">
                       {profileName ? profileName.charAt(0).toUpperCase() : 'A'}
                     </div>
                   )}
-                  <label className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center cursor-pointer transition-opacity duration-300">
+                  <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center cursor-pointer transition-opacity duration-300">
                     <Camera className="text-white w-8 h-8" />
                     <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
                   </label>
@@ -963,39 +971,39 @@ const Dashboard: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Full Name</label>
                     <input 
                       type="text" 
                       value={profileName}
                       onChange={(e) => setProfileName(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Username</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Username</label>
                     <input 
                       type="text" 
                       value={profileUsername}
                       onChange={(e) => setProfileUsername(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Role / Title</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Role / Title</label>
                   <input 
                     type="text" 
                     value={profileJobTitle}
                     onChange={(e) => setProfileJobTitle(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                     placeholder="e.g. Senior Frontend Engineer"
                     required
                   />
                   {isSystemAdmin && (
-                    <p className="text-xs text-indigo-500 mt-1.5 flex items-center gap-1 font-medium bg-indigo-50 px-1.5 py-0.5.5 rounded-lg w-fit border border-indigo-100">
+                    <p className="text-xs text-indigo-500 mt-1.5 flex items-center gap-1 font-medium bg-indigo-500/10 px-1.5 py-0.5 rounded-lg w-fit border border-indigo-500/20">
                       <Shield size={12} className="text-indigo-600" />
                       System Administrator
                     </p>
@@ -1003,18 +1011,18 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Bio</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Bio</label>
                   <textarea 
                     value={profileBio}
                     onChange={(e) => setProfileBio(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800 resize-none h-32"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
                     placeholder="Tell us a little about yourself..."
                   ></textarea>
                 </div>
 
                 {/* Dynamic Skills System */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Skills & Technologies</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Skills & Technologies</label>
                   <div className="flex space-x-2 mb-3">
                     <input 
                       type="text" 
@@ -1026,13 +1034,13 @@ const Dashboard: React.FC = () => {
                           addSkill();
                         }
                       }}
-                      className="flex-1 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
+                      className="flex-1 px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                       placeholder="e.g. React, Python, UI/UX"
                     />
                     <button 
                       type="button"
                       onClick={addSkill}
-                      className="w-12 h-12 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl flex items-center justify-center transition-colors border border-slate-200"
+                      className="w-12 h-12 bg-secondary hover:bg-secondary/80 text-foreground rounded-xl flex items-center justify-center transition-colors border border-input"
                     >
                       <Plus size={20} />
                     </button>
@@ -1046,13 +1054,13 @@ const Dashboard: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.8 }}
                           layout
-                          className="flex items-center space-x-2 bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1.5 rounded-full text-sm font-medium shadow-sm"
+                          className="flex items-center space-x-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm"
                         >
                           <span>{skill}</span>
                           <button
                             type="button"
                             onClick={() => removeSkill(skill)}
-                            className="text-slate-400 hover:text-red-500 transition-colors focus:outline-none"
+                            className="text-muted-foreground hover:text-red-500 transition-colors focus:outline-none"
                           >
                             <X size={14} />
                           </button>
@@ -1062,53 +1070,17 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Contact & Social Links */}
-                <div className="mb-6 space-y-4">
-                  <h3 className="block text-sm font-medium text-slate-700">Contact & Social Links</h3>
-                  
-                  <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1">WhatsApp Number (with country code, e.g., 964...)</label>
-                    <input 
-                      type="text" 
-                      value={whatsappNumber}
-                      onChange={(e) => setWhatsappNumber(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
-                      placeholder="e.g. 9647701234567"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1">Instagram URL</label>
-                    <input 
-                      type="url" 
-                      value={instagramUrl}
-                      onChange={(e) => setInstagramUrl(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
-                      placeholder="e.g. https://instagram.com/username"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1">LinkedIn URL</label>
-                    <input 
-                      type="url" 
-                      value={linkedinUrl}
-                      onChange={(e) => setLinkedinUrl(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-slate-800"
-                      placeholder="e.g. https://linkedin.com/in/username"
-                    />
-                  </div>
-                </div>
 
-                <div className="pt-4 flex justify-end border-t border-slate-100">
+
+                <div className="pt-4 flex justify-end border-t border-border">
                   <button 
                     type="submit"
                     disabled={profileLoading}
-                    className="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center min-w-[150px]"
+                    className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center min-w-[150px]"
                   >
                     {profileLoading ? (
                       <span className="flex items-center space-x-2">
-                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin h-5 w-5 text-primary-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -1122,16 +1094,16 @@ const Dashboard: React.FC = () => {
 
             {activeTab === 'admin' && !isProfileFetching && !isSystemAdmin && (
               <div className="flex flex-col items-center justify-center h-96 text-center">
-                <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center mb-6">
                   <Lock size={32} />
                 </div>
-                <h2 className="text-2xl font-semibold text-slate-800 mb-2">Access Denied</h2>
-                <p className="text-slate-500 max-w-md">
+                <h2 className="text-2xl font-semibold text-foreground mb-2">Access Denied</h2>
+                <p className="text-muted-foreground max-w-md">
                   You do not have permission to access the Admin Panel. This area is restricted to System Administrators only.
                 </p>
                 <button
                   onClick={() => setActiveTab('manage')}
-                  className="mt-8 px-6 py-2.5 bg-slate-800 text-white rounded-xl text-sm font-medium hover:bg-slate-900 transition-colors"
+                  className="mt-8 px-6 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors"
                 >
                   Return to Dashboard
                 </button>
@@ -1142,8 +1114,8 @@ const Dashboard: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-semibold text-slate-800 font-alexandria">إدارة المقالات والمدونة</h2>
-                    <p className="text-sm text-slate-500 mt-1 font-alexandria">قم بنشر وتعديل المقالات التقنية الخاصة بك ليراها زوار الموقع</p>
+                    <h2 className="text-xl font-semibold text-foreground font-alexandria">إدارة المقالات والمدونة</h2>
+                    <p className="text-sm text-muted-foreground mt-1 font-alexandria">قم بنشر وتعديل المقالات التقنية الخاصة بك ليراها زوار الموقع</p>
                   </div>
                   <button
                     onClick={() => openArticleModal()}
@@ -1155,15 +1127,15 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 {userArticlesLoading ? (
-                  <div className="flex items-center justify-center h-64 text-slate-400">
+                  <div className="flex items-center justify-center h-64 text-muted-foreground">
                     <Loader2 size={24} className="animate-spin mr-3" />
                     <p className="font-alexandria">جاري تحميل المقالات...</p>
                   </div>
                 ) : userArticles.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-64 bg-white rounded-2xl border border-slate-100 p-8 text-center">
+                  <div className="flex flex-col items-center justify-center h-64 bg-card rounded-2xl border border-border p-8 text-center">
                     <FileText size={48} className="mb-4 text-purple-300" />
-                    <h3 className="text-lg font-medium text-slate-700 font-alexandria">لا توجد مقالات منشورة بعد</h3>
-                    <p className="text-sm text-slate-400 mt-1 mb-6 font-alexandria">ابدأ بنشر مقالك التقني الأول ليظهر في قسم المقالات العام</p>
+                    <h3 className="text-lg font-medium text-foreground font-alexandria">لا توجد مقالات منشورة بعد</h3>
+                    <p className="text-sm text-muted-foreground mt-1 mb-6 font-alexandria">ابدأ بنشر مقالك التقني الأول ليظهر في قسم المقالات العام</p>
                     <button
                       onClick={() => openArticleModal()}
                       className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm font-alexandria"
@@ -1174,33 +1146,33 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
                     {userArticles.map((article) => (
-                      <div key={article.id} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+                      <div key={article.id} className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
                         <div>
                           <div className="flex items-center justify-between mb-3">
-                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-600 border border-purple-100 font-alexandria">
+                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-600 border border-purple-200 font-alexandria">
                               {article.category || 'عام'}
                             </span>
-                            <span className="text-xs text-slate-400 font-alexandria">{article.read_time || article.readTime || '5 دقائق'}</span>
+                            <span className="text-xs text-muted-foreground font-alexandria">{article.read_time || article.readTime || '5 دقائق'}</span>
                           </div>
-                          <h3 className="font-semibold text-slate-800 text-lg mb-2 line-clamp-1 font-alexandria">{article.title}</h3>
-                          <p className="text-sm text-slate-500 line-clamp-3 mb-4 font-alexandria">{article.excerpt}</p>
+                          <h3 className="font-semibold text-foreground text-lg mb-2 line-clamp-1 font-alexandria">{article.title}</h3>
+                          <p className="text-sm text-muted-foreground line-clamp-3 mb-4 font-alexandria">{article.excerpt}</p>
                         </div>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-                          <span className="text-xs text-slate-400 font-alexandria">
+                        <div className="flex items-center justify-between pt-4 border-t border-border">
+                          <span className="text-xs text-muted-foreground font-alexandria">
                             {article.created_at ? new Date(article.created_at).toLocaleDateString('ar-EG') : 'حديثاً'}
                           </span>
                           <div className="flex items-center space-x-2 space-x-reverse">
                             <button
                               onClick={() => openArticleModal(article)}
-                              className="p-2 rounded-lg text-slate-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                              className="p-2 rounded-lg text-muted-foreground hover:text-purple-600 hover:bg-purple-100 transition-colors"
                               title="تعديل المقال"
                             >
                               <Edit3 size={18} />
                             </button>
                             <button
                               onClick={() => setArticleToDelete(article.id)}
-                              className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                              className="p-2 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-100 transition-colors"
                               title="حذف المقال"
                             >
                               <Trash2 size={18} />
@@ -1220,15 +1192,15 @@ const Dashboard: React.FC = () => {
 
       {/* Create / Edit Article Modal */}
       {articleModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 overflow-y-auto" dir="rtl">
-          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-2xl border border-slate-100 my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4 overflow-y-auto" dir="rtl">
+          <div className="bg-card rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-2xl border border-border my-8">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-slate-800 font-alexandria">
+              <h3 className="text-xl font-bold text-foreground font-alexandria">
                 {editingArticleId ? 'تعديل المقال' : 'نشر مقال جديد'}
               </h3>
               <button 
                 onClick={() => setArticleModalOpen(false)} 
-                className="text-slate-400 hover:text-slate-600 transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X size={20} />
               </button>
@@ -1236,24 +1208,24 @@ const Dashboard: React.FC = () => {
 
             <form onSubmit={handleSaveArticle} className="space-y-4 font-alexandria">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">عنوان المقال</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">عنوان المقال</label>
                 <input
                   type="text"
                   required
                   value={articleTitle}
                   onChange={(e) => setArticleTitle(e.target.value)}
                   placeholder="مثال: كيف يغير الذكاء الاصطناعي مستقبل البرمجة؟"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">التصنيف</label>
+                  <label className="block text-sm font-semibold text-foreground mb-1">التصنيف</label>
                   <select
                     value={articleCategory}
                     onChange={(e) => setArticleCategory(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                   >
                     <option value="الذكاء الاصطناعي">الذكاء الاصطناعي</option>
                     <option value="تطوير الويب">تطوير الويب</option>
@@ -1265,56 +1237,56 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">وقت القراءة المقدر</label>
+                  <label className="block text-sm font-semibold text-foreground mb-1">وقت القراءة المقدر</label>
                   <input
                     type="text"
                     value={articleReadTime}
                     onChange={(e) => setArticleReadTime(e.target.value)}
                     placeholder="مثال: 5 دقائق"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">رابط غلاف المقال (صورة URL)</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">رابط غلاف المقال (صورة URL)</label>
                 <input
                   type="url"
                   value={articleImageUrl}
                   onChange={(e) => setArticleImageUrl(e.target.value)}
                   placeholder="https://images.unsplash.com/photo-..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 dir-ltr text-left"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground dir-ltr text-left"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">الملخص الموجز (Excerpt)</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">الملخص الموجز (Excerpt)</label>
                 <textarea
                   required
                   rows={2}
                   value={articleExcerpt}
                   onChange={(e) => setArticleExcerpt(e.target.value)}
                   placeholder="موجز قصير يظهر في بطاقة المقال الرئيسية..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">المحتوى الكامل للمقال</label>
+                <label className="block text-sm font-semibold text-foreground mb-1">المحتوى الكامل للمقال</label>
                 <textarea
                   rows={5}
                   value={articleContent}
                   onChange={(e) => setArticleContent(e.target.value)}
                   placeholder="اكتب نص المقال الكامل هنا..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300 transition-all text-slate-800 resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-300 transition-all text-foreground resize-none"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 space-x-reverse pt-4 border-t border-slate-100">
+              <div className="flex justify-end space-x-3 space-x-reverse pt-4 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setArticleModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
                 >
                   إلغاء
                 </button>
@@ -1340,21 +1312,21 @@ const Dashboard: React.FC = () => {
 
       {/* Delete Article Confirmation Modal */}
       {articleToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-sm p-4" dir="rtl">
-          <div className="bg-white rounded-2xl p-6 shadow-xl w-full max-w-sm border border-slate-100 font-alexandria">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/30 backdrop-blur-sm p-4" dir="rtl">
+          <div className="bg-card rounded-2xl p-6 shadow-xl w-full max-w-sm border border-border font-alexandria">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-slate-800">تأكيد حذف المقال</h3>
-              <button onClick={() => setArticleToDelete(null)} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <h3 className="text-lg font-bold text-foreground">تأكيد حذف المقال</h3>
+              <button onClick={() => setArticleToDelete(null)} className="text-muted-foreground hover:text-foreground transition-colors">
                 <X size={20} />
               </button>
             </div>
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-muted-foreground mb-6">
               هل أنت تأكد من رغبتك في حذف هذا المقال؟ لا يمكن التراجع عن هذا الإجراء بعد تنفيذه.
             </p>
             <div className="flex justify-end space-x-3 space-x-reverse">
               <button 
                 onClick={() => setArticleToDelete(null)}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
               >
                 إلغاء
               </button>
@@ -1371,21 +1343,21 @@ const Dashboard: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {itemToDelete && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl p-6 shadow-xl w-full max-w-sm border border-slate-100 transform transition-all">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/20 backdrop-blur-sm p-4">
+          <div className="bg-card rounded-2xl p-6 shadow-xl w-full max-w-sm border border-border transform transition-all">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Confirm Deletion</h3>
-              <button onClick={() => setItemToDelete(null)} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <h3 className="text-lg font-semibold text-foreground">Confirm Deletion</h3>
+              <button onClick={() => setItemToDelete(null)} className="text-muted-foreground hover:text-foreground transition-colors">
                 <X size={20} />
               </button>
             </div>
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-muted-foreground mb-6">
               Are you sure you want to delete this project? This action cannot be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button 
                 onClick={() => setItemToDelete(null)}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
               >
                 Cancel
               </button>
@@ -1402,10 +1374,10 @@ const Dashboard: React.FC = () => {
 
       {/* Image Cropper Modal */}
       {cropModalOpen && imageToCrop && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4">
-          <div className="bg-white rounded-3xl p-6 shadow-2xl w-full max-w-lg border border-slate-100 flex flex-col">
-            <h3 className="text-lg font-medium text-slate-800 mb-4">Crop Avatar</h3>
-            <div className="relative w-full h-80 bg-slate-900 rounded-xl overflow-hidden mb-6">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-md p-4">
+          <div className="bg-card rounded-3xl p-6 shadow-2xl w-full max-w-lg border border-border flex flex-col">
+            <h3 className="text-lg font-medium text-foreground mb-4">Crop Avatar</h3>
+            <div className="relative w-full h-80 bg-muted rounded-xl overflow-hidden mb-6">
               <Cropper
                 image={imageToCrop}
                 crop={crop}
@@ -1428,14 +1400,14 @@ const Dashboard: React.FC = () => {
                     setImageToCrop(null);
                   }
                 }}
-                className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="px-5 py-2.5 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
               >
                 Cancel
               </button>
               <button 
                 type="button"
                 onClick={handleApplyCrop}
-                className="px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-slate-800 hover:bg-slate-900 transition-colors shadow-sm"
+                className="px-5 py-2.5 rounded-xl text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 transition-colors shadow-sm"
               >
                 Apply Crop
               </button>
@@ -1446,44 +1418,44 @@ const Dashboard: React.FC = () => {
 
       {/* Contributor Search Modal */}
       {isContributorModalOpen && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md border border-slate-100 flex flex-col h-[500px] overflow-hidden">
-            <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
-              <h3 className="text-lg font-semibold text-slate-800 flex items-center space-x-2">
-                <Users size={20} className="text-blue-500" />
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4">
+          <div className="bg-card rounded-2xl shadow-xl w-full max-w-md border border-border flex flex-col h-[500px] overflow-hidden">
+            <div className="p-5 border-b border-border flex justify-between items-center bg-card shrink-0">
+              <h3 className="text-lg font-semibold text-foreground flex items-center space-x-2">
+                <Users size={20} className="text-primary" />
                 <span>Add Contributors</span>
               </h3>
-              <button type="button" onClick={() => setIsContributorModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <button type="button" onClick={() => setIsContributorModalOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
                 <X size={20} />
               </button>
             </div>
             
-            <div className="p-5 border-b border-slate-100 bg-slate-50 shrink-0">
+            <div className="p-5 border-b border-border bg-secondary/50 shrink-0">
               <div className="relative">
-                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input 
                   type="text" 
                   value={contributorSearchQuery}
                   onChange={(e) => setContributorSearchQuery(e.target.value)}
                   placeholder="Search by name or @username..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition-all text-sm text-slate-800"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-background border border-input focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm text-foreground"
                 />
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-2">
               {contributorSearchLoading ? (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                   <Loader2 size={24} className="animate-spin mb-3" />
                   <p className="text-sm">Searching developers...</p>
                 </div>
               ) : !contributorSearchQuery.trim() ? (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground p-6 text-center">
                   <Users size={32} className="mb-3 opacity-20" />
                   <p className="text-sm">Type a name or username to search</p>
                 </div>
               ) : searchedProfiles.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground p-6 text-center">
                   <Search size={32} className="mb-3 opacity-20" />
                   <p className="text-sm">No developers found matching "{contributorSearchQuery}"</p>
                 </div>
@@ -1496,10 +1468,10 @@ const Dashboard: React.FC = () => {
                         key={user.id}
                         type="button"
                         onClick={() => toggleContributor({ id: user.id, name: user.full_name || user.username, username: user.username })}
-                        className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isSelected ? 'bg-blue-50/50' : 'hover:bg-slate-50'}`}
+                        className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isSelected ? 'bg-primary/10' : 'hover:bg-secondary'}`}
                       >
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 font-medium shrink-0 overflow-hidden">
+                          <div className="w-10 h-10 rounded-full bg-muted border border-border flex items-center justify-center text-muted-foreground font-medium shrink-0 overflow-hidden">
                             {user.avatar_url ? (
                               <img src={user.avatar_url} alt={user.full_name} className="w-full h-full object-cover" />
                             ) : (
@@ -1507,12 +1479,12 @@ const Dashboard: React.FC = () => {
                             )}
                           </div>
                           <div className="text-left">
-                            <p className="text-sm font-medium text-slate-800">{user.full_name || user.username}</p>
-                            <p className="text-xs text-slate-500">@{user.username}</p>
+                            <p className="text-sm font-medium text-foreground">{user.full_name || user.username}</p>
+                            <p className="text-xs text-muted-foreground">@{user.username}</p>
                           </div>
                         </div>
                         {isSelected && (
-                          <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0">
+                          <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
                             <Check size={14} />
                           </div>
                         )}
@@ -1523,11 +1495,11 @@ const Dashboard: React.FC = () => {
               )}
             </div>
             
-            <div className="p-5 border-t border-slate-100 bg-white shrink-0 flex justify-end">
+            <div className="p-5 border-t border-border bg-card shrink-0 flex justify-end">
               <button 
                 type="button"
                 onClick={() => setIsContributorModalOpen(false)}
-                className="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-sm font-medium transition-all shadow-sm"
+                className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-sm font-medium transition-all shadow-sm"
               >
                 Done
               </button>
@@ -1550,9 +1522,9 @@ interface AdminPanelProps {
 }
 
 const accountStatusStyles: Record<string, string> = {
-  approved: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  pending: 'bg-amber-50 text-amber-700 border-amber-200',
-  rejected: 'bg-red-50 text-red-700 border-red-200',
+  approved: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+  pending: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+  rejected: 'bg-red-500/10 text-red-600 border-red-500/20',
 };
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, setPendingUsers, adminLoading, setAdminLoading }) => {
@@ -1561,11 +1533,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
   if (!isSystemAdmin) {
     return (
       <div className="flex flex-col items-center justify-center h-96 text-center">
-        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6">
+        <div className="w-16 h-16 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center mb-6">
           <Lock size={32} />
         </div>
-        <h2 className="text-2xl font-semibold text-slate-800 mb-2">Access Denied</h2>
-        <p className="text-slate-500 max-w-md">
+        <h2 className="text-2xl font-semibold text-foreground mb-2">Access Denied</h2>
+        <p className="text-muted-foreground max-w-md">
           You do not have permission to access the Admin Panel.
         </p>
       </div>
@@ -1574,14 +1546,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
 
   return (
     <div className="space-y-6">
-      <nav className="flex flex-wrap gap-2 border-b border-slate-200 pb-4">
+      <nav className="flex flex-wrap gap-2 border-b border-border pb-4">
         <button
           type="button"
           onClick={() => setActiveSection('pending')}
           className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeSection === 'pending'
-              ? 'bg-purple-50 text-purple-700 border border-purple-200'
-              : 'text-slate-600 hover:bg-slate-50 border border-transparent'
+              ? 'bg-primary/10 text-primary'
+              : 'text-muted-foreground hover:bg-secondary'
           }`}
         >
           <Clock size={16} />
@@ -1592,8 +1564,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
           onClick={() => setActiveSection('users')}
           className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeSection === 'users'
-              ? 'bg-purple-50 text-purple-700 border border-purple-200'
-              : 'text-slate-600 hover:bg-slate-50 border border-transparent'
+              ? 'bg-primary/10 text-primary'
+              : 'text-muted-foreground hover:bg-secondary'
           }`}
         >
           <UserCog size={16} />
@@ -1695,7 +1667,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
 
   if (adminLoading) {
     return (
-      <div className="flex items-center justify-center h-64 text-slate-400">
+      <div className="flex items-center justify-center h-64 text-muted-foreground">
         <Loader2 size={24} className="animate-spin mr-3" />
         <p>Loading pending users...</p>
       </div>
@@ -1704,10 +1676,10 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
 
   if (pendingUsers.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
         <CheckCircle size={48} className="mb-4 opacity-20" />
-        <p className="text-lg font-medium text-slate-600">All Clear!</p>
-        <p className="text-sm text-slate-400 mt-2">No pending accounts to review.</p>
+        <p className="text-lg font-medium text-foreground">All Clear!</p>
+        <p className="text-sm text-muted-foreground mt-2">No pending accounts to review.</p>
       </div>
     );
   }
@@ -1715,7 +1687,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <p className="text-sm text-slate-500">{pendingUsers.length} account{pendingUsers.length !== 1 ? 's' : ''} awaiting review</p>
+        <p className="text-sm text-muted-foreground">{pendingUsers.length} account{pendingUsers.length !== 1 ? 's' : ''} awaiting review</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1726,10 +1698,10 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow"
+            className="bg-card rounded-2xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow"
           >
             <div className="flex items-start space-x-4">
-              <div className="w-14 h-14 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center text-slate-500 font-semibold text-xl shrink-0 overflow-hidden">
+              <div className="w-14 h-14 rounded-full bg-muted border-2 border-border flex items-center justify-center text-muted-foreground font-semibold text-xl shrink-0 overflow-hidden">
                 {user.avatar_url ? (
                   <img src={user.avatar_url} alt={user.full_name || undefined} className="w-full h-full object-cover" />
                 ) : (
@@ -1737,33 +1709,33 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-slate-800 truncate">{user.full_name || user.username || 'Unknown'}</h3>
-                <p className="text-xs text-slate-500 truncate">@{user.username || 'no-username'}</p>
-                {user.job_title && <p className="text-xs text-purple-600 font-medium mt-1">{user.job_title}</p>}
-                {user.role === SYSTEM_ADMIN_ROLE && <span className="inline-block mt-1 px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs md:text-sm rounded-md font-bold uppercase tracking-wider">Admin</span>}
+                <h3 className="font-semibold text-foreground truncate">{user.full_name || user.username || 'Unknown'}</h3>
+                <p className="text-xs text-muted-foreground truncate">@{user.username || 'no-username'}</p>
+                {user.job_title && <p className="text-xs text-primary font-medium mt-1">{user.job_title}</p>}
+                {user.role === SYSTEM_ADMIN_ROLE && <span className="inline-block mt-1 px-2 py-0.5 bg-indigo-500/10 text-indigo-600 text-xs md:text-sm rounded-md font-bold uppercase tracking-wider">Admin</span>}
                 {user.bio && (
-                  <p className="text-sm text-slate-600 mt-2 line-clamp-2">{user.bio}</p>
+                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{user.bio}</p>
                 )}
                 {user.skills && user.skills.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-3">
                     {user.skills.slice(0, 4).map((skill: string) => (
-                      <span key={skill} className="px-2 py-0.5 bg-slate-100 text-slate-600 text-sm font-medium rounded-full">
+                      <span key={skill} className="px-2 py-0.5 bg-secondary text-muted-foreground text-sm font-medium rounded-full">
                         {skill}
                       </span>
                     ))}
                     {user.skills.length > 4 && (
-                      <span className="px-2 py-0.5 text-slate-400 text-sm">+{user.skills.length - 4} more</span>
+                      <span className="px-2 py-0.5 text-muted-foreground text-sm">+{user.skills.length - 4} more</span>
                     )}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="flex justify-end space-x-2 mt-5 pt-4 border-t border-slate-100">
+            <div className="flex justify-end space-x-2 mt-5 pt-4 border-t border-border">
               <button
                 onClick={() => handleAction(user.id, 'rejected')}
                 disabled={actionLoadingId === user.id}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors disabled:opacity-50 flex items-center space-x-1.5"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50 flex items-center space-x-1.5"
               >
                 <XCircle size={16} />
                 <span>Reject</span>
@@ -1856,16 +1828,16 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
 
   if (!isSystemAdmin) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
         <Lock size={48} className="mb-4 opacity-20" />
-        <p className="text-lg font-medium text-slate-600">Access Denied</p>
+        <p className="text-lg font-medium text-foreground">Access Denied</p>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64 text-slate-400">
+      <div className="flex items-center justify-center h-64 text-muted-foreground">
         <Loader2 size={24} className="animate-spin mr-3" />
         <p>Loading users...</p>
       </div>
@@ -1876,11 +1848,11 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
     return (
       <div className="flex flex-col items-center justify-center h-64 text-center">
         <XCircle size={48} className="mb-4 text-red-400 opacity-60" />
-        <p className="text-lg font-medium text-slate-600">Unable to Load Users</p>
-        <p className="text-sm text-slate-400 mt-2 max-w-md">{fetchError}</p>
+        <p className="text-lg font-medium text-foreground">Unable to Load Users</p>
+        <p className="text-sm text-muted-foreground mt-2 max-w-md">{fetchError}</p>
         <button
           onClick={fetchAllUsers}
-          className="mt-6 px-5 py-2 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700 transition-colors"
+          className="mt-6 px-5 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors"
         >
           Retry
         </button>
@@ -1890,10 +1862,10 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
 
   if (users.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
         <Users size={48} className="mb-4 opacity-20" />
-        <p className="text-lg font-medium text-slate-600">No Users Found</p>
-        <p className="text-sm text-slate-400 mt-2">There are no registered profiles in the system.</p>
+        <p className="text-lg font-medium text-foreground">No Users Found</p>
+        <p className="text-sm text-muted-foreground mt-2">There are no registered profiles in the system.</p>
       </div>
     );
   }
@@ -1901,12 +1873,12 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-slate-700">
-          Team Count: <span className="text-purple-600">{users.length}</span>
+        <p className="text-sm font-medium text-foreground">
+          Team Count: <span className="text-primary">{users.length}</span>
         </p>
         <button
           onClick={fetchAllUsers}
-          className="text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors"
+          className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
         >
           Refresh
         </button>

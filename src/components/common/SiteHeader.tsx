@@ -6,15 +6,19 @@ import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { EliteLogo } from '@/components/common/EliteLogo';
 import { ArrowLeft } from 'lucide-react';
 
+import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
+import { useTranslation } from 'react-i18next';
+
 const NAV_ITEMS = [
-  { name: 'الرئيسية', path: '/' },
-  { name: 'المشاريع', path: '/projects' },
-  { name: 'المطورين', path: '/developers' },
-  { name: 'الروائع', path: '/masterpieces' },
-  { name: 'المقالات', path: '/articles' },
+  { nameKey: 'nav.home', path: '/' },
+  { nameKey: 'nav.projects', path: '/projects' },
+  { nameKey: 'nav.developers', path: '/developers' },
+  { nameKey: 'nav.masterpieces', path: '/masterpieces' },
+  { nameKey: 'nav.articles', path: '/articles' },
 ];
 
 export const SiteHeader: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { playHoverTick } = useCinematicSound();
@@ -57,13 +61,13 @@ export const SiteHeader: React.FC = () => {
                 <Link
                   to={item.path}
                   onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-                  className={`relative px-5 py-2 min-h-[40px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 font-alexandria focus:outline-none group ${
+                  className={`relative px-5 py-2 min-h-[40px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group ${
                     isActive ? 'text-white font-bold' : 'text-white/70 hover:text-white'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <span className="relative z-10 flex items-center gap-1.5">
-                    <span>{item.name}</span>
+                    <span>{t(item.nameKey)}</span>
                     <ArrowLeft className="w-3.5 h-3.5 opacity-0 transition-all duration-300 translate-x-2 group-hover:translate-x-0 group-hover:opacity-100" />
                   </span>
                   {isActive && (
@@ -89,11 +93,13 @@ export const SiteHeader: React.FC = () => {
           <Link
             to="/login"
             onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-            className="relative px-5 py-2 min-h-[40px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 font-outfit focus:outline-none group text-white border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 shadow-[0_0_20px_-4px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.6)]"
+            className={`relative px-5 py-2 min-h-[40px] inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group text-white border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 shadow-[0_0_20px_-4px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.6)]`}
           >
-            تسجيل الدخول
+            {t('nav.login')}
           </Link>
         </Magnetic>
+
+        <ThemeLanguageToggle />
       </div>
     </header>
   );
