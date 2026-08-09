@@ -1,0 +1,316 @@
+/* stylelint-disable */
+/* ── Premium Font Stack ─────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Alexandria:wght@300;400;500;600;700;800&family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design Token System — All colours MUST use HSL.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    /* ── Surfaces (Light) ──────────────────────────────────────────────── */
+    --background: 0 0% 98%;           /* Light gray/white */
+    --foreground: 240 10% 4%;         /* Near black */
+    --card: 0 0% 100%;               /* Pure white */
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    /* ── Brand ─────────────────────────────────────────────────── */
+    --primary: 263 90% 66%;          /* Vibrant purple */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 5% 10%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 263 90% 66%;
+    --accent-foreground: 0 0% 100%;
+    /* ── State ─────────────────────────────────────────────────── */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --info: 217 91% 60%;
+    /* ── UI Shell ──────────────────────────────────────────────── */
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 263 90% 66%;
+    /* ── Charts ────────────────────────────────────────────────── */
+    --chart-1: 263 90% 66%;
+    --chart-2: 243 75% 67%;          
+    --chart-3: 38 92% 50%;           
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    /* ── Sidebar (Light) ───────────────────────────────────────────────── */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 10%;
+    --sidebar-primary: 263 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 90%;
+    --sidebar-accent-foreground: 240 5% 10%;
+    --sidebar-border: 240 6% 90%;
+    --sidebar-ring: 263 90% 66%;
+    /* ── Gradients / Shadows (Light) ───────────────────────────────────── */
+    --gradient-primary: linear-gradient(135deg, hsl(263 90% 66%), hsl(243 75% 67%));
+    --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-hover: 0 12px 30px rgba(0,0,0,0.12);
+    /* ── Neon Accent System ────────────────────────────────────── */
+    --neon-cyan:    189 94% 45%;
+    --neon-emerald: 160 74% 45%;
+    --neon-violet:  263 90% 66%;
+    --neon-amber:   38  92% 50%;
+    /* ── Type Scale ────────────────────────────────────────────── */
+    --text-hero:    clamp(2.5rem, 5vw, 4rem);
+    --text-display: clamp(1.75rem, 3vw, 2.5rem);
+    --text-title:   clamp(1.25rem, 2vw, 1.5rem);
+    --text-body:    0.9375rem;
+    --text-small:   0.875rem;
+    --text-micro:   0.875rem;
+  }
+
+  .dark {
+    /* ── Surfaces (Dark) ──────────────────────────────────────────────── */
+    --background: 0 0% 2%;           /* True near-black   #050505 */
+    --foreground: 0 0% 98%;
+    --card: 240 6% 5%;               /* Deep charcoal     #0A0A0C */
+    --card-foreground: 0 0% 98%;
+    --popover: 240 6% 5%;
+    --popover-foreground: 0 0% 98%;
+    /* ── Brand ─────────────────────────────────────────────────── */
+    --primary: 263 90% 66%;          /* Vibrant purple    #8B5CF6 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 10%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 5% 10%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 263 90% 66%;
+    --accent-foreground: 0 0% 98%;
+    /* ── State ─────────────────────────────────────────────────── */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --info: 217 91% 60%;
+    /* ── UI Shell ──────────────────────────────────────────────── */
+    --border: 240 5% 12%;
+    --input: 240 5% 12%;
+    --ring: 263 90% 66%;
+    /* ── Sidebar ───────────────────────────────────────────────── */
+    --sidebar-background: 0 0% 2%;
+    --sidebar-foreground: 240 5% 85%;
+    --sidebar-primary: 263 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 8%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 5% 12%;
+    --sidebar-ring: 263 90% 66%;
+    /* ── Gradients / Shadows ───────────────────────────────────── */
+    --shadow-card: 0 4px 30px rgba(0,0,0,0.45);
+    --shadow-hover: 0 12px 45px rgba(0,0,0,0.65);
+    /* ── Neon Accent System ────────────────────────────────────── */
+    --neon-cyan:    189 94% 53%;     /* #22D3EE */
+    --neon-emerald: 160 74% 51%;     /* #34D399 */
+    --neon-violet:  263 90% 66%;     /* #8B5CF6 */
+    --neon-amber:   38  92% 50%;     /* #F59E0B */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    /* Premium slim scrollbar with violet neon accent */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.28) transparent;
+  }
+
+  *::-webkit-scrollbar { width: 5px; height: 5px; background: transparent; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.28);
+    border-radius: 99px;
+    transition: background 0.25s ease;
+  }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.6); }
+
+  /* Brand text selection */
+  ::selection {
+    background: rgba(139, 92, 246, 0.38);
+    color: #fff;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Alexandria', 'Cairo', 'Outfit', sans-serif;
+    overflow-x: hidden;
+    /* Subtle developer-aesthetic dot-grid texture - adaptive */
+    background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
+  }
+
+  /* ── Disable system cursor on pointer devices (CustomCursor takes over) ── */
+  @media (pointer: fine) {
+    /* Custom scrollbars */
+    input, textarea, select { cursor: text !important; }
+  }
+
+  /* ── Font Utility Classes ──────────────────────────────────────────────── */
+  .font-outfit     { font-family: 'Outfit',          sans-serif; }
+  .font-cairo      { font-family: 'Cairo',           sans-serif; }
+  .font-jetbrains  { font-family: 'JetBrains Mono',  monospace;  font-feature-settings: "liga" 1, "calt" 1; letter-spacing: -0.01em; }
+  .font-alexandria { font-family: 'Alexandria',      sans-serif; }
+  .font-ibm-arabic { font-family: 'IBM Plex Arabic', sans-serif; }
+
+  /* ── Flat Vector Illustration Style (Storyset / Manypixels aesthetic) ── */
+  .card-flat {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1.5px solid hsl(var(--border));
+    border-radius: 24px; /* Playful rounded corners */
+    /* Solid offset shadow mimicking vector illustration depth */
+    box-shadow: 6px 6px 0px rgba(139, 92, 246, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dark .card-flat {
+    background: #0f0f11;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+  }
+  .card-flat:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px rgba(139, 92, 246, 0.4); /* Colored solid offset */
+    border-color: rgba(139, 92, 246, 0.6);
+  }
+
+  .btn-flat {
+    background-color: hsl(var(--primary));
+    color: white;
+    font-weight: 700; /* Bolder text for illustration style */
+    border-radius: 9999px; /* Perfect pill shape (unDraw style) */
+    border: 2px solid transparent;
+    padding: 0.8rem 1.8rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Subtle offset shadow for the button */
+    box-shadow: 3px 3px 0px rgba(100, 50, 200, 0.5);
+  }
+  .btn-flat:hover {
+    background-color: hsl(263, 90%, 70%);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px rgba(100, 50, 200, 0.7);
+  }
+  .btn-flat:active {
+    transform: translate(0px, 0px);
+    box-shadow: 0px 0px 0px rgba(100, 50, 200, 0.7);
+  }
+
+  .badge-flat {
+    background: rgba(139, 92, 246, 0.15);
+    color: hsl(var(--primary));
+    border-radius: 12px; /* Playful rounded tag */
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    padding: 0.35rem 0.85rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+    box-shadow: 2px 2px 0px rgba(139, 92, 246, 0.15); /* Tiny offset shadow */
+  }
+
+  .input-flat {
+    background: hsl(var(--card));
+    border: 1.5px solid hsl(var(--border));
+    border-radius: 16px;
+    padding: 0.75rem 1.25rem;
+    color: hsl(var(--foreground));
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dark .input-flat {
+    background: #0f0f11;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  .input-flat:focus {
+    outline: none;
+    border-color: hsl(var(--primary));
+    box-shadow: 4px 4px 0px rgba(139, 92, 246, 0.2);
+    transform: translate(-2px, -2px);
+  }
+
+  /* ── RTL Arabic Support ───────────────────────────────────────────────── */
+  [dir="rtl"] {
+    font-family: 'Alexandria', sans-serif;
+  }
+
+  /* ── Focus Ring (Keyboard Nav / a11y) ─────────────────────────────────── */
+  :focus-visible {
+    outline: 2px solid hsl(var(--neon-violet));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* ── Mobile-First UI Utilities ────────────────────────────────────────── */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .text-readable {
+    @apply max-w-[70ch] mx-auto;
+  }
+
+  /* Ensure smooth horizontal scrolling for complex components on mobile */
+  .mobile-scroll-x {
+    @apply overflow-x-auto snap-x snap-mandatory flex-nowrap hide-scrollbar;
+  }
+  .mobile-scroll-x > * {
+    @apply snap-start;
+  }
+
+  /* ── Mobile Performance Overrides ─────────────────────────────────────── */
+  @media (max-width: 768px) {
+    html {
+      font-size: 12px !important; /* Shrink all rem-based units globally */
+    }
+
+    /* Disable expensive blur filters and shadows on mobile GPUs */
+    *, *::before, *::after {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* For elements that relied on backdrop-blur, give them an opaque or solid background */
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl,
+    .backdrop-blur-sm,
+    .backdrop-blur {
+      background-color: hsl(var(--background)) !important;
+    }
+    
+    .dark .backdrop-blur-md,
+    .dark .backdrop-blur-lg,
+    .dark .backdrop-blur-xl,
+    .dark .backdrop-blur-sm,
+    .dark .backdrop-blur {
+      background-color: hsl(var(--background) / 0.95) !important;
+    }
+    
+    /* Hide extremely expensive ambient glows on mobile to boost FPS */
+    .\blur-\[60px\], .\blur-\[100px\], .\blur-\[120px\], .blur-2xl, .blur-3xl {
+      display: none !important;
+    }
+  }
+}
