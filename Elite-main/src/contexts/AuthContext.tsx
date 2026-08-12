@@ -34,36 +34,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadMockUser = () => {
-    const savedUsername = localStorage.getItem('mock_user');
-    if (savedUsername) {
-      const mockUser = { id: 'mock-user-123', email: `${savedUsername}@example.com` } as User;
-      setUser(mockUser);
-      setProfile({
-        id: 'mock-user-123',
-        username: savedUsername,
-        full_name: savedUsername,
-        avatar_url: '',
-        role: 'System Administrator',
-        account_status: 'active',
-        created_at: new Date().toISOString()
-      } as Profile);
-    }
-  };
-
   const refreshProfile = async () => {
-    loadMockUser();
+    if (!user) {
+      setProfile(null);
+      return;
+    }
+
+    const profileData = await getProfile(user.id);
+    setProfile(profileData);
   };
 
   useEffect(() => {
-    loadMockUser();
-    setLoading(false);
+    const timeoutPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        console.warn('Supabase auth timeout (Offline Mode)');
+        resolve({ data: { session: null } });
+      }, 3000);
+    });
+
+    Promise.race([
+      supabase.auth.getSession(),
+      timeoutPromise
+    ])
+      // @ts-ignore
+      .then(({ data: { session } }) => {
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          getProfile(session.user.id).then(setProfile);
+        }
+      })
+      // @ts-ignore
+      .catch(error => {
+        toast.error(`获取用户信息失败: ${error.message}`);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    // @ts-ignore
+    // In this function, do NOT use any await calls. Use `.then()` instead to avoid deadlocks.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        getProfile(session.user.id).then(setProfile);
+      } else {
+        setProfile(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signInWithUsername = async (username: string, password: string) => {
     try {
-      localStorage.setItem('mock_user', username);
-      loadMockUser();
+      const email = `${username}@miaoda.com`;
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
       return { error: null };
     } catch (error) {
       return { error: error as Error };
@@ -72,8 +102,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUpWithUsername = async (username: string, password: string) => {
     try {
-      localStorage.setItem('mock_user', username);
-      loadMockUser();
+      const email = `${username}@miaoda.com`;
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
       return { error: null };
     } catch (error) {
       return { error: error as Error };
@@ -81,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    localStorage.removeItem('mock_user');
+    await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
   };
