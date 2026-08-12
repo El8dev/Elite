@@ -287,24 +287,6 @@ const Login: React.FC = () => {
               </span>
             </button>
 
-            {/* Toggle mode */}
-            <div className="text-center pt-3 border-t border-border mt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setErrorMsg('');
-                  setSuccessMsg('');
-                }}
-                className={`text-xs text-muted-foreground hover:text-foreground transition-colors ${isRTL ? 'font-alexandria' : 'font-outfit'}`}
-                data-cursor-color="violet"
-              >
-                {isSignUp ? t('auth.already_have_account') : t('auth.dont_have_account')}
-                <span className="text-purple-400 font-semibold hover:text-purple-300">
-                  {isSignUp ? t('auth.sign_in') : t('auth.sign_up')}
-                </span>
-              </button>
-            </div>
           </form>
         </div>
 

@@ -103,12 +103,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUpWithUsername = async (username: string, password: string) => {
     try {
       const email = `${username}@miaoda.com`;
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
 
       if (error) throw error;
+
+      if (data.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: data.user.id,
+            email: email,
+            username: username,
+            role: 'Member',
+            account_status: 'pending'
+          }, { onConflict: 'id' });
+          
+        if (profileError) {
+          console.error('Failed to create profile:', profileError);
+        }
+      }
+
       return { error: null };
     } catch (error) {
       return { error: error as Error };

@@ -139,10 +139,6 @@ const ProjectFullPage: React.FC = () => {
                   <span>{new Date(project.createdAt).toLocaleDateString()}</span>
                 </div>
               )}
-              <div className="flex items-center space-x-4">
-                <span className="flex items-center space-x-1.5"><Heart size={16} className="text-pink-500" /><span>{project.likes}</span></span>
-                <span className="flex items-center space-x-1.5"><Eye size={16} className="text-blue-500" /><span>{project.views}</span></span>
-              </div>
             </motion.div>
           </div>
 

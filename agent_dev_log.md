@@ -149,3 +149,11 @@
   - Modified `src/features/landing/components/TechBlogSection.tsx`: Tightened article grid gaps from `gap-8` to `gap-5 sm:gap-8`.
   - Modified `src/features/profiles/components/developer-card.tsx`: Updated project thumbnail grids from rigid `grid-cols-3` to `grid-cols-2 sm:grid-cols-3` to prevent thumbnail crushing on mobile viewports.
 - **Results**: All grids now exhibit professional, tightened mobile-first spacing. Masonry layouts stagger beautifully without clipping, and UI elements scale gracefully across all device sizes.
+
+## 2026-08-12 (Admin Panel Sync & Showcase UI Clean-up)
+- **Issue**: Newly registered users via username sign-up did not appear in the Admin Panel because their profiles were sometimes not fully propagated with the username. Additionally, the user requested hiding the sign-up button and removing likes/views counters from the project showcase.
+- **Execution**:
+  - Modified [AuthContext.tsx](file:///c:/Users/hayder/Desktop/el8/Elite-fixed/src/contexts/AuthContext.tsx): Updated `signUpWithUsername` to manually `upsert` the `profiles` table after successful Supabase auth sign-up, ensuring the `username` is strictly saved and the user is instantly visible in the Admin Panel's pending approval list.
+  - Modified [Login.tsx](file:///c:/Users/hayder/Desktop/el8/Elite-fixed/src/pages/Login.tsx): Removed the "Sign up" toggle button block from the UI, effectively hiding public registration.
+  - Modified [ProjectFullPage.tsx](file:///c:/Users/hayder/Desktop/el8/Elite-fixed/src/pages/ProjectFullPage.tsx): Removed the container displaying the Heart (likes) and Eye (views) components.
+- **Results**: Complete visibility of all newly registered users in the admin dashboard, sign-ups are hidden, and the project UI is now cleaner.
