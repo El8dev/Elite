@@ -288,6 +288,34 @@ const Login: React.FC = () => {
             </button>
 
           </form>
+
+          {/* ── Sign Up Toggle & Back to Main ── */}
+          <div className="mt-8 pt-6 border-t border-border/50 text-center">
+            <p className={`text-sm text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+              {isSignUp ? t('auth.already_have_account') : t('auth.dont_have_account')}{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setErrorMsg('');
+                  setSuccessMsg('');
+                }}
+                className="text-purple-400 hover:text-purple-300 font-semibold transition-colors focus:outline-none focus:underline"
+                data-cursor-color="violet"
+              >
+                {isSignUp ? t('auth.sign_in') : t('auth.sign_up')}
+              </button>
+            </p>
+
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-1 mx-auto"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Back to Main
+            </button>
+          </div>
         </div>
 
         {/* ── Footer note ── */}
