@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Lock, Shield, Search, Users, CheckCircle, XCircle, Trash2, Loader2, FolderKanban } from 'lucide-react';
 import { toast } from 'sonner';
-import { DashboardProject, AdminProfileRow, PendingUser } from '@/pages/Dashboard';
+import { DashboardProject, AdminProfileRow, PendingUser } from '@/features/admin/types';
 
 
 

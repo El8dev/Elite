@@ -4,6 +4,7 @@ import OurVision from '@/features/landing/components/OurVision';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
 import { ServicesSection } from '@/features/landing/components/ServicesSection';
 import { InteractiveGlobe } from '@/features/landing/components/InteractiveGlobe';
+import { CustomerReviewsSection } from '@/features/landing/components/CustomerReviewsSection';
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
@@ -78,6 +79,7 @@ const HomePage: React.FC = () => {
       <OurVision />
       
       <ServicesSection />
+      <CustomerReviewsSection />
       <PremiumFooter />
     </div>
   );
