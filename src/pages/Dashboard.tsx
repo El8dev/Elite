@@ -18,6 +18,8 @@ interface DashboardProject {
   is_masterpiece: boolean;
   personal_profile_only: boolean;
   image_url?: string[];
+  live_url?: string;
+  github_url?: string;
   created_at?: string;
 }
 
@@ -131,6 +133,17 @@ const Dashboard: React.FC = () => {
   const [articleImageUrl, setArticleImageUrl] = useState('');
   const [articleSubmitting, setArticleSubmitting] = useState(false);
   const [articleToDelete, setArticleToDelete] = useState<string | null>(null);
+
+  // Edit Project Modal State
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<DashboardProject | null>(null);
+  const [editProjectTitle, setEditProjectTitle] = useState('');
+  const [editProjectDescription, setEditProjectDescription] = useState('');
+  const [editProjectLiveUrl, setEditProjectLiveUrl] = useState('');
+  const [editProjectGithubUrl, setEditProjectGithubUrl] = useState('');
+  const [editProjectIsMasterpiece, setEditProjectIsMasterpiece] = useState(false);
+  const [editProjectPersonalProfileOnly, setEditProjectPersonalProfileOnly] = useState(false);
+  const [editProjectSubmitting, setEditProjectSubmitting] = useState(false);
 
   // Authentication & Fetch Data
   useEffect(() => {
@@ -299,7 +312,7 @@ const Dashboard: React.FC = () => {
     try {
       const { data: ownedProjects, error: ownedError } = await supabase
         .from('projects')
-        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, project_contributors(user_id)')
+        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, live_url, github_url, image_url, project_contributors(user_id)')
         .eq('owner_id', userId)
         .order('created_at', { ascending: false });
 
@@ -421,6 +434,48 @@ const Dashboard: React.FC = () => {
     } finally {
       setIsSubmitting(false);
       setPublishLoading(false);
+    }
+  };
+
+  const openEditProjectModal = (project: DashboardProject) => {
+    setEditingProject(project);
+    setEditProjectTitle(project.title || '');
+    setEditProjectDescription(project.description || '');
+    setEditProjectLiveUrl(project.live_url || '');
+    setEditProjectGithubUrl(project.github_url || '');
+    setEditProjectIsMasterpiece(project.is_masterpiece || false);
+    setEditProjectPersonalProfileOnly(project.personal_profile_only || false);
+    setEditProjectModalOpen(true);
+  };
+
+  const handleUpdateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProject || !currentUserId) return;
+
+    setEditProjectSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('projects')
+        .update({
+          title: editProjectTitle,
+          description: editProjectDescription,
+          live_url: editProjectLiveUrl,
+          github_url: editProjectGithubUrl,
+          is_masterpiece: editProjectIsMasterpiece,
+          personal_profile_only: editProjectPersonalProfileOnly,
+        })
+        .eq('id', editingProject.id);
+
+      if (error) throw error;
+
+      toast.success(t('dashboard.update_success', 'Project updated successfully!'));
+      setEditProjectModalOpen(false);
+      fetchItems(currentUserId);
+    } catch (err: any) {
+      console.error('Update error:', err);
+      toast.error(err.message || 'An error occurred while updating the project.');
+    } finally {
+      setEditProjectSubmitting(false);
     }
   };
 
@@ -889,12 +944,22 @@ const Dashboard: React.FC = () => {
                               </span>
                             )}
                           </div>
-                          <button 
-                            onClick={() => setItemToDelete(item.id)}
-                            className="text-muted-foreground hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                          >
-                            <Trash2 size={18} />
-                          </button>
+                          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={() => openEditProjectModal(item)}
+                              className="text-muted-foreground hover:text-purple-500 transition-colors"
+                              title="Edit Project"
+                            >
+                              <Edit3 size={18} />
+                            </button>
+                            <button 
+                              onClick={() => setItemToDelete(item.id)}
+                              className="text-muted-foreground hover:text-red-500 transition-colors"
+                              title="Delete Project"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -1534,6 +1599,132 @@ const Dashboard: React.FC = () => {
                 Delete
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Project Modal */}
+      {editProjectModalOpen && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="bg-card rounded-3xl p-6 md:p-10 shadow-2xl w-full max-w-2xl border border-border my-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-foreground font-alexandria">Edit Project</h3>
+              <button 
+                onClick={() => setEditProjectModalOpen(false)} 
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateProject} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.project_title', 'Project Title')}</label>
+                <input
+                  type="text"
+                  value={editProjectTitle}
+                  onChange={(e) => setEditProjectTitle(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
+                  {t('dashboard.description', 'Description')} <span className="text-xs text-primary ml-2 font-normal">(Markdown supported)</span>
+                </label>
+                <textarea
+                  value={editProjectDescription}
+                  onChange={(e) => setEditProjectDescription(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
+                  required
+                ></textarea>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Live URL</label>
+                  <input
+                    type="url"
+                    value={editProjectLiveUrl}
+                    onChange={(e) => setEditProjectLiveUrl(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-left"
+                    dir="ltr"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">GitHub URL</label>
+                  <input
+                    type="url"
+                    value={editProjectGithubUrl}
+                    onChange={(e) => setEditProjectGithubUrl(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-left"
+                    dir="ltr"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between py-4 border-y border-border">
+                <div>
+                  <h4 className="font-medium text-foreground flex items-center space-x-2">
+                    <span>{t('dashboard.masterpiece_badge', 'Masterpiece Badge')}</span>
+                  </h4>
+                  <p className="text-sm text-muted-foreground mt-1">Showcase this project with a golden highlight.</p>
+                </div>
+                <button
+                  type="button"
+                  disabled={editProjectPersonalProfileOnly}
+                  onClick={() => setEditProjectIsMasterpiece(!editProjectIsMasterpiece)}
+                  className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${editProjectIsMasterpiece ? 'bg-amber-500' : 'bg-input'} ${editProjectPersonalProfileOnly ? 'cursor-not-allowed opacity-50' : ''}`}
+                >
+                  <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${editProjectIsMasterpiece ? 'translate-x-6' : 'translate-x-0'}`} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between py-4 border-b border-border">
+                <div>
+                  <h4 className="font-medium text-foreground flex items-center space-x-2">
+                    <span>{t('dashboard.personal_profile_only', 'Personal Profile Only')}</span>
+                  </h4>
+                  <p className="text-sm text-muted-foreground mt-1">Only show on your developer profile (hide from public feed).</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const next = !editProjectPersonalProfileOnly;
+                    setEditProjectPersonalProfileOnly(next);
+                    if (next) setEditProjectIsMasterpiece(false);
+                  }}
+                  className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${editProjectPersonalProfileOnly ? 'bg-violet-500' : 'bg-input'}`}
+                >
+                  <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${editProjectPersonalProfileOnly ? 'translate-x-6' : 'translate-x-0'}`} />
+                </button>
+              </div>
+
+              <div className="flex justify-end pt-4 space-x-3 space-x-reverse">
+                <button
+                  type="button"
+                  onClick={() => setEditProjectModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
+                >
+                  {t('dashboard_articles.cancel', 'Cancel')}
+                </button>
+                <button
+                  type="submit"
+                  disabled={editProjectSubmitting}
+                  className="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-2 space-x-reverse"
+                >
+                  {editProjectSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>{t('dashboard.saving', 'Saving...')}</span>
+                    </>
+                  ) : (
+                    <span>{t('dashboard.save_changes', 'Save Changes')}</span>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
