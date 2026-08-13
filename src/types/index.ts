@@ -138,8 +138,7 @@ export interface Project {
   /** ISO-8601 timestamp of the most recent project update. */
   updatedAt?: string;
 
-  /** Whether this project is featured as a masterpiece. */
-  isMasterpiece?: boolean;
+
 
   /** Whether this project is only visible on the creator's profile. */
   personalProfileOnly?: boolean;

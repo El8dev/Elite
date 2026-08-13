@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { AdminPanel } from '@/features/admin/components/AdminPanel';
 import { ManageReviewsPanel } from '@/features/reviews/components/ManageReviewsPanel';
 import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3, Menu, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -12,11 +13,10 @@ import { useTranslation } from 'react-i18next';
 import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 
 // Define the type based on requirements
-interface DashboardProject {
+export interface DashboardProject {
   id: string;
   title: string;
   description: string;
-  is_masterpiece: boolean;
   personal_profile_only: boolean;
   image_url?: string[];
   live_link?: string;
@@ -31,7 +31,7 @@ interface SearchedProfile {
   avatar_url?: string;
 }
 
-interface AdminProfileRow {
+export interface AdminProfileRow {
   id: string;
   full_name: string | null;
   email: string | null;
@@ -40,7 +40,7 @@ interface AdminProfileRow {
   job_title: string | null;
 }
 
-interface PendingUser {
+export interface PendingUser {
   id: string;
   full_name: string | null;
   username: string | null;
@@ -62,7 +62,6 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('manage');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [isMasterpiece, setIsMasterpiece] = useState(false);
   const [personalProfileOnly, setPersonalProfileOnly] = useState(false);
   const [items, setItems] = useState<DashboardProject[]>([]);
   const [loading, setLoading] = useState(true);
@@ -142,7 +141,6 @@ const Dashboard: React.FC = () => {
   const [editProjectDescription, setEditProjectDescription] = useState('');
   const [editProjectLiveUrl, setEditProjectLiveUrl] = useState('');
   const [editProjectGithubUrl, setEditProjectGithubUrl] = useState('');
-  const [editProjectIsMasterpiece, setEditProjectIsMasterpiece] = useState(false);
   const [editProjectPersonalProfileOnly, setEditProjectPersonalProfileOnly] = useState(false);
   const [editProjectSubmitting, setEditProjectSubmitting] = useState(false);
 
@@ -313,7 +311,7 @@ const Dashboard: React.FC = () => {
     try {
       const { data: ownedProjects, error: ownedError } = await supabase
         .from('projects')
-        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, live_link, github_link, image_url, project_contributors(user_id)')
+        .select('id, title, description, personal_profile_only, created_at, live_link, github_link, image_url, project_contributors(user_id)')
         .eq('owner_id', userId)
         .order('created_at', { ascending: false });
 
@@ -378,7 +376,6 @@ const Dashboard: React.FC = () => {
           {
             title,
             description,
-            is_masterpiece: isMasterpiece,
             personal_profile_only: personalProfileOnly,
             owner_id: currentUserId,
             image_url: uploadedImageUrls,
@@ -420,7 +417,6 @@ const Dashboard: React.FC = () => {
       setLiveUrl('');
       setGithubUrl('');
       setMainImageIndex(0);
-      setIsMasterpiece(false);
       setPersonalProfileOnly(false);
       setImages([]);
       imagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
@@ -444,7 +440,6 @@ const Dashboard: React.FC = () => {
     setEditProjectDescription(project.description || '');
     setEditProjectLiveUrl(project.live_link || '');
     setEditProjectGithubUrl(project.github_link || '');
-    setEditProjectIsMasterpiece(project.is_masterpiece || false);
     setEditProjectPersonalProfileOnly(project.personal_profile_only || false);
     setEditProjectModalOpen(true);
   };
@@ -462,7 +457,6 @@ const Dashboard: React.FC = () => {
           description: editProjectDescription,
           live_link: editProjectLiveUrl,
           github_link: editProjectGithubUrl,
-          is_masterpiece: editProjectIsMasterpiece,
           personal_profile_only: editProjectPersonalProfileOnly,
         })
         .eq('id', editingProject.id);
@@ -867,6 +861,7 @@ const Dashboard: React.FC = () => {
               {activeTab === 'publish' && t('dashboard.publish_project')}
               {activeTab === 'profile' && t('dashboard.profile')}
               {activeTab === 'admin' && 'Manage Reviews'}
+              {activeTab === 'team' && 'Manage Team'}
             </h1>
           </div>
           <div className="flex items-center gap-4">
@@ -1099,28 +1094,6 @@ const Dashboard: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Masterpiece Toggle Switch */}
-                  <div className={`flex items-center justify-between py-4 border-y border-border transition-opacity ${personalProfileOnly ? 'opacity-40 pointer-events-none' : ''}`}>
-                    <div>
-                      <h4 className="font-medium text-foreground flex items-center space-x-2">
-                        <span>{t('dashboard.masterpiece_badge')}</span>
-                        <span className="bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">{t('dashboard.new_badge')}</span>
-                      </h4>
-                      <p className="text-sm text-muted-foreground mt-1">{t('dashboard.masterpiece_desc')}</p>
-                      {personalProfileOnly && (
-                        <p className="text-xs text-violet-500 mt-1">Disabled — cannot combine with Personal Profile Only.</p>
-                      )}
-                    </div>
-                    <button 
-                      type="button"
-                      disabled={personalProfileOnly}
-                      onClick={() => setIsMasterpiece(!isMasterpiece)}
-                      className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${isMasterpiece ? 'bg-amber-500' : 'bg-input'} ${personalProfileOnly ? 'cursor-not-allowed' : ''}`}
-                    >
-                      <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${isMasterpiece ? 'translate-x-6' : 'translate-x-0'}`} />
-                    </button>
-                  </div>
-
                   {/* Personal Profile Only Toggle */}
                   <div className="flex items-center justify-between py-4 border-b border-border">
                     <div>
@@ -1135,7 +1108,6 @@ const Dashboard: React.FC = () => {
                       onClick={() => {
                         const next = !personalProfileOnly;
                         setPersonalProfileOnly(next);
-                        if (next) setIsMasterpiece(false);
                       }}
                       className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${personalProfileOnly ? 'bg-violet-500' : 'bg-input'}`}
                     >
@@ -1326,6 +1298,16 @@ const Dashboard: React.FC = () => {
             {activeTab === 'admin' && isSystemAdmin && (
               <ManageReviewsPanel />
             )}
+
+            {activeTab === 'team' && isSystemAdmin && (
+              <AdminPanel 
+                isSystemAdmin={isSystemAdmin}
+                pendingUsers={pendingUsers}
+                setPendingUsers={setPendingUsers}
+                adminLoading={adminLoading}
+                setAdminLoading={setAdminLoading}
+              />
+            )}
             
           </div>
         </div>
@@ -1423,23 +1405,6 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-y border-border">
-                <div>
-                  <h4 className="font-medium text-foreground flex items-center space-x-2">
-                    <span>{t('dashboard.masterpiece_badge', 'Masterpiece Badge')}</span>
-                  </h4>
-                  <p className="text-sm text-muted-foreground mt-1">Showcase this project with a golden highlight.</p>
-                </div>
-                <button
-                  type="button"
-                  disabled={editProjectPersonalProfileOnly}
-                  onClick={() => setEditProjectIsMasterpiece(!editProjectIsMasterpiece)}
-                  className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${editProjectIsMasterpiece ? 'bg-amber-500' : 'bg-input'} ${editProjectPersonalProfileOnly ? 'cursor-not-allowed opacity-50' : ''}`}
-                >
-                  <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${editProjectIsMasterpiece ? 'translate-x-6' : 'translate-x-0'}`} />
-                </button>
-              </div>
-
               <div className="flex items-center justify-between py-4 border-b border-border">
                 <div>
                   <h4 className="font-medium text-foreground flex items-center space-x-2">
@@ -1452,7 +1417,6 @@ const Dashboard: React.FC = () => {
                   onClick={() => {
                     const next = !editProjectPersonalProfileOnly;
                     setEditProjectPersonalProfileOnly(next);
-                    if (next) setEditProjectIsMasterpiece(false);
                   }}
                   className={`w-12 h-6 rounded-full flex items-center transition-colors px-1 ${editProjectPersonalProfileOnly ? 'bg-violet-500' : 'bg-input'}`}
                 >

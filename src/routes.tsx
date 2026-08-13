@@ -1,7 +1,7 @@
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectFullPage from './pages/ProjectFullPage';
-import MasterpiecesPage from './pages/Masterpieces';
+
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import type { ReactNode } from 'react';
@@ -27,12 +27,6 @@ export const routes: RouteConfig[] = [
     name: 'Projects',
     path: '/projects',
     element: <ProjectsPage />,
-    public: true,
-  },
-  {
-    name: 'Masterpieces',
-    path: '/masterpieces',
-    element: <MasterpiecesPage />,
     public: true,
   },
 

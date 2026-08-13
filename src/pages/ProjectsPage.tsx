@@ -140,7 +140,7 @@ const ShowcaseFeed: React.FC<{
               imageUrl: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
               imageUrls: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
               techStack,
-              isMasterpiece: item.is_masterpiece || false,
+
               contributors: item.project_contributors?.map((c: any) => c.profiles) || [],
               liveUrl: item.live_link,
               repoUrl: item.github_link,
