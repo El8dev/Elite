@@ -12,9 +12,7 @@ import { useTranslation } from 'react-i18next';
 const NAV_ITEMS = [
   { nameKey: 'nav.home', path: '/' },
   { nameKey: 'nav.projects', path: '/projects' },
-  { nameKey: 'nav.developers', path: '/developers' },
   { nameKey: 'nav.masterpieces', path: '/masterpieces' },
-  { nameKey: 'nav.articles', path: '/articles' },
 ];
 
 export const SiteHeader: React.FC = () => {

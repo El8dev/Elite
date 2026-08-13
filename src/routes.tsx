@@ -1,12 +1,9 @@
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
-import DevelopersPage from './pages/DevelopersPage';
-import DeveloperProfilePage from './pages/DeveloperProfilePage';
 import ProjectFullPage from './pages/ProjectFullPage';
 import MasterpiecesPage from './pages/Masterpieces';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import ArticlesPage from './pages/ArticlesPage';
 import type { ReactNode } from 'react';
 
 export interface RouteConfig {
@@ -19,12 +16,7 @@ export interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  {
-    name: 'Articles',
-    path: '/articles',
-    element: <ArticlesPage />,
-    public: true,
-  },
+
   {
     name: 'Home',
     path: '/',
@@ -43,18 +35,7 @@ export const routes: RouteConfig[] = [
     element: <MasterpiecesPage />,
     public: true,
   },
-  {
-    name: 'Developers',
-    path: '/developers',
-    element: <DevelopersPage />,
-    public: true,
-  },
-  {
-    name: 'Developer Profile',
-    path: '/developer/:identifier',
-    element: <DeveloperProfilePage />,
-    public: true,
-  },
+
   {
     name: 'Project Details',
     path: '/project/:projectId',

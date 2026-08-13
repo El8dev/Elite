@@ -29,17 +29,17 @@ USING (true);
 
 -- Policy 2: Authenticated Users can create articles
 CREATE POLICY "Authenticated users can create articles" 
-ON public.articles FOR INSERT 
+ON public.articles FOR INSERT TO authenticated
 WITH CHECK (auth.uid() = author_id);
 
 -- Policy 3: Authors can update their own articles
 CREATE POLICY "Authors can update their own articles" 
-ON public.articles FOR UPDATE 
+ON public.articles FOR UPDATE TO authenticated
 USING (auth.uid() = author_id);
 
 -- Policy 4: Authors can delete their own articles
 CREATE POLICY "Authors can delete their own articles" 
-ON public.articles FOR DELETE 
+ON public.articles FOR DELETE TO authenticated
 USING (auth.uid() = author_id);
 
 -- Create index on author_id and created_at for fast querying
