@@ -18,8 +18,8 @@ interface DashboardProject {
   is_masterpiece: boolean;
   personal_profile_only: boolean;
   image_url?: string[];
-  live_url?: string;
-  github_url?: string;
+  live_link?: string;
+  github_link?: string;
   created_at?: string;
 }
 
@@ -312,7 +312,7 @@ const Dashboard: React.FC = () => {
     try {
       const { data: ownedProjects, error: ownedError } = await supabase
         .from('projects')
-        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, live_url, github_url, image_url, project_contributors(user_id)')
+        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, live_link, github_link, image_url, project_contributors(user_id)')
         .eq('owner_id', userId)
         .order('created_at', { ascending: false });
 
@@ -381,8 +381,8 @@ const Dashboard: React.FC = () => {
             personal_profile_only: personalProfileOnly,
             owner_id: currentUserId,
             image_url: uploadedImageUrls,
-            live_url: liveUrl,
-            github_url: githubUrl,
+            live_link: liveUrl,
+            github_link: githubUrl,
           }
         ])
         .select('id')
@@ -441,8 +441,8 @@ const Dashboard: React.FC = () => {
     setEditingProject(project);
     setEditProjectTitle(project.title || '');
     setEditProjectDescription(project.description || '');
-    setEditProjectLiveUrl(project.live_url || '');
-    setEditProjectGithubUrl(project.github_url || '');
+    setEditProjectLiveUrl(project.live_link || '');
+    setEditProjectGithubUrl(project.github_link || '');
     setEditProjectIsMasterpiece(project.is_masterpiece || false);
     setEditProjectPersonalProfileOnly(project.personal_profile_only || false);
     setEditProjectModalOpen(true);
@@ -459,8 +459,8 @@ const Dashboard: React.FC = () => {
         .update({
           title: editProjectTitle,
           description: editProjectDescription,
-          live_url: editProjectLiveUrl,
-          github_url: editProjectGithubUrl,
+          live_link: editProjectLiveUrl,
+          github_link: editProjectGithubUrl,
           is_masterpiece: editProjectIsMasterpiece,
           personal_profile_only: editProjectPersonalProfileOnly,
         })
@@ -1885,7 +1885,7 @@ const accountStatusStyles: Record<string, string> = {
 };
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, setPendingUsers, adminLoading, setAdminLoading }) => {
-  const [activeSection, setActiveSection] = useState<AdminSubSection>('pending');
+  const [activeSection, setActiveSection] = useState<'pending' | 'users' | 'content'>('pending');
 
   if (!isSystemAdmin) {
     return (
@@ -1926,11 +1926,23 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
           }`}
         >
           <UserCog size={16} />
-          <span>{t('dashboard.manage_users')}</span>
+          <span>{t('dashboard.manage_users', 'Manage Users')}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveSection('content')}
+          className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+            activeSection === 'content'
+              ? 'bg-primary/10 text-primary'
+              : 'text-muted-foreground hover:bg-secondary'
+          }`}
+        >
+          <Code2 size={16} />
+          <span>Manage Content</span>
         </button>
       </nav>
 
-      {activeSection === 'pending' ? (
+      {activeSection === 'pending' && (
         <PendingApprovalsSection
           isSystemAdmin={isSystemAdmin}
           pendingUsers={pendingUsers}
@@ -1938,9 +1950,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, se
           adminLoading={adminLoading}
           setAdminLoading={setAdminLoading}
         />
-      ) : (
-        <ManageAllUsersSection isSystemAdmin={isSystemAdmin} />
       )}
+      {activeSection === 'users' && <ManageAllUsersSection isSystemAdmin={isSystemAdmin} />}
+      {activeSection === 'content' && <ManageContentSection isSystemAdmin={isSystemAdmin} />}
     </div>
   );
 };
@@ -2036,8 +2048,15 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground p-8 border border-dashed border-border rounded-2xl bg-card">
         <CheckCircle size={48} className="mb-4 text-emerald-500/40" />
-        <p className="text-lg font-medium text-foreground">{t('dashboard.all_clear')}</p>
-        <p className="text-sm text-muted-foreground mt-2 text-center">{t('dashboard.no_pending_accounts')}</p>
+        <p className="text-lg font-medium text-foreground">{t('dashboard.all_clear', 'All Clear!')}</p>
+        <p className="text-sm text-muted-foreground mt-2 text-center mb-6">{t('dashboard.no_pending_accounts', 'There are no accounts awaiting review.')}</p>
+        <button
+          onClick={fetchPendingUsers}
+          className="flex items-center space-x-2 px-4 py-2 bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
+          <span>Refresh</span>
+        </button>
       </div>
     );
   }
@@ -2046,6 +2065,13 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
         <p className="text-sm text-muted-foreground">{pendingUsers.length} {t('dashboard.accounts_awaiting_review')}</p>
+        <button
+          onClick={fetchPendingUsers}
+          className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
+          <span>Refresh</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -2140,7 +2166,10 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
     if (!isSystemAdmin) return;
     setDeleteLoading(true);
     try {
-      const { error } = await supabase.rpc('delete_user_completely', { target_user_id: userId });
+      const { error } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', userId);
 
       if (error) throw error;
 
@@ -2380,3 +2409,110 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
 };
 
 export default Dashboard;
+
+// ------------------------------------------------------------------
+// Manage Content Sub-section
+// ------------------------------------------------------------------
+interface ManageContentSectionProps {
+  isSystemAdmin: boolean;
+}
+
+const ManageContentSection: React.FC<ManageContentSectionProps> = ({ isSystemAdmin }) => {
+  const [projects, setProjects] = useState<DashboardProject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isSystemAdmin) fetchAllProjects();
+  }, [isSystemAdmin]);
+
+  const fetchAllProjects = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('id, title, description, is_masterpiece, personal_profile_only, created_at, live_link, github_link, image_url, project_contributors(user_id)')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setProjects(data || []);
+    } catch (err) {
+      console.error('Error fetching all projects:', err);
+      toast.error('Failed to load projects for management.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    if (!window.confirm("Are you sure you want to permanently delete this project?")) return;
+    setDeleteLoadingId(id);
+    try {
+      const { error } = await supabase.from('projects').delete().eq('id', id);
+      if (error) throw error;
+      setProjects(prev => prev.filter(p => p.id !== id));
+      toast.success('Project deleted successfully.');
+    } catch (err) {
+      console.error('Error deleting project:', err);
+      toast.error('Failed to delete project.');
+    } finally {
+      setDeleteLoadingId(null);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-muted-foreground">
+        <Loader2 size={24} className="animate-spin mr-3" />
+        <p>Loading all content...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-foreground">All Projects ({projects.length})</h3>
+        <button
+          onClick={fetchAllProjects}
+          className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      {projects.length === 0 ? (
+        <div className="text-center py-12 bg-secondary/30 rounded-xl border border-dashed border-border">
+          <p className="text-muted-foreground">No projects found.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {projects.map((project) => (
+            <div key={project.id} className="bg-card border border-border p-5 rounded-2xl shadow-sm flex flex-col">
+              <h4 className="font-semibold text-foreground text-lg">{project.title}</h4>
+              <p className="text-sm text-muted-foreground line-clamp-2 mt-1 mb-4 flex-1">{project.description}</p>
+              
+              <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                <div className="flex gap-2">
+                  {project.is_masterpiece && <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] rounded uppercase font-bold tracking-wider">Masterpiece</span>}
+                  {project.personal_profile_only && <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 text-[10px] rounded uppercase font-bold tracking-wider">Profile Only</span>}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleDeleteProject(project.id)}
+                    disabled={deleteLoadingId === project.id}
+                    className="p-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-lg transition-colors disabled:opacity-50"
+                    title="Delete Project"
+                  >
+                    {deleteLoadingId === project.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};

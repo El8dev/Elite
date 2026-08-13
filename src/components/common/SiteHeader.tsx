@@ -90,17 +90,7 @@ export const SiteHeader: React.FC = () => {
             })}
           </nav>
 
-          <div className="h-6 w-px bg-border/50" />
 
-          <Magnetic strength={0.2}>
-            <Link
-              to="/login"
-              onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-              className={`relative px-5 py-2 min-h-[44px] touch-target inline-flex items-center justify-center text-sm font-semibold rounded-full transition-all duration-300 ${i18n.language === 'ar' ? 'font-alexandria' : 'font-outfit'} focus:outline-none group text-foreground dark:text-white border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 shadow-[0_0_20px_-4px_rgba(139,92,246,0.3)]`}
-            >
-              {t('nav.login')}
-            </Link>
-          </Magnetic>
 
           <ThemeLanguageToggle />
         </div>
@@ -145,15 +135,7 @@ export const SiteHeader: React.FC = () => {
                   </Link>
                 );
               })}
-              <div className="pt-2 border-t border-border/60">
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 rounded-xl font-bold text-center text-white bg-gradient-to-r from-purple-600 to-indigo-600 block shadow-md"
-                >
-                  {t('nav.login')}
-                </Link>
-              </div>
+
             </div>
           </motion.div>
         )}
