@@ -550,8 +550,6 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
   );
 };
 
-export default Dashboard;
-
 // ------------------------------------------------------------------
 // Manage Content Sub-section
 // ------------------------------------------------------------------
