@@ -105,7 +105,7 @@ export const CustomerReviewsSection: React.FC = () => {
 
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
+          variants={containerVariants as any}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
@@ -113,7 +113,7 @@ export const CustomerReviewsSection: React.FC = () => {
           {reviews.map((review, index) => (
             <motion.div
               key={review.id}
-              variants={itemVariants}
+              variants={itemVariants as any}
               whileHover={reduceMotion ? {} : { y: -5, transition: { duration: 0.2 } }}
               className="bg-card/40 backdrop-blur-md border border-border/50 rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full"
             >

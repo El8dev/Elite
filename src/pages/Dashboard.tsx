@@ -878,7 +878,7 @@ const Dashboard: React.FC = () => {
                     {items.map((item) => (
                       <div key={item.id} className="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col justify-between group hover:shadow-md transition-shadow h-64">
                         <div>
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${item.personal_profile_only ? 'bg-violet-500/10 text-violet-500' : item.is_masterpiece ? 'bg-amber-500/10 text-amber-500' : 'bg-teal-500/10 text-teal-500'}`}>
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${item.personal_profile_only ? 'bg-violet-500/10 text-violet-500' : 'bg-teal-500/10 text-teal-500'}`}>
                             <FolderKanban size={20} />
                           </div>
                           <h3 className="font-semibold text-foreground mb-1 line-clamp-1" title={item.title}>{item.title}</h3>
@@ -886,8 +886,8 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${item.is_masterpiece ? 'bg-amber-500/10 text-amber-600' : 'bg-primary/10 text-primary'}`}>
-                              {item.is_masterpiece ? 'Masterpiece' : 'Standard'}
+                            <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full bg-primary/10 text-primary`}>
+                              Standard
                             </span>
                             {item.personal_profile_only && (
                               <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-violet-500/10 text-violet-600 border border-violet-500/20">

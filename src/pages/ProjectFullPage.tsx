@@ -24,7 +24,7 @@ const ProjectFullPage: React.FC = () => {
         const data = await fetchProjectById(projectId);
         
         // Ensure image_url array exists and handle legacy data
-        let imageUrls = [];
+        let imageUrls: string[] = [];
         if (Array.isArray(data.image_url)) {
           imageUrls = data.image_url;
         } else if (data.image_url) {

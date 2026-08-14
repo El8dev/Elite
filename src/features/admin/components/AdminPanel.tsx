@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Lock, Shield, Search, Users, CheckCircle, XCircle, Trash2, Loader2, FolderKanban } from 'lucide-react';
+import { Lock, Shield, Search, Users, CheckCircle, XCircle, Trash2, Loader2, FolderKanban, Clock, UserCog, Code2, X } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
+
+const SYSTEM_ADMIN_ROLE = 'System Administrator';
+const DEFAULT_MEMBER_ROLE = 'Member';
 import { toast } from 'sonner';
 import { DashboardProject, AdminProfileRow, PendingUser } from '@/features/admin/types';
 
@@ -27,6 +32,7 @@ const accountStatusStyles: Record<string, string> = {
 };
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUsers, setPendingUsers, adminLoading, setAdminLoading }) => {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState<'pending' | 'users' | 'content'>('pending');
 
   if (!isSystemAdmin) {
@@ -635,7 +641,6 @@ const ManageContentSection: React.FC<ManageContentSectionProps> = ({ isSystemAdm
               
               <div className="flex items-center justify-between pt-4 border-t border-border/50">
                 <div className="flex gap-2">
-                  {project.is_masterpiece && <span className="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] rounded uppercase font-bold tracking-wider">Masterpiece</span>}
                   {project.personal_profile_only && <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 text-[10px] rounded uppercase font-bold tracking-wider">Profile Only</span>}
                 </div>
                 <div className="flex gap-2">
