@@ -80,7 +80,7 @@ export const ServicesSection: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ delay: index * 0.1 }}
               onMouseEnter={() => { if (playHoverTick) playHoverTick(); }}
-              className="group relative p-8 card-flat flex flex-col justify-between overflow-hidden cursor-pointer"
+              className="group relative p-8 bg-card/40 backdrop-blur-md border border-border/50 shadow-xl shadow-primary/5 transition-all rounded-3xl flex flex-col justify-between overflow-hidden cursor-pointer"
             >
               
               <div className="w-full flex justify-center mb-8 relative z-10">

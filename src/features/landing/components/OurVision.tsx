@@ -69,7 +69,7 @@ const OurVision: React.FC = () => {
 
         {/* ── Main Flat Card ──────────────────────────────────────── */}
         <motion.div
-          className="card-flat p-8 md:p-12 relative overflow-hidden rounded-3xl"
+          className="bg-card/40 backdrop-blur-md border border-border/50 shadow-xl shadow-primary/5 transition-all p-8 md:p-12 relative overflow-hidden rounded-3xl"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.55, delay: 0.15 }}
