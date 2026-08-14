@@ -707,6 +707,15 @@ const Dashboard: React.FC = () => {
             </button>
             {isSystemAdmin && (
               <button 
+                onClick={() => setActiveTab('team')}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+              >
+                <Shield size={18} />
+                <span>Team Management</span>
+              </button>
+            )}
+            {isSystemAdmin && (
+              <button 
                 onClick={() => setActiveTab('admin')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
@@ -793,6 +802,15 @@ const Dashboard: React.FC = () => {
                   <User size={18} />
                   <span>{t('dashboard.profile')}</span>
                 </button>
+                {isSystemAdmin && (
+                  <button 
+                    onClick={() => { setActiveTab('team'); setMobileSidebarOpen(false); }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                  >
+                    <Shield size={18} />
+                    <span>Team Management</span>
+                  </button>
+                )}
                 {isSystemAdmin && (
                   <button 
                     onClick={() => { setActiveTab('admin'); setMobileSidebarOpen(false); }}
