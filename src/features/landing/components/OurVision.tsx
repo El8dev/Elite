@@ -1,18 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { CardMicroIllustration } from '@/components/ui/CardMicroIllustrations';
 
 const OurVision: React.FC = () => {
   const { t } = useTranslation();
   const servicesList = t('vision.services', { returnObjects: true }) as string[];
 
   const features = [
-    { text: servicesList[0], color: '#9756A5', img: '/vision_0.webp' },
-    { text: servicesList[1], color: '#BA68CB', img: '/vision_1.webp' },
-    { text: servicesList[2], color: '#8898F6', img: '/vision_2.webp' },
-    { text: servicesList[3], color: '#F688D0', img: '/vision_3.webp' },
-    { text: servicesList[4], color: '#F6C188', img: '/vision_4.webp' },
-    { text: servicesList[5], color: '#A5F688', img: '/vision_5.webp' },
-    { text: servicesList[6], color: '#88E3F6', img: '/vision_6.webp' },
+    { text: servicesList[0], color: '#8B5CF6', type: 'terminal' as const }, // Voice AI (Electric Violet)
+    { text: servicesList[1], color: '#10B981', type: 'analytics' as const }, // ERP (Emerald Green)
+    { text: servicesList[2], color: '#F43F5E', type: 'design' as const }, // UI/UX (Rose Pink)
+    { text: servicesList[3], color: '#F59E0B', type: 'app' as const }, // Mobile & Desktop Apps (Amber Gold)
+    { text: servicesList[4], color: '#0EA5E9', type: 'data' as const }, // Security & DB (Sky Blue)
+    { text: servicesList[5], color: '#84CC16', type: 'hardware' as const }, // Embedded IoT (Lime Green)
+    { text: servicesList[6], color: '#6366F1', type: 'ai' as const }, // AI Infra (Indigo Blue)
   ];
 
   return (
@@ -51,7 +52,7 @@ const OurVision: React.FC = () => {
               style={{ '--acc': feature.color } as React.CSSProperties}
             >
               <div className="deck-card__media">
-                <img alt="" decoding="async" loading="lazy" src={feature.img} />
+                <CardMicroIllustration color={feature.color} type={feature.type} />
               </div>
               <div aria-hidden="true" className="deck-card__scrim"></div>
               <div className="deck-card__content">

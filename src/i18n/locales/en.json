@@ -105,7 +105,23 @@
       "Strategic Tech Consulting",
       "Innovative Digital Systems Design"
     ],
-    "kicker": "Team Vision"
+    "kicker": "Team Vision",
+    "card_badges": {
+      "voice_ai": "Voice & Dialect AI",
+      "voice_sub": "Real-time < 1.3s",
+      "erp": "Enterprise ERP Systems",
+      "erp_sub": "Commercial Business",
+      "design": "UI/UX & Simulation",
+      "design_sub": "60 FPS Virtual Labs",
+      "multiplatform": "WEB · APK · EXE",
+      "multiplatform_sub": "1 Codebase ➔ 3 Targets",
+      "security": "Database & Security",
+      "security_sub": "PostgreSQL · Hardened RLS",
+      "hardware": "Embedded & IoT Hardware",
+      "hardware_sub": "32-Bit Microcontroller",
+      "ai_infra": "AI Infrastructure & GPU",
+      "ai_infra_sub": "Zero Cold Start Serving"
+    }
   },
   "auth": {
     "welcome_back": "Welcome Back",

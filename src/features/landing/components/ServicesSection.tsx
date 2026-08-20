@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { CardMicroIllustration } from '@/components/ui/CardMicroIllustrations';
 
 export const ServicesSection: React.FC = () => {
   const { t } = useTranslation();
@@ -33,9 +34,9 @@ export const ServicesSection: React.FC = () => {
         
         <div className="deck-grid deck-grid--services">
           
-          <article className="deck-card deck-card--svc reveal" data-delay="0" style={{ '--acc': '#8A4E97' } as React.CSSProperties}>
+          <article className="deck-card deck-card--svc reveal" data-delay="0" style={{ '--acc': '#F59E0B' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <img alt="Web & app development" decoding="async" loading="lazy" src="/services_0.webp" />
+              <CardMicroIllustration color="#F59E0B" type="app" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -54,9 +55,9 @@ export const ServicesSection: React.FC = () => {
             </div>
           </article>
           
-          <article className="deck-card deck-card--svc reveal" data-delay="90" style={{ '--acc': '#9756A5' } as React.CSSProperties}>
+          <article className="deck-card deck-card--svc reveal" data-delay="90" style={{ '--acc': '#10B981' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <img alt="Business systems" decoding="async" loading="lazy" src="/services_1.webp" />
+              <CardMicroIllustration color="#10B981" type="analytics" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -75,9 +76,9 @@ export const ServicesSection: React.FC = () => {
             </div>
           </article>
 
-          <article className="deck-card deck-card--svc reveal" data-delay="180" style={{ '--acc': '#BA68CB' } as React.CSSProperties}>
+          <article className="deck-card deck-card--svc reveal" data-delay="180" style={{ '--acc': '#F43F5E' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <img alt="UI/UX Design" decoding="async" loading="lazy" src="/services_2.webp" />
+              <CardMicroIllustration color="#F43F5E" type="design" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -96,9 +97,9 @@ export const ServicesSection: React.FC = () => {
             </div>
           </article>
 
-          <article className="deck-card deck-card--svc reveal" data-delay="270" style={{ '--acc': '#8898F6' } as React.CSSProperties}>
+          <article className="deck-card deck-card--svc reveal" data-delay="270" style={{ '--acc': '#8B5CF6' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <img alt="AI and Data" decoding="async" loading="lazy" src="/services_3.svg" />
+              <CardMicroIllustration color="#8B5CF6" type="terminal" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
