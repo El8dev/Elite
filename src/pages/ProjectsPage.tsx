@@ -168,7 +168,7 @@ const ShowcaseFeed: React.FC<{
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center font-outfit text-white/40">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center font-outfit text-muted-foreground">
         <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }}>
           <div className="w-10 h-10 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
           Loading showcase...

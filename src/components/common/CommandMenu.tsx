@@ -7,28 +7,18 @@ import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { supabase } from '@/lib/supabase';
 import { useTranslation } from 'react-i18next';
 
-// Inline styles for the CommandMenu to override any conflicts and provide pure glassmorphism
+// Inline styles for the CommandMenu overlay
 const overlayStyle: React.CSSProperties = {
   position: 'fixed',
   inset: 0,
-  backgroundColor: 'rgba(5, 5, 10, 0.4)',
-  backdropFilter: 'blur(32px) saturate(150%)',
-  WebkitBackdropFilter: 'blur(32px) saturate(150%)',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
   zIndex: 99999,
   display: 'flex',
   alignItems: 'flex-start',
   justifyContent: 'center',
   paddingTop: '15vh',
-};
-
-const dialogStyle: React.CSSProperties = {
-  width: '100%',
-  maxWidth: '600px',
-  background: 'linear-gradient(145deg, rgba(30, 30, 35, 0.7), rgba(15, 15, 20, 0.9))',
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  boxShadow: '0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden',
 };
 
 export const CommandMenu: React.FC = () => {
@@ -93,7 +83,7 @@ export const CommandMenu: React.FC = () => {
         }}
       >
         <motion.div
-          style={dialogStyle}
+          className="w-full max-w-[600px] bg-card text-card-foreground border border-border rounded-3xl shadow-2xl overflow-hidden backdrop-blur-2xl"
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 10 }}
@@ -103,46 +93,43 @@ export const CommandMenu: React.FC = () => {
             className="w-full h-full flex flex-col font-outfit"
             shouldFilter={true}
           >
-            <div className={`flex items-center px-4 py-4 border-b border-white/10 ${isRTL ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.dir()}>
-              <Search className={`w-5 h-5 text-white/50 ${isRTL ? 'ml-3' : 'mr-3'}`} />
+            <div className={`flex items-center px-4 py-4 border-b border-border ${isRTL ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.dir()}>
+              <Search className={`w-5 h-5 text-muted-foreground ${isRTL ? 'ml-3' : 'mr-3'}`} />
               <Command.Input
                 value={search}
                 onValueChange={setSearch}
                 placeholder={t('command_menu.search_placeholder')}
-                className="flex-1 bg-transparent border-none outline-none text-white placeholder-white/40 text-lg w-full"
+                className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground/60 text-lg w-full"
                 autoFocus
               />
-              <div className="flex items-center gap-1 text-xs md:text-sm font-bold text-white/30 tracking-widest font-jetbrains">
+              <div className="flex items-center gap-1 text-xs md:text-sm font-bold text-muted-foreground/60 tracking-widest font-jetbrains">
                 <span>ESC</span>
               </div>
             </div>
 
             <Command.List className="max-h-[350px] overflow-y-auto p-2" dir={i18n.dir()}>
-              <Command.Empty className={`py-10 text-center text-sm text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+              <Command.Empty className={`py-10 text-center text-sm text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {t('command_menu.no_results', { search })}
               </Command.Empty>
 
-              <Command.Group heading={t('command_menu.approved_devs')} className={`text-xs font-semibold text-white/40 px-2 py-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+              <Command.Group heading={t('command_menu.approved_devs')} className={`text-xs font-semibold text-muted-foreground px-2 py-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {developers.map(dev => (
                   <Command.Item
                     key={`dev-${dev.id}`}
                     value={dev.full_name || dev.username}
                     onSelect={() => {
                       setOpen(false);
-                      // In a real app we might route to their profile view or page
-                      // navigate(`/developers/${dev.id}`);
-                      // For now, we will just close.
                     }}
-                    className="flex items-center gap-3 px-3 py-3 mt-1 rounded-xl cursor-pointer hover:bg-white/5 text-sm text-white/90 transition-colors aria-selected:bg-white/10"
+                    className="flex items-center gap-3 px-3 py-3 mt-1 rounded-xl cursor-pointer hover:bg-muted text-sm text-foreground transition-colors aria-selected:bg-muted"
                     onMouseEnter={playHoverTick}
                   >
-                    <User className="w-4 h-4 text-purple-400" />
+                    <User className="w-4 h-4 text-purple-500 dark:text-purple-400" />
                     <span>{dev.full_name || dev.username}</span>
                   </Command.Item>
                 ))}
               </Command.Group>
 
-              <Command.Group heading={t('command_menu.projects')} className={`text-xs font-semibold text-white/40 px-2 py-2 mt-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+              <Command.Group heading={t('command_menu.projects')} className={`text-xs font-semibold text-muted-foreground px-2 py-2 mt-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {projects.map(proj => (
                   <Command.Item
                     key={`proj-${proj.id}`}
@@ -155,15 +142,15 @@ export const CommandMenu: React.FC = () => {
                         navigate('/');
                       }
                     }}
-                    className="flex items-center justify-between px-3 py-3 mt-1 rounded-xl cursor-pointer hover:bg-white/5 text-sm text-white/90 transition-colors aria-selected:bg-white/10"
+                    className="flex items-center justify-between px-3 py-3 mt-1 rounded-xl cursor-pointer hover:bg-muted text-sm text-foreground transition-colors aria-selected:bg-muted"
                     onMouseEnter={playHoverTick}
                   >
                     <div className="flex items-center gap-3">
-                      <Briefcase className="w-4 h-4 text-cyan-400" />
+                      <Briefcase className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
                       <span>{proj.title}</span>
                     </div>
                     {proj.is_masterpiece && (
-                      <span className="flex items-center gap-1 text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold font-jetbrains">
+                      <span className="flex items-center gap-1 text-[9px] bg-amber-500/20 text-amber-600 dark:text-amber-300 px-2 py-0.5 rounded font-bold font-jetbrains">
                         <Zap className="w-3 h-3" /> MASTERPIECE
                       </span>
                     )}

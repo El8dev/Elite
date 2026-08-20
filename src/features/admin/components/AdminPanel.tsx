@@ -441,51 +441,51 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/80">
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Email</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Account Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Job Title</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">System Role</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
+              <tr className="border-b border-border bg-muted/50">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Account Status</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Job Title</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">System Role</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-border">
               {users.map((user) => {
                 const statusKey = (user.account_status || 'pending').toLowerCase();
-                const statusClass = accountStatusStyles[statusKey] || 'bg-slate-50 text-slate-600 border-slate-200';
+                const statusClass = accountStatusStyles[statusKey] || 'bg-muted text-muted-foreground border-border';
 
                 return (
-                  <tr key={user.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-800 whitespace-nowrap">
-                      {user.full_name || 'ΓÇö'}
+                  <tr key={user.id} className="hover:bg-muted/40 transition-colors">
+                    <td className="px-6 py-4 font-medium text-foreground whitespace-nowrap">
+                      {user.full_name || '—'}
                     </td>
-                    <td className="px-6 py-4 text-slate-600 whitespace-nowrap">
-                      {user.email || 'ΓÇö'}
+                    <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
+                      {user.email || '—'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <select
                         value={user.account_status || 'pending'}
                         onChange={(e) => handleStatusChange(user.id, e.target.value)}
-                        className={`bg-transparent border border-slate-200 rounded px-2 py-1 text-xs font-medium focus:outline-none focus:border-primary capitalize ${statusClass}`}
+                        className={`bg-card border border-border rounded px-2 py-1 text-xs font-medium focus:outline-none focus:border-primary capitalize ${statusClass}`}
                       >
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
                         <option value="suspended">Suspended</option>
                       </select>
                     </td>
-                    <td className="px-6 py-4 text-slate-600 whitespace-nowrap">
-                      {user.job_title || 'ΓÇö'}
+                    <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
+                      {user.job_title || '—'}
                     </td>
-                    <td className="px-6 py-4 text-slate-600 whitespace-nowrap">
+                    <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
                       <select
                         value={user.role || DEFAULT_MEMBER_ROLE}
                         onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                        className="bg-transparent border border-slate-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-primary font-medium"
+                        className="bg-card border border-border rounded px-2 py-1 text-sm focus:outline-none focus:border-primary font-medium text-foreground"
                       >
                         <option value={DEFAULT_MEMBER_ROLE}>Member</option>
                         <option value={SYSTEM_ADMIN_ROLE}>System Administrator</option>
@@ -495,7 +495,7 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
                       <button
                         onClick={() => setUserToDelete(user.id)}
                         disabled={deleteLoading}
-                        className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-[#FAFAFA] shadow-[8px_8px_16px_#d1d1d1,-8px_-8px_16px_#ffffff] transition-all duration-300 hover:shadow-[6px_6px_12px_#d1d1d1,-6px_-6px_12px_#ffffff] hover:scale-105 active:shadow-[inset_4px_4px_8px_#d1d1d1,inset_-4px_-4px_8px_#ffffff] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                        className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                       >
                         <Trash2 size={16} />
                         <span>Delete</span>
@@ -511,26 +511,26 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
 
       {/* Delete Confirmation Modal */}
       {userToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
-          <div className="bg-[#FAFAFA] rounded-2xl p-6 shadow-[20px_20px_60px_#d1d1d1,-20px_-20px_60px_#ffffff] w-full max-w-sm border border-slate-100 transform transition-all">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-card rounded-2xl p-6 shadow-2xl w-full max-w-sm border border-border transform transition-all">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Confirm Deletion</h3>
+              <h3 className="text-lg font-semibold text-foreground">Confirm Deletion</h3>
               <button 
                 onClick={() => setUserToDelete(null)} 
-                className="text-slate-400 hover:text-slate-600 transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
                 disabled={deleteLoading}
               >
                 <X size={20} />
               </button>
             </div>
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-muted-foreground mb-6">
               Are you sure you want to delete this user? This action cannot be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button 
                 onClick={() => setUserToDelete(null)}
                 disabled={deleteLoading}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 bg-[#FAFAFA] shadow-[8px_8px_16px_#d1d1d1,-8px_-8px_16px_#ffffff] hover:shadow-[6px_6px_12px_#d1d1d1,-6px_-6px_12px_#ffffff] transition-all duration-300 disabled:opacity-50"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-all duration-300 disabled:opacity-50"
               >
                 Cancel
               </button>

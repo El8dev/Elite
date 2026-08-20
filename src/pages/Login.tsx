@@ -195,7 +195,7 @@ const Login: React.FC = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl text-center font-medium overflow-hidden"
+                  className="p-3 text-sm text-red-600 dark:text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl text-center font-medium overflow-hidden"
                   role="alert"
                 >
                   {errorMsg}
@@ -206,7 +206,7 @@ const Login: React.FC = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="p-3 text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center font-medium overflow-hidden"
+                  className="p-3 text-sm text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center font-medium overflow-hidden"
                   role="status"
                 >
                   {successMsg}
@@ -247,7 +247,7 @@ const Login: React.FC = () => {
                 </label>
                 <a
                   href="#"
-                  className="text-purple-400 hover:text-purple-300 transition-colors font-semibold"
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors font-semibold"
                   data-cursor-color="violet"
                 >
                   {t('auth.forgot_password')}
@@ -300,7 +300,7 @@ const Login: React.FC = () => {
                   setErrorMsg('');
                   setSuccessMsg('');
                 }}
-                className="text-purple-400 hover:text-purple-300 font-semibold transition-colors focus:outline-none focus:underline"
+                className="text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300 font-semibold transition-colors focus:outline-none focus:underline"
                 data-cursor-color="violet"
               >
                 {isSignUp ? t('auth.sign_in') : t('auth.sign_up')}

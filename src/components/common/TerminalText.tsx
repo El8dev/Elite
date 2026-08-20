@@ -71,7 +71,7 @@ const TerminalText: React.FC<TerminalTextProps> = ({
     >
       {/* ── Terminal Header ── */}
       <div className="mb-3 flex items-center">
-        <span className="font-jetbrains text-xs md:text-sm text-white/30 tracking-wider">
+        <span className="font-jetbrains text-xs md:text-sm text-muted-foreground/60 tracking-wider">
           elite-dev ~ bash
         </span>
       </div>
@@ -97,7 +97,7 @@ const TerminalText: React.FC<TerminalTextProps> = ({
       {showOutput && output.map((line, i) => (
         <div
           key={i}
-          className="mt-1 font-jetbrains text-sm text-white/50 transition-opacity duration-300"
+          className="mt-1 font-jetbrains text-sm text-muted-foreground transition-opacity duration-300"
           style={{
             opacity: 0,
             animation: `count-up-reveal 0.35s ease-out ${i * 0.12}s forwards`,

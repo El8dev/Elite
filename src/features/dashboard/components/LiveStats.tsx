@@ -20,15 +20,15 @@ const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: str
   const displayValue = useTransform(springValue, (current) => Math.floor(current));
 
   return (
-    <div ref={ref} className="flex flex-col items-center justify-center p-6 bg-white/[0.02] border border-white/5 rounded-2xl relative overflow-hidden group">
+    <div ref={ref} className="flex flex-col items-center justify-center p-6 bg-card/60 border border-border rounded-2xl relative overflow-hidden group">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       <div className="flex items-baseline gap-1" dir="ltr">
-        <span className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-jetbrains">
+        <span className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400 font-jetbrains">
           <motion.span>{displayValue}</motion.span>
         </span>
-        <span className="text-2xl font-bold text-cyan-400">{suffix}</span>
+        <span className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">{suffix}</span>
       </div>
-      <span className="mt-3 text-sm md:text-base text-white/60 text-center font-inherit">{label}</span>
+      <span className="mt-3 text-sm md:text-base text-muted-foreground text-center font-inherit">{label}</span>
     </div>
   );
 };
@@ -44,7 +44,7 @@ export const LiveStats: React.FC = () => {
   const isRTL = i18n.dir() === 'rtl';
 
   return (
-    <section className="relative w-full py-16 z-10 border-y border-white/5 bg-black/40" id="stats">
+    <section className="relative w-full py-16 z-10 border-y border-border bg-muted/20" id="stats">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Number Counters */}
@@ -58,20 +58,20 @@ export const LiveStats: React.FC = () => {
       </div>
 
       {/* Endless Tech Marquee */}
-      <div className="w-full overflow-hidden flex flex-col items-center border-t border-white/5 pt-12 pb-4">
-        <p className={`text-xs text-white/40 uppercase tracking-[0.3em] mb-8 text-center ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+      <div className="w-full overflow-hidden flex flex-col items-center border-t border-border pt-12 pb-4">
+        <p className={`text-xs text-muted-foreground uppercase tracking-[0.3em] mb-8 text-center ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
           {t('stats.tech_stack')}
         </p>
         
         <div className="relative flex overflow-x-hidden w-full group">
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           
           <div className="animate-marquee whitespace-nowrap flex items-center gap-16 group-hover:[animation-play-state:paused]">
             {[...technologies, ...technologies].map((tech, idx) => (
               <span 
                 key={idx} 
-                className="text-xl md:text-3xl font-bold text-white/10 hover:text-white/40 transition-colors duration-300 font-jetbrains tracking-widest select-none"
+                className="text-xl md:text-3xl font-bold text-muted-foreground/30 hover:text-foreground/70 transition-colors duration-300 font-jetbrains tracking-widest select-none"
               >
                 {tech}
               </span>

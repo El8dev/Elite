@@ -48,17 +48,17 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-xl bg-slate-950/75 backdrop-blur-2xl border border-white/15 rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_50px_-10px_rgba(168,85,247,0.25)] pointer-events-auto relative"
+              className="w-full max-w-xl bg-card text-card-foreground backdrop-blur-2xl border border-border rounded-3xl overflow-hidden shadow-2xl pointer-events-auto relative"
               dir={i18n.dir()}
             >
               {/* Background ambient glow inside modal */}
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/20 blur-[100px] rounded-full pointer-events-none" />
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600/10 blur-[100px] rounded-full pointer-events-none" />
               <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-600/10 blur-[100px] rounded-full pointer-events-none" />
 
               {/* Close Button */}
               <button 
                 onClick={onClose}
-                className="absolute top-6 left-6 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-colors z-20"
+                className="absolute top-6 left-6 w-8 h-8 flex items-center justify-center rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors z-20"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -72,46 +72,46 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
                     className="flex flex-col items-center justify-center py-16 text-center"
                   >
                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 border border-emerald-500/50">
-                      <Sparkles className="w-8 h-8 text-emerald-400" />
+                      <Sparkles className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
                     </div>
-                    <h3 className={`text-2xl font-bold text-white mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_title')}</h3>
-                    <p className={`text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_desc')}</p>
+                    <h3 className={`text-2xl font-bold text-foreground mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_title')}</h3>
+                    <p className={`text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.success_desc')}</p>
                   </motion.div>
                 ) : (
                   <>
                     <div className="mb-8">
-                      <h2 className={`text-2xl md:text-3xl font-bold text-white mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.title')}</h2>
-                      <p className={`text-sm text-white/50 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.subtitle')}</p>
+                      <h2 className={`text-2xl md:text-3xl font-bold text-foreground mb-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.title')}</h2>
+                      <p className={`text-sm text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.subtitle')}</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="space-y-2">
-                          <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.name')}</label>
-                          <input required type="text" className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.name_placeholder')} />
+                          <label className={`text-xs font-semibold text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.name')}</label>
+                          <input required type="text" className={`w-full bg-muted/30 border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.name_placeholder')} />
                         </div>
                         <div className="space-y-2">
-                          <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.email')}</label>
-                          <input required type="email" className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder="email@example.com" />
+                          <label className={`text-xs font-semibold text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.email')}</label>
+                          <input required type="email" className={`w-full bg-muted/30 border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-purple-500/50 transition-colors text-sm ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder="email@example.com" />
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.project_type')}</label>
-                        <select required className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm appearance-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
-                          <option value="" className="bg-[#0a0a0c]">{t('contact.type_placeholder')}</option>
-                          <option value="web" className="bg-[#0a0a0c]">{t('contact.type_web')}</option>
-                          <option value="app" className="bg-[#0a0a0c]">{t('contact.type_app')}</option>
-                          <option value="system" className="bg-[#0a0a0c]">{t('contact.type_system')}</option>
-                          <option value="ai" className="bg-[#0a0a0c]">{t('contact.type_ai')}</option>
-                          <option value="uiux" className="bg-[#0a0a0c]">{t('contact.type_uiux')}</option>
-                          <option value="other" className="bg-[#0a0a0c]">{t('contact.type_other')}</option>
+                        <label className={`text-xs font-semibold text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.project_type')}</label>
+                        <select required className={`w-full bg-muted/30 border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-purple-500/50 transition-colors text-sm appearance-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
+                          <option value="" className="bg-card text-card-foreground">{t('contact.type_placeholder')}</option>
+                          <option value="web" className="bg-card text-card-foreground">{t('contact.type_web')}</option>
+                          <option value="app" className="bg-card text-card-foreground">{t('contact.type_app')}</option>
+                          <option value="system" className="bg-card text-card-foreground">{t('contact.type_system')}</option>
+                          <option value="ai" className="bg-card text-card-foreground">{t('contact.type_ai')}</option>
+                          <option value="uiux" className="bg-card text-card-foreground">{t('contact.type_uiux')}</option>
+                          <option value="other" className="bg-card text-card-foreground">{t('contact.type_other')}</option>
                         </select>
                       </div>
 
                       <div className="space-y-2">
-                        <label className={`text-xs font-semibold text-white/70 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.details')}</label>
-                        <textarea required rows={4} className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 transition-colors text-sm resize-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.details_placeholder')} />
+                        <label className={`text-xs font-semibold text-muted-foreground ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>{t('contact.details')}</label>
+                        <textarea required rows={4} className={`w-full bg-muted/30 border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-purple-500/50 transition-colors text-sm resize-none ${isRTL ? 'font-alexandria' : 'font-outfit'}`} placeholder={t('contact.details_placeholder')} />
                       </div>
 
                       <button 
