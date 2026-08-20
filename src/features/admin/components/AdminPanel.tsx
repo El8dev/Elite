@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Lock, Shield, Search, Users, CheckCircle, XCircle, Trash2, Loader2, FolderKanban, Clock, UserCog, Code2, X } from 'lucide-react';
+import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
@@ -50,7 +51,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUs
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Top‑right toggle – always visible */}
+      <div className="absolute top-6 right-6 z-50">
+        <ThemeLanguageToggle />
+      </div>
       <nav className="flex flex-wrap gap-2 border-b border-border pb-4">
         <button
           type="button"
