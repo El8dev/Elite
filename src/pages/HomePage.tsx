@@ -8,6 +8,7 @@ import { SiteHeader } from '@/components/common/SiteHeader';
 import { useTranslation } from 'react-i18next';
 import { SplashIntro } from '@/features/landing/components/SplashIntro';
 import { HeroRedesign } from '@/features/landing/components/HeroRedesign';
+import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 import { useRevealAnimations } from '@/hooks/useRevealAnimations';
 
 const HomePage: React.FC = () => {
@@ -45,6 +46,7 @@ const HomePage: React.FC = () => {
 
       <SplashIntro />
       <SiteHeader />
+<div className="absolute top-6 right-6 z-50"><ThemeLanguageToggle /></div>
 
       <main id="top">
         <div id="homeView">
