@@ -839,27 +839,6 @@ const Dashboard: React.FC = () => {
       {/* SECTION B: Main Workspace */}
       <main className="flex-1 flex flex-col bg-transparent relative z-0 overflow-hidden">
         {/* Header */}
-        <header className="h-20 px-4 md:px-10 flex items-center justify-between border-b border-border bg-background/40 backdrop-blur-md shrink-0">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setMobileSidebarOpen(true)}
-              className="w-10 h-10 rounded-xl bg-card border border-border/80 flex items-center justify-center text-foreground md:hidden"
-              aria-label="Open mobile menu"
-            >
-              <Menu size={20} />
-            </button>
-            <h1 className="text-lg sm:text-xl font-medium text-foreground">
-              {activeTab === 'manage' && t('dashboard.my_projects')}
-              {activeTab === 'publish' && t('dashboard.publish_project')}
-              {activeTab === 'profile' && t('dashboard.profile')}
-              {activeTab === 'admin' && 'Manage Reviews'}
-              {activeTab === 'team' && 'Manage Team'}
-            </h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <ThemeLanguageToggle />
-          </div>
-        </header>
 
         {/* Content Area */}
         <div className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">

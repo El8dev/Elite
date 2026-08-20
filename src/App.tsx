@@ -19,7 +19,6 @@ import { ProjectsModal } from '@/components/common/ProjectsModal';
 import { routes } from './routes';
 import ProjectModalRoute from './pages/ProjectModalRoute';
 import { HelmetProvider } from 'react-helmet-async';
-import CinematicIntro from '@/features/landing/components/CinematicIntro';
 
 // ── Premium page transition variants ────────────────────────────────────────
 // Uses only `opacity` for 0 Paint invalidations and to prevent breaking `position: fixed` headers.
@@ -58,7 +57,6 @@ const AppContent: React.FC = () => {
         <IntersectObserver />
 
         <Suspense fallback={null}>
-          <CinematicIntro>
           <div className="flex flex-col min-h-screen">
             <main className="flex-grow">
               <AnimatePresence mode="wait">
@@ -93,7 +91,6 @@ const AppContent: React.FC = () => {
               )}
             </main>
           </div>
-          </CinematicIntro>
         </Suspense>
 
         <ContactModal />
