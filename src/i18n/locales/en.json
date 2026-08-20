@@ -19,7 +19,7 @@
   "home": {
     "title_part1": "El8",
     "title_part2": "Tech",
-    "subtitle": "An elite Iraqi development team building rapid, state-of-the-art tech solutions for everyone. High-end engineering without the high-end budget."
+    "subtitle": "An elite Iraqi development team building rapid, state-of-the-art tech solutions. Delivering high-performance engineering with unmatched agility and maximum ROI."
   },
   "developers_page": {
     "title": "El8 Developers",
@@ -35,7 +35,7 @@
   "globe": {
     "badge": "El8 Team",
     "title": "Iraqi Engineering & Deep Tech Experts",
-    "desc": "We are El8, an Iraqi Middle Eastern team of engineering students and deep tech developers. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions. We build massive systems rapidly—shipping complex architectures in just a single month.",
+    "desc": "We are El8, an Iraqi Middle Eastern team of software engineers, system architects, and deep tech experts. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions. We ship production-ready platforms in weeks, not months.",
     "stats_value_1": "AI & Web",
     "stats_label_1": "Rapid Deployment",
     "stats_value_2": "Desktop/Mobile",
@@ -94,15 +94,15 @@
   },
   "vision": {
     "title": "Our Vision",
-    "subtitle": "Rapid Development, Affordable Excellence.",
-    "desc": "El8 is an elite Iraqi technical team founded by ambitious youth. We believe that powerful technology should be accessible to everyone, not just those with massive budgets. We deliver state-of-the-art software—from web platforms to AI and hardware integrations—with incredible speed, often shipping full enterprise systems in a single month.",
+    "subtitle": "Rapid Development, Maximum Value.",
+    "desc": "El8 is an elite Iraqi technical team. We deliver state-of-the-art software—from web platforms to AI and hardware integrations—with incredible speed, shipping production-ready platforms in weeks, not months.",
     "services": [
       "Rapid Web & Mobile App Development",
       "Desktop Executables (EXE) & Offline Systems",
       "AI Infrastructure & Data Solutions",
       "Hardware Integration & Simulation",
       "Administrative & Commercial Systems",
-      "Affordable Tech Consulting",
+      "Strategic Tech Consulting",
       "Innovative Digital Systems Design"
     ],
     "kicker": "Team Vision"
@@ -284,7 +284,7 @@
     "line1": "Engineering Experts",
     "line2": "& Deep Tech",
     "line3": "in Iraq",
-    "text": "We are El8, an Iraqi & Arab team of engineering students and deep tech developers. We specialize in AI Infrastructure, Web Apps, Desktop programs (EXE), Mobile Apps (APK), Data Systems, and Hardware Solutions. We build massive systems with extreme speed—often launching complex architectural projects in just one month.",
+    "text": "We are El8, an Iraqi & Arab team of software engineers, system architects, and deep tech experts. We specialize in AI Infrastructure, Web Apps, Desktop programs (EXE), Mobile Apps (APK), Data Systems, and Hardware Solutions. We ship production-ready platforms in weeks, not months.",
     "cta_main": "Start Your Project Now",
     "cta_alt": "Contact Us"
   }

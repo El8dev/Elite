@@ -212,4 +212,12 @@
       font-size: 12px !important; /* Shrink all rem-based units globally */
     }
   }
+
+  /* ── Theme Transition Guard (Prevents layout thrashing on theme switch) ── */
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
 }

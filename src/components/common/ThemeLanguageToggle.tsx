@@ -24,11 +24,13 @@ export const ThemeLanguageToggle: React.FC<{ className?: string }> = ({ classNam
 
   const toggleTheme = () => {
     if (playHoverTick) playHoverTick();
+    document.documentElement.classList.add('theme-transitioning');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
     setIsFlipping(true);
     setTimeout(() => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
+      document.documentElement.classList.remove('theme-transitioning');
       setIsFlipping(false);
-    }, 400);
+    }, 150);
   };
 
   const toggleLanguage = () => {

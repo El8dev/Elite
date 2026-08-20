@@ -87,29 +87,36 @@ export const ParticlesBackground: React.FC = () => {
         if (this.y > height) this.y -= height;
       }
 
-      draw(mX: number, mY: number) {
+      draw(mX: number, mY: number, isDark: boolean) {
         if (!ctx) return;
         
         ctx.beginPath();
-        let colorStr = `rgba(168, 85, 247, ${this.baseAlpha})`;
-        let glowColor = 'rgba(168, 85, 247, 0.6)';
+        let colorStr = isDark 
+          ? `rgba(168, 85, 247, ${this.baseAlpha})`
+          : `rgba(147, 51, 234, ${Math.min(1, this.baseAlpha + 0.2)})`;
+        let glowColor = isDark ? 'rgba(168, 85, 247, 0.55)' : 'rgba(147, 51, 234, 0.4)';
 
         if (this.colorType === 'cyan') {
-          colorStr = `rgba(34, 211, 238, ${this.baseAlpha})`;
-          glowColor = 'rgba(34, 211, 238, 0.6)';
+          colorStr = isDark 
+            ? `rgba(34, 211, 238, ${this.baseAlpha})`
+            : `rgba(8, 145, 178, ${Math.min(1, this.baseAlpha + 0.2)})`;
+          glowColor = isDark ? 'rgba(34, 211, 238, 0.55)' : 'rgba(8, 145, 178, 0.4)';
         } else if (this.colorType === 'amber') {
-          colorStr = `rgba(245, 158, 11, ${this.baseAlpha})`;
-          glowColor = 'rgba(245, 158, 11, 0.6)';
+          colorStr = isDark 
+            ? `rgba(245, 158, 11, ${this.baseAlpha})`
+            : `rgba(217, 119, 6, ${Math.min(1, this.baseAlpha + 0.2)})`;
+          glowColor = isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.4)';
         }
 
-        ctx.shadowBlur = this.size > 1.8 ? 10 : 4;
+        // Optimized lightweight shadow glow
+        ctx.shadowBlur = 5;
         ctx.shadowColor = glowColor;
 
         ctx.fillStyle = colorStr;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.shadowBlur = 0; // Reset
+        ctx.shadowBlur = 0; // Reset after particle fill
 
         // Draw soft glowing constellation lines to mouse cursor if near
         const dx = this.x - mX;
@@ -118,14 +125,14 @@ export const ParticlesBackground: React.FC = () => {
         const maxDist = 130;
 
         if (dist < maxDist && mouse.current.active) {
-          const lineAlpha = (1 - dist / maxDist) * 0.35;
+          const lineAlpha = (1 - dist / maxDist) * (isDark ? 0.4 : 0.5);
           ctx.beginPath();
           ctx.moveTo(this.x, this.y);
           ctx.lineTo(mX, mY);
           ctx.strokeStyle = this.colorType === 'cyan' 
-            ? `rgba(34, 211, 238, ${lineAlpha})` 
-            : `rgba(168, 85, 247, ${lineAlpha})`;
-          ctx.lineWidth = 0.8;
+            ? (isDark ? `rgba(34, 211, 238, ${lineAlpha})` : `rgba(8, 145, 178, ${lineAlpha})`)
+            : (isDark ? `rgba(168, 85, 247, ${lineAlpha})` : `rgba(147, 51, 234, ${lineAlpha})`);
+          ctx.lineWidth = 1.0;
           ctx.stroke();
         }
       }
@@ -146,10 +153,11 @@ export const ParticlesBackground: React.FC = () => {
 
       const mX = mouse.current.currX;
       const mY = mouse.current.currY;
+      const isDark = document.documentElement.classList.contains('dark');
 
       for (let i = 0; i < particles.length; i++) {
         particles[i].update(mX, mY);
-        particles[i].draw(mX, mY);
+        particles[i].draw(mX, mY, isDark);
       }
       animationFrameId = requestAnimationFrame(render);
     };

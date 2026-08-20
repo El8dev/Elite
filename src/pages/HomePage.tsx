@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
               "https://github.com/el8dev",
               "https://tiktok.com/@el8.dev"
             ],
-            "description": "An elite Iraqi development team building rapid, state-of-the-art tech solutions for everyone. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions."
+            "description": "An elite Iraqi development team building rapid, state-of-the-art tech solutions. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions."
           })}
         </script>
       </Helmet>
