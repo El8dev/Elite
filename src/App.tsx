@@ -9,8 +9,12 @@ import AmbientBackground from '@/components/common/AmbientBackground';
 import { ParticlesBackground } from '@/components/common/ParticlesBackground';
 import { FilmGrain } from '@/components/common/FilmGrain';
 
+import CustomCursor from '@/components/common/CustomCursor';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 import { CommandMenu } from '@/components/common/CommandMenu';
 import { LiveChatWidget } from '@/components/common/LiveChatWidget';
+import { ContactModal } from '@/components/common/ContactModal';
+import { ProjectsModal } from '@/components/common/ProjectsModal';
 
 import { routes } from './routes';
 import ProjectModalRoute from './pages/ProjectModalRoute';
@@ -18,20 +22,17 @@ import { HelmetProvider } from 'react-helmet-async';
 import CinematicIntro from '@/features/landing/components/CinematicIntro';
 
 // ── Premium page transition variants ────────────────────────────────────────
-// Uses only `opacity` + `transform` (GPU-composited) for 0 Paint invalidations.
+// Uses only `opacity` for 0 Paint invalidations and to prevent breaking `position: fixed` headers.
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 8,
   },
   animate: {
     opacity: 1,
-    y: 0,
     transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] as any },
   },
   exit: {
     opacity: 0,
-    y: -4,
     transition: { duration: 0.15, ease: [0.25, 1, 0.5, 1] as any },
   },
 };
@@ -44,6 +45,8 @@ const AppContent: React.FC = () => {
   return (
     <AuthProvider>
       <RouteGuard>
+        <CustomCursor />
+        <ScrollToTopButton />
         {/* Fixed ambient background & particles — sits below everything */}
         <AmbientBackground />
         <ParticlesBackground />
@@ -71,8 +74,7 @@ const AppContent: React.FC = () => {
                           exit="exit"
                           variants={pageVariants}
                           className="w-full min-h-screen"
-                          // GPU hint
-                          style={{ willChange: 'transform, opacity' }}
+                          style={{ willChange: 'opacity' }}
                         >
                           {route.element}
                         </motion.div>
@@ -94,6 +96,8 @@ const AppContent: React.FC = () => {
           </CinematicIntro>
         </Suspense>
 
+        <ContactModal />
+        <ProjectsModal />
         <Toaster />
       </RouteGuard>
     </AuthProvider>

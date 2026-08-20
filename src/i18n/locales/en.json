@@ -5,7 +5,16 @@
     "developers": "Developers",
     "masterpieces": "Masterpieces",
     "articles": "Articles",
-    "login": "Login"
+    "login": "Login",
+    "add_project": "Add New Project",
+    "add_sub": "Submit a custom project request",
+    "view_projects": "Projects Center",
+    "view_sub": "Go to project requests center",
+    "contact": "Contact Us",
+    "contact_insta": "Instagram (@el8dev)",
+    "contact_tiktok": "TikTok (@el8.dev)",
+    "contact_telegram": "Telegram (t.me/el8dev)",
+    "contact_github": "GitHub (el8dev)"
   },
   "home": {
     "title_part1": "El8",
@@ -95,7 +104,8 @@
       "Administrative & Commercial Systems",
       "Affordable Tech Consulting",
       "Innovative Digital Systems Design"
-    ]
+    ],
+    "kicker": "Team Vision"
   },
   "auth": {
     "welcome_back": "Welcome Back",
@@ -268,5 +278,14 @@
     "step4_date": "Next Phase",
     "step5_title": "Official Launch",
     "step5_date": "Expected in August"
+  },
+  "hero_redesign": {
+    "badge": "El8 Team",
+    "line1": "Engineering Experts",
+    "line2": "& Deep Tech",
+    "line3": "in Iraq",
+    "text": "We are El8, an Iraqi & Arab team of engineering students and deep tech developers. We specialize in AI Infrastructure, Web Apps, Desktop programs (EXE), Mobile Apps (APK), Data Systems, and Hardware Solutions. We build massive systems with extreme speed—often launching complex architectural projects in just one month.",
+    "cta_main": "Start Your Project Now",
+    "cta_alt": "Contact Us"
   }
 }

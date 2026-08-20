@@ -82,11 +82,12 @@ export const CustomerReviewsSection: React.FC = () => {
   };
 
   return (
-    <section className="py-32 relative overflow-hidden">
-      {/* Background ambient light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
+    <section className="py-28 relative overflow-hidden wrap" id="reviews">
+      {/* Background ambient lighting */}
+      <span aria-hidden="true" className="deck-aura deck-aura--1" style={{ top: '20%', insetInlineEnd: '-10%', opacity: 0.45 }} />
+      <span aria-hidden="true" className="deck-aura deck-aura--2" style={{ bottom: '10%', insetInlineStart: '-10%', opacity: 0.45 }} />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -115,12 +116,12 @@ export const CustomerReviewsSection: React.FC = () => {
               key={review.id}
               variants={itemVariants as any}
               whileHover={reduceMotion ? {} : { y: -5, transition: { duration: 0.2 } }}
-              className="bg-card/40 backdrop-blur-md border border-border/50 rounded-3xl p-8 relative overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full"
+              className="bg-[rgba(18,12,22,0.72)] dark:bg-[rgba(18,12,22,0.72)] backdrop-blur-xl border border-[rgba(186,104,203,0.18)] rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 hover:border-[rgba(186,104,203,0.35)] transition-all duration-300 flex flex-col h-full"
             >
               {/* Subtle top gradient line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
-              <MessageSquareQuote size={40} className="text-primary/10 absolute top-6 right-6 -z-10 group-hover:scale-110 transition-transform duration-300" />
+              <MessageSquareQuote size={40} className="text-primary/15 absolute top-6 right-6 -z-10 group-hover:scale-110 transition-transform duration-300" />
               
               <div className="flex items-center space-x-1 mb-6">
                 {[...Array(5)].map((_, i) => (

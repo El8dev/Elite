@@ -158,7 +158,7 @@
 
   /* ── Disable system cursor on pointer devices (CustomCursor takes over) ── */
   @media (pointer: fine) {
-    /* Custom scrollbars */
+    *, *::before, *::after { cursor: none !important; }
     input, textarea, select { cursor: text !important; }
   }
 

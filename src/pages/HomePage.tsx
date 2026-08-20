@@ -1,41 +1,21 @@
-import React, { useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
+import React from 'react';
 import OurVision from '@/features/landing/components/OurVision';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
 import { ServicesSection } from '@/features/landing/components/ServicesSection';
-import { InteractiveGlobe } from '@/features/landing/components/InteractiveGlobe';
 import { CustomerReviewsSection } from '@/features/landing/components/CustomerReviewsSection';
-import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { useTranslation } from 'react-i18next';
+import { SplashIntro } from '@/features/landing/components/SplashIntro';
+import { HeroRedesign } from '@/features/landing/components/HeroRedesign';
+import { useRevealAnimations } from '@/hooks/useRevealAnimations';
 
 const HomePage: React.FC = () => {
-  const reduceMotion = useReducedMotionPref();
   const { t } = useTranslation();
-  
-  // Dynamic Shifting Background Coordinates
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY, reduceMotion]);
-
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-  const xPercent = useTransform(springX, [0, window.innerWidth || 1000], [40, 60]);
-  const yPercent = useTransform(springY, [0, window.innerHeight || 1000], [40, 60]);
-  const bgTemplate = useMotionTemplate`radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(139,92,246,0.06) 0%, rgba(99,102,241,0.03) 40%, transparent 70%)`;
+  useRevealAnimations();
 
   return (
-    <div className="relative min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-foreground font-sans overflow-x-hidden">
+    <>
       <Helmet>
         <title>El8 Tech | {t('home.title_part1')} {t('home.title_part2')}</title>
         <meta name="description" content={t('home.subtitle')} />
@@ -63,25 +43,107 @@ const HomePage: React.FC = () => {
         </script>
       </Helmet>
 
-      {!reduceMotion && (
-        <motion.div
-          className="pointer-events-none fixed inset-0 z-0"
-          style={{ background: bgTemplate }}
-        />
-      )}
-
+      <SplashIntro />
       <SiteHeader />
 
-      <main className="relative z-10 pt-24 pb-10">
-        <InteractiveGlobe />
+      <main id="top">
+        <div id="homeView">
+          <HeroRedesign />
+          
+          <div className="handoff handoff--between reveal">
+            <div className="handoff__row">
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--left"></span>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--left"></div>
+              <div aria-hidden="true" className="handoff__ai">
+                <svg viewBox="0 0 24 24" className="handoff__gemini-spark">
+                  <defs>
+                    <linearGradient id="gemini-spark-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#a855f7" />
+                      <stop offset="50%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#f43f5e" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+                    fill="none"
+                    stroke="url(#gemini-spark-grad-1)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--right"></div>
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--right"></span>
+            </div>
+          </div>
+
+          <OurVision />
+          
+          <div className="handoff handoff--between reveal">
+            <div className="handoff__row">
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--left"></span>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--left"></div>
+              <div aria-hidden="true" className="handoff__ai">
+                <svg viewBox="0 0 24 24" className="handoff__gemini-spark">
+                  <defs>
+                    <linearGradient id="gemini-spark-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#38bdf8" />
+                      <stop offset="50%" stopColor="#a855f7" />
+                      <stop offset="100%" stopColor="#34d399" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+                    fill="none"
+                    stroke="url(#gemini-spark-grad-2)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--right"></div>
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--right"></span>
+            </div>
+          </div>
+
+          <ServicesSection />
+          <CustomerReviewsSection />
+
+          <div className="handoff handoff--closing reveal">
+            <div className="handoff__row">
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--left"></span>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--left"></div>
+              <div aria-hidden="true" className="handoff__ai">
+                <svg viewBox="0 0 24 24" className="handoff__gemini-spark">
+                  <defs>
+                    <linearGradient id="gemini-spark-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#a855f7" />
+                      <stop offset="50%" stopColor="#f43f5e" />
+                      <stop offset="100%" stopColor="#38bdf8" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+                    fill="none"
+                    stroke="url(#gemini-spark-grad-3)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <div aria-hidden="true" className="handoff__filament handoff__filament--right"></div>
+              <span aria-hidden="true" className="hand hand--bottom handoff__hand handoff__hand--right"></span>
+            </div>
+          </div>
+          
+        </div>
       </main>
 
-      <OurVision />
-      
-      <ServicesSection />
-      <CustomerReviewsSection />
       <PremiumFooter />
-    </div>
+    </>
   );
 };
 

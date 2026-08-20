@@ -4,58 +4,46 @@ import React from 'react';
  * AmbientBackground
  * ─────────────────
  * Fixed full-screen background layer providing:
- *  1. Three drifting CSS-animated gradient orbs (GPU-accelerated, no canvas)
+ *  1. Five drifting CSS-animated gradient orbs (GPU-accelerated, no canvas)
  *  2. A subtle dot-grid mesh overlay (layered via CSS)
  *
- * Performance: 100% CSS — only `transform` and `opacity` are animated
- * (both GPU-composited), ensuring 0 Layout / 0 Paint invalidations.
- * Pointer-events are disabled so it never intercepts UI interactions.
+ * Placed outside of any transformed/will-change containers so `position: fixed` works perfectly globally.
  */
 const AmbientBackground: React.FC = () => {
   return (
-    <div
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      {/* ── Orb 1 — Violet (top-left drift) ── */}
-      <div
-        className="hidden md:block absolute -top-[20%] -left-[15%] h-[55vmax] w-[55vmax] rounded-full animate-float will-change-transform"
-        style={{
-          background:
-            'radial-gradient(circle at center, rgba(139,92,246,0.09) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-      />
+    <div className="bg-fx" aria-hidden="true">
+      <style>
+        {`
+          .hero-mesh {
+            position: fixed !important;
+            inset: 0 !important;
+            height: 100vh !important;
+            z-index: 0 !important;
+            background: transparent !important;
+          }
+          @media (max-width:900px) {
+            .hero-mesh {
+              height: 100vh !important;
+            }
+          }
+        `}
+      </style>
+      
+      {/* Cyber/Tech line grid overlay */}
+      <div className="bg-fx__grid"></div>
 
-      {/* ── Orb 2 — Cyan (bottom-right drift, delayed) ── */}
-      <div
-        className="hidden md:block absolute -bottom-[25%] -right-[10%] h-[60vmax] w-[60vmax] rounded-full animate-float-delayed will-change-transform"
-        style={{
-          background:
-            'radial-gradient(circle at center, rgba(34,211,238,0.055) 0%, rgba(34,211,238,0.025) 40%, transparent 70%)',
-          filter: 'blur(70px)',
-        }}
-      />
+      {/* Global lattice mesh */}
+      <div aria-hidden="true" className="hero-mesh">
+        <div className="hero-mesh__lattice"></div>
+        <div className="hero-mesh__sweep"></div>
+        <div className="hero-mesh__fade"></div>
+      </div>
 
-      {/* ── Orb 3 — Emerald (center-right, mid-speed) ── */}
-      <div
-        className="hidden md:block absolute top-[35%] right-[5%] h-[40vmax] w-[40vmax] rounded-full will-change-transform"
-        style={{
-          background:
-            'radial-gradient(circle at center, rgba(52,211,153,0.045) 0%, transparent 65%)',
-          filter: 'blur(55px)',
-          animation: 'float 11s ease-in-out infinite 2s',
-        }}
-      />
-
-      {/* ── Subtle vignette at edges ── */}
-      <div
-        className="absolute inset-0 opacity-20 dark:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 60%, rgba(0,0,0,0.55) 100%)',
-        }}
-      />
+      <div className="bg-fx__orb bg-fx__orb--1"></div>
+      <div className="bg-fx__orb bg-fx__orb--2"></div>
+      <div className="bg-fx__orb bg-fx__orb--3"></div>
+      <div className="bg-fx__orb bg-fx__orb--4"></div>
+      <div className="bg-fx__orb bg-fx__orb--5"></div>
     </div>
   );
 };

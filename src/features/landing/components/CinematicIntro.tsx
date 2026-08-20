@@ -172,7 +172,9 @@ const overlayExit = {
 // Component
 // ──────────────────────────────────────────────────────────────────────────────
 const CinematicIntro: React.FC<CinematicIntroProps> = ({ children }) => {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    return sessionStorage.getItem('hasPlayedCinematicIntro') !== 'true';
+  });
   const { playSubBassDrop } = useCinematicSound();
 
   // Lock scroll while active
@@ -192,8 +194,10 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ children }) => {
 
   // Dismiss after animation completes
   useEffect(() => {
+    if (!showIntro) return;
     const t = setTimeout(() => {
       setShowIntro(false);
+      sessionStorage.setItem('hasPlayedCinematicIntro', 'true');
       try {
         if (playSubBassDrop) playSubBassDrop();
       } catch (e) {
@@ -201,10 +205,11 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ children }) => {
       }
     }, DISMISS_AFTER_MS);
     return () => clearTimeout(t);
-  }, [playSubBassDrop]);
+  }, [playSubBassDrop, showIntro]);
 
   const handleDismiss = () => {
     setShowIntro(false);
+    sessionStorage.setItem('hasPlayedCinematicIntro', 'true');
     try {
       if (playSubBassDrop) playSubBassDrop();
     } catch (e) {}

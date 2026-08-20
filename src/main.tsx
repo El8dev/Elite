@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 import "./index.css";
+import "./redesign.css";
 import "./i18n/config";
 
 Sentry.init({
@@ -11,7 +12,8 @@ Sentry.init({
   environment: import.meta.env.MODE,
 });
 
-createRoot(document.getElementById("root")!).render(
+const rootElement = document.getElementById("root")!;
+const app = (
   <Sentry.ErrorBoundary fallback={<p>应用发生错误，请刷新页面重试</p>}>
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <AppWrapper>
@@ -20,3 +22,11 @@ createRoot(document.getElementById("root")!).render(
     </ThemeProvider>
   </Sentry.ErrorBoundary>
 );
+
+if (rootElement.hasChildNodes()) {
+  import("react-dom/client").then(({ hydrateRoot }) => {
+    hydrateRoot(rootElement, app);
+  });
+} else {
+  createRoot(rootElement).render(app);
+}

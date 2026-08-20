@@ -38,7 +38,7 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100]"
           />
 
           {/* Modal */}
@@ -48,7 +48,7 @@ export const ContactAgencyModal: React.FC<ContactAgencyModalProps> = ({ isOpen, 
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-purple-500/10 pointer-events-auto relative"
+              className="w-full max-w-xl bg-slate-950/75 backdrop-blur-2xl border border-white/15 rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_50px_-10px_rgba(168,85,247,0.25)] pointer-events-auto relative"
               dir={i18n.dir()}
             >
               {/* Background ambient glow inside modal */}

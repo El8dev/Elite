@@ -96,72 +96,98 @@ const CustomCursor: React.FC = () => {
 
   if (!visible) return null;
 
-  const ringSize = isHovered ? 56 : 24;
-
   return (
     <>
-      {/* ── Inner dot — snaps exactly to cursor ── */}
+      {/* ── Inner dot — snaps exactly to cursor center ── */}
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none fixed top-0 left-0 z-[2147483647] rounded-full"
         style={{
           x: cursorX,
           y: cursorY,
-          width:  isHovered ? 8 : 6,
-          height: isHovered ? 8 : 6,
+          translateX: '-50%',
+          translateY: '-50%',
+          width:  5,
+          height: 5,
           backgroundColor: '#ffffff',
-          mixBlendMode: 'difference',
+          boxShadow: '0 0 10px rgba(255, 255, 255, 0.9)',
         }}
         transition={{ type: 'spring', stiffness: 900, damping: 45, mass: 0.1 }}
       />
 
-      {/* ── Outer ring — spring-lagged + conic-gradient border ── */}
+      {/* ── Outer Gemini Spark Outline — spring-lagged fixed center ── */}
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9998] rounded-full -translate-x-1/2 -translate-y-1/2 flex items-center justify-center overflow-hidden"
+        className="pointer-events-none fixed top-0 left-0 z-[2147483646] flex items-center justify-center"
         style={{
           x: ringX,
           y: ringY,
-          width:  ringSize,
-          height: ringSize,
-          mixBlendMode: 'difference',
-          background: `conic-gradient(#ffffff 0deg, transparent 220deg)`,
-          WebkitMask: `
-            radial-gradient(farthest-side, transparent calc(100% - 1.5px), #fff calc(100% - 1.5px))
-          `,
-          mask: `
-            radial-gradient(farthest-side, transparent calc(100% - 1.5px), #fff calc(100% - 1.5px))
-          `,
-          animation: 'spin-slow 5s linear infinite',
+          translateX: '-50%',
+          translateY: '-50%',
+          width:  34,
+          height: 34,
         }}
-        transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+        transition={{ type: 'spring', stiffness: 220, damping: 20 }}
       >
+        <svg 
+          viewBox="0 0 24 24" 
+          className="w-full h-full overflow-visible"
+          style={{ animation: 'spin-slow 8s linear infinite', transformOrigin: 'center center' }}
+        >
+          <defs>
+            <linearGradient id="gemini-cursor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="50%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#f43f5e" />
+            </linearGradient>
+            <filter id="gemini-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#a855f7" floodOpacity="0.8" />
+            </filter>
+          </defs>
+          <path
+            d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+            fill="none"
+            stroke="url(#gemini-cursor-grad)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            filter="url(#gemini-glow)"
+          />
+        </svg>
+
         {hoverText && (
           <motion.span
             initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center"
-            style={{ WebkitMask: 'none', mask: 'none' }}
+            className="absolute font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center bg-black/60 backdrop-blur-md rounded-md py-0.5 border border-purple-500/30 whitespace-nowrap"
           >
             {hoverText}
           </motion.span>
         )}
       </motion.div>
 
-      {/* ── Click ripple bursts ── */}
+      {/* ── Click Gemini spark ripple bursts ── */}
       {ripples.map((r) => (
         <div
           key={r.id}
-          className="pointer-events-none fixed top-0 left-0 z-[9997] rounded-full border"
+          className="pointer-events-none fixed top-0 left-0 z-[2147483645]"
           style={{
             left: r.x,
             top:  r.y,
-            width:  24,
-            height: 24,
-            borderColor: ringColor,
-            borderWidth: '1px',
-            animation: 'cursor-ripple 0.62s ease-out forwards',
+            transform: 'translate(-50%, -50%)',
+            width:  34,
+            height: 34,
+            animation: 'cursor-ripple 0.65s ease-out forwards',
           }}
           aria-hidden="true"
-        />
+        >
+          <svg viewBox="0 0 24 24" className="w-full h-full">
+            <path
+              d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+              fill="none"
+              stroke={ringColor}
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
       ))}
     </>
   );
