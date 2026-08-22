@@ -120,7 +120,15 @@
       "hardware": "Embedded & IoT Hardware",
       "hardware_sub": "32-Bit Microcontroller",
       "ai_infra": "AI Infrastructure & GPU",
-      "ai_infra_sub": "Zero Cold Start Serving"
+      "ai_infra_sub": "Zero Cold Start Serving",
+      "service_web": "Full-Stack App Delivery",
+      "service_web_sub": "High Performance & SSR",
+      "service_erp": "Business Process Automation",
+      "service_erp_sub": "Integrated ERP Dashboards",
+      "service_uiux": "Next-Gen UI/UX Engineering",
+      "service_uiux_sub": "Pixel Perfect Systems",
+      "service_ai": "Intelligent System Solutions",
+      "service_ai_sub": "Real-time AI Inference"
     }
   },
   "auth": {

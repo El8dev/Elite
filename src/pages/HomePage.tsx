@@ -18,13 +18,19 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>El8 Tech | {t('home.title_part1')} {t('home.title_part2')}</title>
+        <title>El8 Tech | Rapid State-of-the-Art Solutions</title>
         <meta name="description" content={t('home.subtitle')} />
-        <meta property="og:title" content={`El8 Tech | ${t('home.title_part1')} ${t('home.title_part2')}`} />
+        <meta property="og:title" content="El8 Tech | Rapid State-of-the-Art Solutions" />
         <meta property="og:description" content={t('home.subtitle')} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://el8.dev" />
+        <meta property="og:image" content="https://el8.dev/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="El8 Tech | Rapid State-of-the-Art Solutions" />
+        <meta name="twitter:description" content={t('home.subtitle')} />
+        <meta name="twitter:image" content="https://el8.dev/og-image.png" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -32,6 +38,7 @@ const HomePage: React.FC = () => {
             "name": "El8 Tech",
             "url": "https://el8.dev",
             "logo": "https://el8.dev/favicon.png",
+            "image": "https://el8.dev/og-image.png",
             "email": "el8dev@gmail.com",
             "sameAs": [
               "https://t.me/el8dev",
@@ -39,7 +46,7 @@ const HomePage: React.FC = () => {
               "https://github.com/el8dev",
               "https://tiktok.com/@el8.dev"
             ],
-            "description": "An elite Iraqi development team building rapid, state-of-the-art tech solutions. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions."
+            "description": "El8 Tech is an elite Iraqi development team building rapid, state-of-the-art tech solutions: AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions."
           })}
         </script>
       </Helmet>

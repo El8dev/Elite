@@ -36,7 +36,7 @@ export const ServicesSection: React.FC = () => {
           
           <article className="deck-card deck-card--svc reveal" data-delay="0" style={{ '--acc': '#F59E0B' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <CardMicroIllustration color="#F59E0B" type="app" />
+              <CardMicroIllustration color="#F59E0B" type="service_web" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -57,7 +57,7 @@ export const ServicesSection: React.FC = () => {
           
           <article className="deck-card deck-card--svc reveal" data-delay="90" style={{ '--acc': '#10B981' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <CardMicroIllustration color="#10B981" type="analytics" />
+              <CardMicroIllustration color="#10B981" type="service_erp" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -76,9 +76,9 @@ export const ServicesSection: React.FC = () => {
             </div>
           </article>
 
-          <article className="deck-card deck-card--svc reveal" data-delay="180" style={{ '--acc': '#F43F5E' } as React.CSSProperties}>
+          <article className="deck-card deck-card--svc reveal" data-delay="180" style={{ '--acc': '#EC4899' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <CardMicroIllustration color="#F43F5E" type="design" />
+              <CardMicroIllustration color="#EC4899" type="service_uiux" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">
@@ -99,7 +99,7 @@ export const ServicesSection: React.FC = () => {
 
           <article className="deck-card deck-card--svc reveal" data-delay="270" style={{ '--acc': '#8B5CF6' } as React.CSSProperties}>
             <div className="deck-card__media">
-              <CardMicroIllustration color="#8B5CF6" type="terminal" />
+              <CardMicroIllustration color="#8B5CF6" type="service_ai" />
             </div>
             <div aria-hidden="true" className="deck-card__scrim"></div>
             <div className="deck-card__content">

@@ -978,36 +978,37 @@ html:not(.dark) .deck-panel{
   .deck-card__icon svg{ width:19px; height:19px; }
 }
 
-/* phones: two compact cards per row, caption under each image */
+/* phones: spacious single-column cards with responsive micro-illustrations */
 @media (max-width:640px){
   .deck{ padding-block:24px; }
-  .deck-panel{ padding:48px 11px 24px; border-radius:22px; }
+  .deck-panel{ padding:44px 14px 24px; border-radius:22px; }
   .deck-head{ margin-bottom:20px; }
-  .deck-sub{ font-size:.82rem; line-height:1.7; }
-  .deck-grid{ gap:10px; }
+  .deck-sub{ font-size:.85rem; line-height:1.7; }
+  .deck-grid{ gap:16px; }
 
-  .deck-grid--vision{ grid-template-columns:repeat(2,1fr); }
-  .deck-grid--vision .deck-card{ border-radius:16px; }
-  .deck-grid--vision .deck-card .deck-card__media{ aspect-ratio:1 / 1; }
+  .deck-grid--vision{ grid-template-columns:1fr; }
+  .deck-grid--vision .deck-card:nth-child(7){ grid-column:auto; }
+  .deck-grid--vision .deck-card{ border-radius:20px; }
+  .deck-grid--vision .deck-card .deck-card__media{ aspect-ratio:1.85 / 1; }
 
-  .deck-grid--services{ grid-template-columns:repeat(2,1fr); }
-  .deck-grid--services .deck-card{ border-radius:16px; }
-  .deck-card--svc .deck-card__media{ aspect-ratio:1 / 1; }
-  .deck-card__media img.is-art{ padding:12% 6%; }
+  .deck-grid--services{ grid-template-columns:1fr; }
+  .deck-grid--services .deck-card{ border-radius:20px; }
+  .deck-card--svc .deck-card__media{ aspect-ratio:1.85 / 1; }
+  .deck-card__media img.is-art{ padding:8% 5%; }
 
-  .deck-card__content{ padding:11px 11px 14px; }
-  .deck-card__rule{ width:20px; height:2px; margin-bottom:8px; }
-  .deck-card__text{ font-size:.76rem; line-height:1.45; }
-  .deck-card__icon{ width:32px; height:32px; border-radius:10px; margin-top:-27px; margin-bottom:9px; box-shadow:0 8px 18px -8px var(--acc,#8A4E97), 0 0 0 3px var(--surface); }
-  .deck-card__icon svg{ width:16px; height:16px; }
-  .deck-card__title{ font-size:.81rem; line-height:1.4; margin-bottom:6px; }
-  .deck-card__desc{ font-size:.69rem; line-height:1.7; }
+  .deck-card__content{ padding:14px 16px 18px; }
+  .deck-card__rule{ width:26px; height:2px; margin-bottom:10px; }
+  .deck-card__text{ font-size:.9rem; line-height:1.5; }
+  .deck-card__icon{ width:36px; height:36px; border-radius:12px; margin-top:-30px; margin-bottom:10px; box-shadow:0 8px 18px -8px var(--acc,#8A4E97), 0 0 0 3px var(--surface); }
+  .deck-card__icon svg{ width:18px; height:18px; }
+  .deck-card__title{ font-size:.95rem; line-height:1.4; margin-bottom:6px; }
+  .deck-card__desc{ font-size:.82rem; line-height:1.7; }
 }
 
 @media (max-width:370px){
-  .deck-card__text{ font-size:.7rem; }
-  .deck-card__desc{ font-size:.66rem; line-height:1.65; }
-  .deck-card__title{ font-size:.76rem; }
+  .deck-card__text{ font-size:.84rem; }
+  .deck-card__desc{ font-size:.78rem; line-height:1.65; }
+  .deck-card__title{ font-size:.88rem; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1488,80 +1489,7 @@ html.dark{ --code-note: 285 22% 12%; }
   opacity:.55;
 }
 
-/* ---------- one card, one size, everywhere ----------
-   Every tile now follows the same recipe as the cards under the hero: a square
-   picture plate of a fixed size, centred, with the caption centred underneath.
-   The plate is a touch larger than the hero cards, and the picture inside is
-   contained rather than cropped, so nothing is cut off and every image reads at
-   the same visual weight no matter its native shape. */
-.deck-grid--vision{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.deck-grid--services{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-/* the service plate is square like every other one */
-.deck-card--svc .deck-card__media{ aspect-ratio:1 / 1; }
 
-.deck-card{
-  align-items:center; text-align:center;
-  padding:clamp(14px,1.6vw,20px);
-  border-radius:clamp(18px,2vw,24px);
-}
-.deck-card__media{
-  position:relative; flex:0 0 auto;
-  width:clamp(196px,22.5vw,288px); max-width:100%;
-  aspect-ratio:1 / 1; height:auto;
-  margin-inline:auto; overflow:hidden;
-  border-radius:clamp(14px,1.6vw,20px);
-  border:1px solid var(--border);
-  background:linear-gradient(158deg, var(--brand-900), var(--brand-950, #0E0910));
-}
-.deck-card__media img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:contain; object-position:center; padding:6px; box-sizing:border-box;
-}
-.deck-card__content{
-  flex:1 1 auto; width:100%; text-align:center;
-  padding:clamp(13px,1.5vw,18px) 4px 2px; border-top:0;
-  display:flex; flex-direction:column; align-items:center;
-}
-.deck-card__rule{ margin-inline:auto; }
-.deck-card--svc .deck-card__icon{ margin-top:-2px; }
-.deck-card--svc .deck-card__desc{ padding-inline:0; }
-.deck-card--svc .deck-card__desc::before{ display:none; }
-
-/* the plate carries the identity on its own - no frame furniture on top */
-.deck-card::before, .deck-card::after{ display:none; }
-.deck-card__media::after{ display:none; }
-
-/* three across, so the seventh tile sits centred on its own row */
-.deck-grid--vision .deck-card:nth-child(7){ grid-column:2 / 3; }
-
-/* three across at every width - the plate simply fills its column on the
-   narrow screens instead of dropping to a single tall stack */
-@media (max-width:900px){
-  .deck-grid--vision, .deck-grid--services{ grid-template-columns:repeat(3,1fr); gap:10px; }
-  .deck-card{ padding:8px; }
-  .deck-card__media{ width:100%; }
-  .deck-grid--vision .deck-card:nth-child(7){ grid-column:auto; }
-}
-@media (max-width:640px){
-  .deck-grid--vision, .deck-grid--services{ gap:6px; }
-  .deck-card{ padding:5px; border-radius:14px; }
-  .deck-card__media{ width:100%; border-radius:11px; }
-  .deck-card__media img{ padding:3px; }
-  .deck-card__content{ padding:8px 2px 2px; }
-  .deck-card__rule{ width:18px; height:2px; margin-bottom:6px; }
-  .deck-card__text{ font-size:.63rem; line-height:1.35; }
-  .deck-card__title{ font-size:.66rem; line-height:1.3; margin-bottom:4px; }
-  .deck-card__desc{ font-size:.58rem; line-height:1.55; }
-  .deck-card__icon{ width:26px; height:26px; border-radius:9px; margin-bottom:6px; }
-  .deck-card__icon svg{ width:13px; height:13px; }
-}
-@media (max-width:380px){
-  .deck-grid--vision, .deck-grid--services{ gap:5px; }
-  .deck-card{ padding:4px; }
-  .deck-card__text{ font-size:.58rem; }
-  .deck-card__title{ font-size:.61rem; }
-  .deck-card__desc{ font-size:.55rem; }
-}
 
 /* ================================================================
    Splash: a fixed, symmetrical stage
@@ -1761,6 +1689,7 @@ html{ scroll-behavior:smooth; }
   display:flex; align-items:center; justify-content:center;
   gap:clamp(8px,2vw,18px);
   position:relative; z-index:1;
+  direction: ltr;
 }
 
 /* Organic radial ambient light orb behind the hands - zero square box edges */
