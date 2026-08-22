@@ -1,51 +1,53 @@
-# El8 Tech (Elite Tech Solutions)
+# EL8 Tech
 
-> Elite Iraqi development team building rapid, state-of-the-art tech solutions: Interactive STEM Virtual Labs (Chemistry, Physics, Biology), Digital Academy Platforms, Full-Stack Web Apps, Desktop (.EXE), Mobile (.APK), Data Systems, and Hardware Integrations.
+> Iraqi engineering studio that designs, builds, and ships software — web platforms, mobile apps, AI systems, desktop software, and hardware. Production-ready in weeks.
 
-## Executive Overview
-El8 Tech is a high-performance software and hardware engineering group based in Iraq. We deliver enterprise-grade digital systems, interactive educational simulations for schools and universities, custom AI models, and real-time data processing with unmatched engineering velocity.
+## What We Are
+EL8 Tech is a software and hardware engineering studio based in Iraq. We take projects from concept to production with fast delivery and no shortcuts. Our team handles the full stack — from UI design to backend architecture to hardware integration.
 
-## Core Capabilities & Services
+## What We Build
 
-### 1. Interactive Educational Labs & STEM Simulations
-- Custom 60 FPS interactive virtual labs for **Chemistry, Physics, and Biology**.
-- Tailored digital learning environments for **K-12 Schools, Academies, Colleges, and Universities**.
-- Real-time physics engines, chemical reaction simulations, and cell biology visualizers accessible via Web, Mobile, and Desktop.
+### 1. Web & App Development
+- Fast, responsive websites and web applications
+- Built with modern frameworks (React, Next.js, Vite)
+- Optimized for performance and conversion
 
-### 2. Full-Stack Web & Academy Management Platforms
-- High-concurrency academic & enterprise management platforms (e.g., Raqeem / HauzaOnline Platform).
-- Zero-dependency Single Page Application (SPA) architectures with custom hash-routing and state persistence.
-- Automated academic evaluation algorithms (50+50 grading system) and intelligent student promotion engines.
-- Advanced database security: PostgreSQL Row Level Security (RLS), anti-duplication exam guards, and cryptographic re-take prevention.
+### 2. Business & Management Systems
+- Full enterprise platforms (ERP, CRM, HR, POS)
+- Academic management systems with automated grading and evaluation
+- Integrated dashboards with real-time reporting
 
-### 3. Artificial Intelligence & Data Engineering
-- Custom RAG (Retrieval-Augmented Generation) infrastructure & vector search embeddings.
-- Computer vision, object tracking, and OCR systems for automated document digitizing.
-- Automated workflow integration & intelligent decision-support engines.
+### 3. AI & Data Solutions
+- Custom AI model integration and conversational agents
+- Computer vision, OCR, and document processing
+- Data pipelines, analysis tools, and automated workflows
 
-### 4. Desktop & Native Software Development
-- Enterprise Windows desktop applications (.EXE) using C#/.NET, Electron, or Tauri.
-- System-level automation, local database sync, and offline-first administrative software.
+### 4. Desktop Software
+- Native desktop applications for Windows, macOS, and Linux
+- System-level automation and offline-first architecture
+- Enterprise management and operations tools
 
-### 5. Mobile Application Development
-- Cross-platform Android (.APK) and iOS applications.
-- Real-time notifications, location tracking, and mobile database synchronization.
+### 5. Mobile Applications
+- Cross-platform apps for iOS and Android
+- Real-time sync, notifications, and offline support
+- High-performance native experiences
 
-### 6. Hardware & IoT Systems
-- Custom embedded systems & 32-bit microcontroller integration (Arduino, ESP32, Raspberry Pi).
-- POS system hardware bridging, barcode/RFID scanners, and IoT sensor telemetry.
+### 6. Hardware & IoT
+- Custom embedded systems and IoT controllers
+- Sensor networks and hardware-software bridges
+- POS hardware integration, barcode/RFID systems
 
-## Featured Case Studies & Projects
-- **Raqeem / HauzaOnline Digital Academy System**: Scalable digital academy management platform featuring automated grading, anti-cheating exam security, and native RTL Arabic localization.
-- **STEM Interactive Virtual Labs**: High-performance interactive laboratory simulations covering Chemistry, Physics, and Biology for educational institutions.
+## Featured Projects
+- **Raqeem**: AI-powered voice and audio system for natural speech processing, transcription, and conversational agents — supporting Arabic and global languages.
+- **EL8 Platform**: Developer directory and project showcase — a portfolio hub for engineers and creators.
 
-## Key Pages & Resources
-- [Homepage](https://el8.dev/): Primary showcase of services, technology stack, and interactive portfolio.
-- [Projects Portfolio](https://el8.dev/projects): Comprehensive directory of completed client solutions and internal products.
-- [Full Technical Specs](https://el8.dev/llms-full.txt): Deep technical documentation for AI agents and developer integrations.
+## Links
+- [Homepage](https://el8.dev/)
+- [Projects](https://el8.dev/projects)
+- [Full Technical Specs](https://el8.dev/llms-full.txt)
 
-## Official Contact & Social Media Channels (قنوات التواصل الاجتماعي)
-- **Official Website**: https://el8.dev
+## Contact
+- **Website**: https://el8.dev
 - **Email**: el8dev@gmail.com
 - **Telegram**: https://t.me/el8dev (@el8dev)
 - **Instagram**: https://instagram.com/el8dev (@el8dev)

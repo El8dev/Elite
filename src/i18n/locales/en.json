@@ -19,29 +19,29 @@
   "home": {
     "title_part1": "El8",
     "title_part2": "Tech",
-    "subtitle": "An elite Iraqi development team building rapid, state-of-the-art tech solutions. Delivering high-performance engineering with unmatched agility and maximum ROI."
+    "subtitle": "An Iraqi engineering studio that designs, builds, and ships software — from idea to production in weeks, not months."
   },
   "developers_page": {
-    "title": "El8 Developers",
-    "subtitle": "Meet the creative minds behind the masterpieces.",
+    "title": "EL8 Developers",
+    "subtitle": "The people behind the products.",
     "our_engineers": "Our Engineers",
-    "our_engineers_desc": "Meet the talent behind our products"
+    "our_engineers_desc": "The team behind what we build"
   },
   "footer": {
-    "brand_desc": "El8 Team. Building digital bridges for the future. The elite platform for rapid development of systems, applications, and hardware integration.",
-    "start_project": "Start your project with us",
-    "rights": "© {{year}} El8 Tech IQ. All rights reserved."
+    "brand_desc": "EL8. Iraqi engineering, global standards.",
+    "start_project": "Start your project",
+    "rights": "© {{year}} EL8 Tech. All rights reserved."
   },
   "globe": {
-    "badge": "El8 Team",
-    "title": "Iraqi Engineering & Deep Tech Experts",
-    "desc": "We are El8, an Iraqi Middle Eastern team of software engineers, system architects, and deep tech experts. We specialize in AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions. We ship production-ready platforms in weeks, not months.",
+    "badge": "EL8 Team",
+    "title": "Built in Iraq. Built to Last.",
+    "desc": "We're a team of software engineers, system architects, and product builders based in Iraq. We take your idea from wireframe to production — web, mobile, desktop, AI, or hardware. Fast delivery, no shortcuts.",
     "stats_value_1": "AI & Web",
-    "stats_label_1": "Rapid Deployment",
-    "stats_value_2": "Desktop/Mobile",
+    "stats_label_1": "Fast Delivery",
+    "stats_value_2": "Desktop & Mobile",
     "stats_label_2": "Cross-Platform",
     "stats_value_3": "Data & Hardware",
-    "stats_label_3": "Enterprise Solutions"
+    "stats_label_3": "Full-Stack Solutions"
   },
   "dashboard": {
     "my_projects": "My Projects",
@@ -94,47 +94,47 @@
   },
   "vision": {
     "title": "Our Vision",
-    "subtitle": "Rapid Development, Maximum Value.",
-    "desc": "El8 is an elite Iraqi technical team. We deliver state-of-the-art software—from web platforms to AI and hardware integrations—with incredible speed, shipping production-ready platforms in weeks, not months.",
+    "subtitle": "Ideas ship. Fast.",
+    "desc": "We cut the typical development timeline in half. Your platform goes from concept to production in weeks — not the months you've been quoted elsewhere.",
     "services": [
-      "Rapid Web & Mobile App Development",
-      "Desktop Executables (EXE) & Offline Systems",
-      "AI Infrastructure & Data Solutions",
-      "Hardware Integration & Simulation",
-      "Administrative & Commercial Systems",
-      "Strategic Tech Consulting",
-      "Innovative Digital Systems Design"
+      "Web & Mobile Applications",
+      "Desktop Software (Windows / macOS)",
+      "AI & Intelligent Systems",
+      "Hardware & IoT Integration",
+      "Business & Management Systems",
+      "Technical Strategy & Consulting",
+      "Digital Product Design"
     ],
-    "kicker": "Team Vision",
+    "kicker": "Our Approach",
     "card_badges": {
-      "voice_ai": "Voice & Dialect AI",
-      "voice_sub": "Real-time < 1.3s",
-      "erp": "Enterprise ERP Systems",
-      "erp_sub": "Commercial Business",
-      "design": "UI/UX & Simulation",
-      "design_sub": "60 FPS Virtual Labs",
-      "multiplatform": "WEB · APK · EXE",
-      "multiplatform_sub": "1 Codebase ➔ 3 Targets",
-      "security": "Database & Security",
-      "security_sub": "PostgreSQL · Hardened RLS",
-      "hardware": "Embedded & IoT Hardware",
-      "hardware_sub": "32-Bit Microcontroller",
-      "ai_infra": "AI Infrastructure & GPU",
-      "ai_infra_sub": "Zero Cold Start Serving",
-      "service_web": "Full-Stack App Delivery",
-      "service_web_sub": "High Performance & SSR",
-      "service_erp": "Business Process Automation",
-      "service_erp_sub": "Integrated ERP Dashboards",
-      "service_uiux": "Next-Gen UI/UX Engineering",
-      "service_uiux_sub": "Pixel Perfect Systems",
-      "service_ai": "Intelligent System Solutions",
-      "service_ai_sub": "Real-time AI Inference"
+      "voice_ai": "Voice AI",
+      "voice_sub": "Real-time Processing",
+      "erp": "Business Systems",
+      "erp_sub": "End-to-End Management",
+      "design": "UI/UX Design",
+      "design_sub": "Smooth & Interactive",
+      "multiplatform": "Web · Mobile · Desktop",
+      "multiplatform_sub": "One Build, Every Platform",
+      "security": "Data & Security",
+      "security_sub": "Encrypted & Protected",
+      "hardware": "Hardware & IoT",
+      "hardware_sub": "Custom Controllers",
+      "ai_infra": "AI Infrastructure",
+      "ai_infra_sub": "Always-On Performance",
+      "service_web": "Full-Stack Development",
+      "service_web_sub": "Fast & Scalable",
+      "service_erp": "Process Automation",
+      "service_erp_sub": "Smart Dashboards",
+      "service_uiux": "Interface Design",
+      "service_uiux_sub": "Pixel-Perfect Results",
+      "service_ai": "AI Solutions",
+      "service_ai_sub": "Smart & Responsive"
     }
   },
   "auth": {
     "welcome_back": "Welcome Back",
     "create_account": "Create Account",
-    "join_community": "Join the El8 engineering community",
+    "join_community": "Join the EL8 engineering community",
     "signin_dashboard": "Sign in to your el8.dev dashboard",
     "username": "Username",
     "password": "Password",
@@ -146,7 +146,7 @@
     "creating_account": "Creating Account...",
     "already_have_account": "Already have an account? ",
     "dont_have_account": "Don't have an account? ",
-    "built_in_iraq": "el8.dev · El8 Tech IQ · Built in Iraq",
+    "built_in_iraq": "el8.dev · EL8 Tech · Built in Iraq",
     "account_created": "Account created! You can now sign in."
   },
   "dashboard_articles": {
@@ -193,61 +193,61 @@
   },
   "masterpieces": {
     "badge": "Masterpiece",
-    "elite_collection": "The Elite Collection",
+    "elite_collection": "Featured Work",
     "title": "Masterpieces",
-    "subtitle": "A carefully curated gallery of our finest programming and engineering achievements",
-    "no_masterpieces_yet": "No masterpieces uncovered yet.",
-    "premium_projects_will_appear": "Premium projects will appear here once curated."
+    "subtitle": "A curated selection of our best engineering work",
+    "no_masterpieces_yet": "No masterpieces yet.",
+    "premium_projects_will_appear": "Our top projects will appear here once selected."
   },
   "tech_blog": {
     "badge": "Tech Blog",
     "title1": "Tech",
     "title2": "Blog",
-    "subtitle": "Exclusive articles from Elite experts, covering the latest in programming technologies, AI systems, and UI trends.",
+    "subtitle": "Technical articles from our team — covering software engineering, AI, and modern design.",
     "no_articles": "No articles available at the moment.",
-    "author_role": "Tech Expert"
+    "author_role": "Engineer"
   },
   "services_section": {
-    "badge": "Elite Services",
-    "title1": "Elite",
+    "badge": "What We Do",
+    "title1": "Our",
     "title2": "Services",
-    "subtitle": "We offer a comprehensive suite of modern tech solutions specifically designed to meet the needs of businesses and individuals to drive innovation.",
+    "subtitle": "Everything you need to bring your product to life — designed, built, and shipped by one team.",
     "web_dev": "Web & App Development",
-    "web_dev_desc": "We have advanced expertise in building modern, responsive, and fast applications and websites that guarantee superior performance and an unforgettable user experience.",
-    "business_sys": "Business & Admin Systems",
-    "business_sys_desc": "We provide comprehensive software solutions for companies and institutions (ERP, CRM) to facilitate HR and sales management with high efficiency.",
+    "web_dev_desc": "Websites and apps that load fast, look sharp, and work on every device. Built to convert visitors into customers.",
+    "business_sys": "Business & Management Systems",
+    "business_sys_desc": "Complete software for running your business — HR, inventory, sales, and reporting in one integrated dashboard.",
     "uiux": "UI/UX Design",
-    "uiux_desc": "We offer modern and professional designs (UI/UX) focusing on interface aesthetics and usability to increase conversion rates and satisfy your customers.",
-    "ai_data": "AI & Data",
-    "ai_data_desc": "We employ the latest AI algorithms to analyze your data, provide predictions, and smart solutions that support decision-making for your company."
+    "uiux_desc": "Interfaces your users will actually enjoy using. Clean, intuitive design that drives engagement and keeps people coming back.",
+    "ai_data": "AI & Data Solutions",
+    "ai_data_desc": "From smart chatbots to data analysis — we integrate AI where it actually moves the needle for your business."
   },
   "contact": {
-    "success_title": "Your request has been sent successfully!",
-    "success_desc": "Our technical team will contact you as soon as possible to study your project requirements.",
-    "title": "Start your project with Elite",
-    "subtitle": "Tell us about your idea, and we will turn it into a stunning digital reality.",
+    "success_title": "Request sent successfully!",
+    "success_desc": "We'll get back to you within 24 hours to discuss your project.",
+    "title": "Let's build something together",
+    "subtitle": "Describe your project. We'll get back to you within 24 hours.",
     "name": "Full Name",
     "name_placeholder": "John Doe",
     "email": "Email Address",
     "project_type": "Project Type",
     "type_placeholder": "Choose project type...",
-    "type_web": "Interactive Web Development",
-    "type_app": "Smartphone App Development",
-    "type_system": "Admin System (ERP/CRM)",
-    "type_ai": "AI Solutions",
+    "type_web": "Website or Web App",
+    "type_app": "Mobile App",
+    "type_system": "Business System (ERP/CRM)",
+    "type_ai": "AI Integration",
     "type_uiux": "UI/UX Design",
-    "type_other": "Tech Consulting / Other",
-    "details": "Idea / Project Details",
-    "details_placeholder": "Explain your idea briefly...",
-    "sending": "Sending request...",
-    "submit": "Send Quote Request"
+    "type_other": "Consulting / Other",
+    "details": "Project Details",
+    "details_placeholder": "Tell us what you're building...",
+    "sending": "Sending...",
+    "submit": "Send Request"
   },
   "stats": {
     "completed_project": "Completed Project",
-    "elite_developer": "Elite Developer",
-    "customer_satisfaction": "Customer Satisfaction",
+    "elite_developer": "Team Member",
+    "customer_satisfaction": "Client Satisfaction",
     "lines_of_code": "Lines of Code",
-    "tech_stack": "Technologies We Rely On to Build the Future"
+    "tech_stack": "Technologies We Build With"
   },
   "command_menu": {
     "search_placeholder": "Search for projects, developers...",
@@ -258,12 +258,12 @@
   "cost_estimator": {
     "title1": "Cost",
     "title2": "Estimator",
-    "subtitle": "Choose your project specifications and get an instant cost estimate. This tool helps you plan your budget with complete transparency.",
+    "subtitle": "Pick your project specs and get an instant estimate. Plan your budget with full transparency.",
     "project_type": "Project Type",
     "features": "Additional Features",
     "timeline": "Timeline",
     "est_cost": "Estimated Cost",
-    "disclaimer": "* This estimate is a preliminary calculation based on the selected options. The final cost may vary based on specific project requirements.",
+    "disclaimer": "* This is a preliminary estimate based on your selections. Final pricing depends on specific project requirements.",
     "request_quote": "Request Official Quote",
     "types": {
       "web": "Website / Platform",
@@ -304,12 +304,12 @@
     "step5_date": "Expected in August"
   },
   "hero_redesign": {
-    "badge": "El8 Team",
-    "line1": "Engineering Experts",
-    "line2": "& Deep Tech",
-    "line3": "in Iraq",
-    "text": "We are El8, an Iraqi & Arab team of software engineers, system architects, and deep tech experts. We specialize in AI Infrastructure, Web Apps, Desktop programs (EXE), Mobile Apps (APK), Data Systems, and Hardware Solutions. We ship production-ready platforms in weeks, not months.",
-    "cta_main": "Start Your Project Now",
+    "badge": "EL8 Team",
+    "line1": "Your Project",
+    "line2": "Starts Here.",
+    "line3": "",
+    "text": "EL8 is an Iraqi engineering studio. We design, build, and ship software — from web platforms and mobile apps to AI systems and hardware. Production-ready in weeks.",
+    "cta_main": "Start Your Project",
     "cta_alt": "Contact Us"
   }
 }
