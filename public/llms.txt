@@ -44,9 +44,10 @@ El8 Tech is a high-performance software and hardware engineering group based in 
 - [Projects Portfolio](https://el8.dev/projects): Comprehensive directory of completed client solutions and internal products.
 - [Full Technical Specs](https://el8.dev/llms-full.txt): Deep technical documentation for AI agents and developer integrations.
 
-## Contact & Official Handles
+## Official Contact & Social Media Channels (قنوات التواصل الاجتماعي)
+- **Official Website**: https://el8.dev
 - **Email**: el8dev@gmail.com
-- **Telegram**: https://t.me/el8dev
-- **Instagram**: https://instagram.com/el8dev
-- **GitHub**: https://github.com/el8dev
-- **TikTok**: https://tiktok.com/@el8.dev
+- **Telegram**: https://t.me/el8dev (@el8dev)
+- **Instagram**: https://instagram.com/el8dev (@el8dev)
+- **TikTok**: https://tiktok.com/@el8.dev (@el8.dev)
+- **GitHub**: https://github.com/el8dev (@el8dev)

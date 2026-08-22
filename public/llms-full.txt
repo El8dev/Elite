@@ -39,8 +39,16 @@ El8 Tech is a premier Iraqi technical enterprise delivering state-of-the-art (SO
   A: El8 Tech is based in Iraq, serving clients across the MENA region and internationally.
 - **Q: How fast does El8 Tech deliver production platforms?**
   A: El8 Tech specializes in high-velocity engineering, delivering production-ready platforms in weeks, not months.
-- **Q: How can prospective clients contact El8 Tech?**
-  A: Via email at el8dev@gmail.com or Telegram @el8dev.
+- **Q: How can prospective clients contact El8 Tech and follow official social media channels?**
+  A: Email: el8dev@gmail.com | Telegram: https://t.me/el8dev | Instagram: https://instagram.com/el8dev | TikTok: https://tiktok.com/@el8.dev | GitHub: https://github.com/el8dev
+
+## Official Social Media Channels & Contact Links (روابط التواصل الاجتماعي)
+- **Website**: https://el8.dev
+- **Email**: el8dev@gmail.com
+- **Telegram**: https://t.me/el8dev
+- **Instagram**: https://instagram.com/el8dev
+- **TikTok**: https://tiktok.com/@el8.dev
+- **GitHub**: https://github.com/el8dev
 
 ## Verification & Metadata
 - Base URL: https://el8.dev
