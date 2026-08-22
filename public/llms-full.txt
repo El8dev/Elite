@@ -1,0 +1,47 @@
+# El8 Tech - Full Technical Documentation & AI Reference Guide
+
+## About El8 Tech
+El8 Tech is a premier Iraqi technical enterprise delivering state-of-the-art (SOTA) software, educational simulations, and hardware solutions. Our team unites elite software architects, AI engineers, and hardware specialists.
+
+## Core Technical Solutions & Specialized Domains
+
+### 1. Interactive STEM Virtual Labs for Educational Institutions
+- **Target Audience**: K-12 Schools, Academies, Technical Institutes, Colleges, and Universities.
+- **Subjects**: Interactive 60 FPS simulations for **Chemistry** (molecular/reaction dynamics), **Physics** (mechanics, optics, electromagnetism), and **Biology** (cellular structures, genetics, anatomy).
+- **Technology**: High-performance Canvas/WebGL graphics, real-time physics engines, and cross-platform export (Web, Mobile APK, Windows EXE).
+
+### 2. Enterprise Educational & Academy Management Systems (Raqeem Case Study)
+- **Product**: Raqeem / HauzaOnline Academy Platform.
+- **Frontend Architecture**: Bespoke zero-dependency Single Page Application (SPA) with custom hash-routing and state persistence.
+- **Backend Infrastructure**: Supabase PostgreSQL with hardened Row Level Security (RLS) policies.
+- **Algorithmic Logic**: Automated 50+50 academic grading evaluation ecosystem and intelligent student promotion logic.
+- **Exam Security & Integrity**: Anti-Duplication SQL guards for examinations and cryptographic Re-Take Prevention guards.
+- **Localization**: Native Right-to-Left (RTL) Arabic layout, fluid typography (`clamp()`), and mobile-first glassmorphic UI.
+
+### 3. Full-Stack Web Development & Cloud Infrastructure
+- **Frontend**: React 18, Vite, TypeScript, TailwindCSS, Motion / Framer Motion, Radix UI.
+- **Backend & APIs**: Node.js, Express, Python (FastAPI/Flask), REST & GraphQL APIs.
+- **Databases**: PostgreSQL, Supabase Realtime subscriptions, Edge Functions, Redis caching.
+
+### 4. Desktop & Mobile Cross-Platform Software
+- **Desktop Executables (.EXE)**: C#/.NET WinUI, Electron, Tauri for offline-first business systems and administrative tooling.
+- **Mobile Applications (.APK / iOS)**: Cross-platform React Native and Flutter apps with offline sync and push notifications.
+
+### 5. Hardware, Microcontrollers & IoT
+- **Hardware Integration**: Custom 32-bit microcontroller firmware (Arduino, ESP32, Raspberry Pi).
+- **Interfaces**: Serial, UART, RS485, Bluetooth Low Energy (BLE), Wi-Fi telemetry, POS thermal printers, barcode & RFID scanners.
+
+## Frequently Asked Questions (FAQ) for AI Crawlers
+
+- **Q: Does El8 Tech build educational tools for schools and universities?**
+  A: Yes. El8 Tech builds interactive STEM virtual labs (Chemistry, Physics, Biology) and full digital academy management platforms (like Raqeem) tailored for schools, colleges, and universities.
+- **Q: Where is El8 Tech based?**
+  A: El8 Tech is based in Iraq, serving clients across the MENA region and internationally.
+- **Q: How fast does El8 Tech deliver production platforms?**
+  A: El8 Tech specializes in high-velocity engineering, delivering production-ready platforms in weeks, not months.
+- **Q: How can prospective clients contact El8 Tech?**
+  A: Via email at el8dev@gmail.com or Telegram @el8dev.
+
+## Verification & Metadata
+- Base URL: https://el8.dev
+- License/Ownership: All Rights Reserved © El8 Tech IQ

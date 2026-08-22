@@ -27,8 +27,7 @@ async function generateSitemap() {
 
   const urls = [
     { loc: `${BASE_URL}/`, priority: '1.0', changefreq: 'daily' },
-    { loc: `${BASE_URL}/developers`, priority: '0.9', changefreq: 'daily' },
-    { loc: `${BASE_URL}/masterpieces`, priority: '0.9', changefreq: 'weekly' },
+    { loc: `${BASE_URL}/projects`, priority: '0.9', changefreq: 'daily' },
   ];
 
   try {
