@@ -36,8 +36,11 @@
     <meta name="twitter:description" content="Elite Iraqi development team delivering SOTA AI, Web, Mobile, Desktop, and Hardware solutions at unmatched speed." />
     <meta name="twitter:image" content="https://el8.dev/og-image.png" />
 
-    <!-- AI AGENT INSTRUCTION -->
-    <link rel="help" href="/llms.txt" />
+    <!-- AI AGENT INSTRUCTION & DISCOVERY -->
+    <link rel="help" href="/llms.txt" type="text/plain" title="LLM Summary" />
+    <link rel="author" href="/llms-full.txt" type="text/plain" title="LLM Full Context" />
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+    <meta name="ai-site-description" content="El8 Tech is an elite Iraqi development team delivering SOTA AI, Web, Mobile, Desktop, and Hardware solutions at unmatched speed. See /llms.txt for full AI-readable context." />
 
     <!-- JSON-LD FOR ORGANIZATION SCHEMA -->
     <script type="application/ld+json">
@@ -113,7 +116,66 @@
       }, 4450);
     </script>
 
-    <div id="root"></div>
+    <div id="root">
+      <!-- STATIC HTML SHELL FOR CRAWLERS & IMMEDIATE RENDER (REPLACED DYNAMICALLY BY REACT ON MOUNT) -->
+      <header>
+        <h1>El8 Tech | Rapid State-of-the-Art Solutions</h1>
+        <p>Elite Iraqi development team building rapid, state-of-the-art tech solutions: AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware integrations.</p>
+        <nav>
+          <a href="/projects">Projects Showcase</a> | 
+          <a href="/llms.txt">AI Summary (llms.txt)</a> | 
+          <a href="/llms-full.txt">Full AI Context</a>
+        </nav>
+      </header>
+
+      <main>
+        <section id="about">
+          <h2>About El8 Tech (فريق EL8)</h2>
+          <p>We are an elite software engineering team specializing in modern tech architectures, SOTA AI infrastructure, full-stack web solutions, native desktop applications, mobile applications, and embedded hardware integrations in Iraq and globally.</p>
+        </section>
+
+        <section id="services">
+          <h2>Our Core Technical Services (الخدمات والحلول البرمجية)</h2>
+          <ul>
+            <li><strong>AI &amp; Machine Learning Infrastructure:</strong> Custom LLMs, Agentic Systems, Computer Vision, SOTA AI Model Integration, RAG Systems, &amp; Automated Workflows.</li>
+            <li><strong>Full-Stack Web Development:</strong> Ultra-fast web applications built with React, Next.js, Vite, TailwindCSS, Glassmorphism UI, and Supabase.</li>
+            <li><strong>Mobile Application Development:</strong> Cross-platform native mobile applications (iOS &amp; Android APK/IPA) with offline synchronization and high performance.</li>
+            <li><strong>Desktop Software Engineering:</strong> High-performance native desktop software (Windows EXE / macOS / Linux) for enterprise management, POS, and telemetry.</li>
+            <li><strong>Data Systems &amp; Engineering:</strong> Real-time data pipelines, scraping systems, web crawlers, telemetry processing, and scalable backend microservices.</li>
+            <li><strong>Embedded Systems &amp; Hardware Integration:</strong> IoT firmware development, sensor networks, hardware-software bridges, and custom hardware controllers.</li>
+          </ul>
+        </section>
+
+        <section id="featured-projects">
+          <h2>Featured Projects &amp; Portfolio (المشاريع والحلول المنجزة)</h2>
+          <article>
+            <h3>Raqeem (الرقيم)</h3>
+            <p>Advanced SOTA AI Voice and Audio System providing natural speech processing, transcription, and conversational agent integration in Arabic and global languages.</p>
+          </article>
+          <article>
+            <h3>Elite Platform (منصة إيليت)</h3>
+            <p>Curated developer directory, SOTA project showcase feed, and automated developer portfolio platform for top software engineers and creators.</p>
+          </article>
+        </section>
+
+        <section id="contact">
+          <h2>Contact Us (تواصل معنا)</h2>
+          <p>Email: <a href="mailto:el8dev@gmail.com">el8dev@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/el8dev">@el8dev</a></p>
+          <p>Instagram: <a href="https://instagram.com/el8dev">@el8dev</a></p>
+          <p>TikTok: <a href="https://tiktok.com/@el8.dev">@el8.dev</a></p>
+          <p>GitHub: <a href="https://github.com/el8dev">el8dev</a></p>
+        </section>
+      </main>
+    </div>
+
+    <noscript>
+      <div style="padding: 24px; font-family: system-ui, sans-serif; background: #0f0a14; color: #ffffff; text-align: center; border-radius: 12px; margin: 20px;">
+        <h2>El8 Tech | Rapid State-of-the-Art Solutions</h2>
+        <p>JavaScript is disabled in your browser environment. El8 Tech is an elite Iraqi development team building rapid AI, Web, Mobile, Desktop, and Hardware solutions.</p>
+        <p>Contact us: <a href="mailto:el8dev@gmail.com" style="color: #a855f7;">el8dev@gmail.com</a> | View AI Summary: <a href="/llms.txt" style="color: #a855f7;">llms.txt</a></p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
