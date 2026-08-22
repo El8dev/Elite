@@ -55,9 +55,15 @@ const CustomCursor: React.FC = () => {
       spawnRipple(e.clientX, e.clientY);
     };
 
-    // ── Hover detection ──
+    // ── Throttled Hover detection ──
+    let lastOverTime = 0;
     const onOver = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastOverTime < 32) return; // Throttle to max 30 checks/sec
+      lastOverTime = now;
+
       const target = e.target as HTMLElement;
+      if (!target) return;
       const interactive = target.closest(
         'button, a, [role="button"], .interactive-cursor, input, textarea, select'
       );
@@ -65,7 +71,6 @@ const CustomCursor: React.FC = () => {
       if (interactive) {
         setIsHovered(true);
         setHoverText(interactive.getAttribute('data-cursor-text') || '');
-        // Support per-element color: data-cursor-color="cyan" | "emerald" | "amber"
         const colorAttr = interactive.getAttribute('data-cursor-color');
         if (colorAttr === 'cyan')    setRingColor('rgba(34,211,238,0.6)');
         else if (colorAttr === 'emerald') setRingColor('rgba(52,211,153,0.6)');

@@ -220,4 +220,30 @@
   html.theme-transitioning *::after {
     transition: none !important;
   }
+
+  /* ── GPU Hardware Acceleration Utilities ── */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* ── Mobile Performance & Compositing Overrides ── */
+  @media (max-width: 640px) {
+    /* Ease heavy CPU backdrop blur calculations on mobile browsers */
+    .backdrop-blur-xl,
+    .backdrop-blur-2xl {
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+    }
+
+    /* Hardware accelerate continuous CSS animations on mobile */
+    .handoff__gemini-spark,
+    .splash__flourish,
+    .animate-spin,
+    .animate-pulse {
+      transform: translateZ(0);
+      will-change: transform, opacity;
+    }
+  }
 }

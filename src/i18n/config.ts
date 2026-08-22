@@ -26,10 +26,21 @@ i18n
     }
   });
 
-// Handle RTL/LTR document direction dynamically
+// Synchronize document direction (RTL / LTR) immediately
+const syncDocumentDirection = (lng: string) => {
+  if (typeof document !== 'undefined') {
+    const isAr = lng.startsWith('ar');
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+    document.documentElement.lang = isAr ? 'ar' : 'en';
+  }
+};
+
+// Initial sync on module load
+syncDocumentDirection(i18n.language || 'ar');
+
+// Handle RTL/LTR document direction dynamically on language switch
 i18n.on('languageChanged', (lng) => {
-  document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.lang = lng;
+  syncDocumentDirection(lng);
 });
 
 export default i18n;

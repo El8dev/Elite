@@ -1,6 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" class="is-splashing">
+<html lang="ar" dir="rtl" class="is-splashing">
   <head>
+    <script>
+      (function() {
+        try {
+          var lng = localStorage.getItem('i18nextLng') || 'ar';
+          var isAr = !lng || lng.indexOf('ar') === 0;
+          document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+          document.documentElement.lang = isAr ? 'ar' : 'en';
+        } catch(e) {}
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-192.png" />

@@ -16,12 +16,13 @@ export const ParticlesBackground: React.FC = () => {
     if (reduceMotion) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
     let width = window.innerWidth;
     let height = window.innerHeight;
-    const isMobile = width < 640;
+    const isMobile = isTouch || width < 640;
     
     canvas.width = width;
     canvas.height = height;
@@ -31,7 +32,7 @@ export const ParticlesBackground: React.FC = () => {
     mouse.current.currY = height / 2;
 
     const particles: Particle[] = [];
-    const particleCount = isMobile ? 35 : Math.floor((width * height) / 6500);
+    const particleCount = isMobile ? 20 : Math.min(60, Math.floor((width * height) / 9000));
 
     class Particle {
       x: number;
@@ -47,9 +48,9 @@ export const ParticlesBackground: React.FC = () => {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.z = Math.random() * 2.5 + 0.3;
-        this.size = Math.random() * 2.0 + 0.8;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 1.8 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.25;
+        this.speedY = (Math.random() - 0.5) * 0.25;
 
         const rand = Math.random();
         if (rand < 0.55) {
@@ -59,23 +60,25 @@ export const ParticlesBackground: React.FC = () => {
         } else {
           this.colorType = 'amber';
         }
-        this.baseAlpha = Math.random() * 0.5 + 0.4;
+        this.baseAlpha = Math.random() * 0.45 + 0.35;
       }
 
       update(mX: number, mY: number) {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // Smooth magnetic push when mouse is close
-        const dx = this.x - mX;
-        const dy = this.y - mY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 140;
+        // Smooth magnetic push when mouse is close (desktop only)
+        if (!isTouch && mouse.current.active) {
+          const dx = this.x - mX;
+          const dy = this.y - mY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = 120;
 
-        if (dist < maxDist && dist > 0) {
-          const force = (1 - dist / maxDist) * 2.2;
-          this.x += (dx / dist) * force;
-          this.y += (dy / dist) * force;
+          if (dist < maxDist && dist > 0) {
+            const force = (1 - dist / maxDist) * 1.8;
+            this.x += (dx / dist) * force;
+            this.y += (dy / dist) * force;
+          }
         }
 
         // Clean bounds wrap
@@ -88,50 +91,59 @@ export const ParticlesBackground: React.FC = () => {
       draw(mX: number, mY: number, isDark: boolean) {
         if (!ctx) return;
         
-        ctx.beginPath();
-        let colorStr = isDark 
-          ? `rgba(168, 85, 247, ${this.baseAlpha})`
-          : `rgba(147, 51, 234, ${Math.min(1, this.baseAlpha + 0.2)})`;
-        let glowColor = isDark ? 'rgba(168, 85, 247, 0.55)' : 'rgba(147, 51, 234, 0.4)';
+        let coreColor = isDark 
+          ? `rgba(192, 132, 252, ${Math.min(1, this.baseAlpha + 0.35)})`
+          : `rgba(147, 51, 234, ${Math.min(1, this.baseAlpha + 0.35)})`;
+        let haloColor = isDark
+          ? `rgba(168, 85, 247, ${this.baseAlpha * 0.45})`
+          : `rgba(147, 51, 234, ${this.baseAlpha * 0.35})`;
 
         if (this.colorType === 'cyan') {
-          colorStr = isDark 
-            ? `rgba(34, 211, 238, ${this.baseAlpha})`
-            : `rgba(8, 145, 178, ${Math.min(1, this.baseAlpha + 0.2)})`;
-          glowColor = isDark ? 'rgba(34, 211, 238, 0.55)' : 'rgba(8, 145, 178, 0.4)';
+          coreColor = isDark 
+            ? `rgba(34, 211, 238, ${Math.min(1, this.baseAlpha + 0.35)})`
+            : `rgba(8, 145, 178, ${Math.min(1, this.baseAlpha + 0.35)})`;
+          haloColor = isDark
+            ? `rgba(34, 211, 238, ${this.baseAlpha * 0.45})`
+            : `rgba(8, 145, 178, ${this.baseAlpha * 0.35})`;
         } else if (this.colorType === 'amber') {
-          colorStr = isDark 
-            ? `rgba(245, 158, 11, ${this.baseAlpha})`
-            : `rgba(217, 119, 6, ${Math.min(1, this.baseAlpha + 0.2)})`;
-          glowColor = isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.4)';
+          coreColor = isDark 
+            ? `rgba(251, 191, 36, ${Math.min(1, this.baseAlpha + 0.35)})`
+            : `rgba(217, 119, 6, ${Math.min(1, this.baseAlpha + 0.35)})`;
+          haloColor = isDark
+            ? `rgba(245, 158, 11, ${this.baseAlpha * 0.45})`
+            : `rgba(217, 119, 6, ${this.baseAlpha * 0.35})`;
         }
 
-        // Optimized lightweight shadow glow
-        ctx.shadowBlur = 5;
-        ctx.shadowColor = glowColor;
+        // Pass 1: Soft outer neon halo (simulates shadowBlur efficiently)
+        ctx.beginPath();
+        ctx.fillStyle = haloColor;
+        ctx.arc(this.x, this.y, this.size * 2.6, 0, Math.PI * 2);
+        ctx.fill();
 
-        ctx.fillStyle = colorStr;
+        // Pass 2: High-contrast core dot
+        ctx.beginPath();
+        ctx.fillStyle = coreColor;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.shadowBlur = 0; // Reset after particle fill
+        // Draw constellation lines to mouse cursor if near on desktop
+        if (!isTouch && mouse.current.active) {
+          const dx = this.x - mX;
+          const dy = this.y - mY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = 130;
 
-        // Draw soft glowing constellation lines to mouse cursor if near
-        const dx = this.x - mX;
-        const dy = this.y - mY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 130;
-
-        if (dist < maxDist && mouse.current.active) {
-          const lineAlpha = (1 - dist / maxDist) * (isDark ? 0.4 : 0.5);
-          ctx.beginPath();
-          ctx.moveTo(this.x, this.y);
-          ctx.lineTo(mX, mY);
-          ctx.strokeStyle = this.colorType === 'cyan' 
-            ? (isDark ? `rgba(34, 211, 238, ${lineAlpha})` : `rgba(8, 145, 178, ${lineAlpha})`)
-            : (isDark ? `rgba(168, 85, 247, ${lineAlpha})` : `rgba(147, 51, 234, ${lineAlpha})`);
-          ctx.lineWidth = 1.0;
-          ctx.stroke();
+          if (dist < maxDist) {
+            const lineAlpha = (1 - dist / maxDist) * (isDark ? 0.45 : 0.55);
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(mX, mY);
+            ctx.strokeStyle = this.colorType === 'cyan' 
+              ? (isDark ? `rgba(34, 211, 238, ${lineAlpha})` : `rgba(8, 145, 178, ${lineAlpha})`)
+              : (isDark ? `rgba(168, 85, 247, ${lineAlpha})` : `rgba(147, 51, 234, ${lineAlpha})`);
+            ctx.lineWidth = 1.0;
+            ctx.stroke();
+          }
         }
       }
     }
@@ -141,11 +153,15 @@ export const ParticlesBackground: React.FC = () => {
     }
 
     let animationFrameId: number;
+    let isPaused = false;
 
     const render = () => {
-      // Smooth lerp mouse coordinates
-      mouse.current.currX += (mouse.current.targetX - mouse.current.currX) * 0.08;
-      mouse.current.currY += (mouse.current.targetY - mouse.current.currY) * 0.08;
+      if (isPaused) return;
+
+      if (!isTouch) {
+        mouse.current.currX += (mouse.current.targetX - mouse.current.currX) * 0.08;
+        mouse.current.currY += (mouse.current.targetY - mouse.current.currY) * 0.08;
+      }
 
       ctx.clearRect(0, 0, width, height);
 
@@ -179,14 +195,33 @@ export const ParticlesBackground: React.FC = () => {
       mouse.current.active = false;
     };
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isPaused = true;
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        if (isPaused) {
+          isPaused = false;
+          animationFrameId = requestAnimationFrame(render);
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    if (!isTouch) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      document.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (!isTouch) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseleave', handleMouseLeave);
+      }
       cancelAnimationFrame(animationFrameId);
     };
   }, [reduceMotion]);
@@ -196,8 +231,9 @@ export const ParticlesBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1] w-full h-full"
+      className="fixed inset-0 pointer-events-none z-0 w-full h-full"
       aria-hidden="true"
     />
   );
 };
+

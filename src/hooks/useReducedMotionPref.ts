@@ -18,12 +18,7 @@ export function useReducedMotionPref(): boolean {
     }
 
     const checkPref = () => {
-      // 🔍 DIAGNOSTIC — remove after debugging
-      console.log('[ReducedMotion] prefers-reduced-motion:', mql.matches);
-      console.log('[ReducedMotion] lowCores (< 4):', lowCores, '| cores:', navigator.hardwareConcurrency);
-      console.log('[ReducedMotion] slowConnection:', slowConnection);
-      console.log('[ReducedMotion] FINAL result (will block particles if true):', mql.matches || lowCores || slowConnection);
-      setReduceMotion(mql.matches || lowCores || slowConnection);
+      setReduceMotion(mql.matches);
     };
 
     // Initial check
