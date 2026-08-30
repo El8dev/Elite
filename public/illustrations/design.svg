@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" fill="none">
+  <defs>
+    <linearGradient id="window-bg-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181825" />
+      <stop offset="100%" stop-color="#090a10" />
+    </linearGradient>
+    <filter id="glow-rose" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Design Window Frame -->
+  <rect x="12" y="8" width="96" height="74" rx="7" fill="url(#window-bg-grad)" stroke="#f43f5e" stroke-width="1.8" />
+  <path d="M 12 24 L 108 24" stroke="#f43f5e" stroke-width="1.2" opacity="0.4" />
+  <circle cx="21" cy="16" r="2.5" fill="#f43f5e" />
+  <circle cx="28" cy="16" r="2.5" fill="#fbbf24" />
+  <circle cx="35" cy="16" r="2.5" fill="#34d399" />
+  <rect x="46" y="13" width="34" height="6" rx="3" fill="#ffffff20" />
+
+  <!-- Canvas Grid Dots -->
+  <circle cx="30" cy="38" r="1" fill="#ffffff25" />
+  <circle cx="50" cy="38" r="1" fill="#ffffff25" />
+  <circle cx="70" cy="38" r="1" fill="#ffffff25" />
+  <circle cx="90" cy="38" r="1" fill="#ffffff25" />
+  <circle cx="30" cy="56" r="1" fill="#ffffff25" />
+  <circle cx="50" cy="56" r="1" fill="#ffffff25" />
+  <circle cx="70" cy="56" r="1" fill="#ffffff25" />
+  <circle cx="90" cy="56" r="1" fill="#ffffff25" />
+
+  <!-- Wireframe Layout Cards -->
+  <rect x="20" y="32" width="28" height="42" rx="4" fill="#f43f5e18" stroke="#f43f5e" stroke-width="1.2" stroke-dasharray="3 2" />
+  <rect x="54" y="32" width="46" height="14" rx="3" fill="#fb718525" stroke="#fb7185" stroke-width="1.2" />
+  <rect x="54" y="52" width="46" height="22" rx="4" fill="#f43f5e30" stroke="#f43f5e" stroke-width="1.2" />
+
+  <!-- Bezier Vector Curve with Handle Controls -->
+  <path d="M 24 64 Q 38 40 58 54 T 94 40" stroke="#fda4af" stroke-width="2" stroke-linecap="round" fill="none" />
+  <line x1="38" y1="40" x2="58" y2="54" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2 2" opacity="0.8" />
+  <circle cx="38" cy="40" r="3" fill="#ffffff" stroke="#f43f5e" stroke-width="1.5" />
+  <circle cx="58" cy="54" r="3" fill="#ffffff" stroke="#f43f5e" stroke-width="1.5" />
+
+  <!-- Vector Tool Cursor -->
+  <g transform="translate(74, 46)">
+    <path d="M 0 0 L 14 18 L 9 19 L 5 28 L 0 25 Z" fill="#ffffff" stroke="#000000" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow-rose)" />
+    <circle cx="0" cy="0" r="8" stroke="#f43f5e" stroke-width="1.5" fill="none" opacity="0.5" />
+  </g>
+</svg>

@@ -6,15 +6,16 @@ import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { RouteGuard } from '@/components/common/RouteGuard';
 import AmbientBackground from '@/components/common/AmbientBackground';
-import { ParticlesBackground } from '@/components/common/ParticlesBackground';
-import { FilmGrain } from '@/components/common/FilmGrain';
+
+const ParticlesBackground = lazy(() => import('@/components/common/ParticlesBackground').then(m => ({ default: m.ParticlesBackground })));
+const LiveChatWidget = lazy(() => import('@/components/common/LiveChatWidget').then(m => ({ default: m.LiveChatWidget })));
 
 import CustomCursor from '@/components/common/CustomCursor';
 import ScrollToTopButton from '@/components/common/ScrollToTopButton';
-import { CommandMenu } from '@/components/common/CommandMenu';
-import { LiveChatWidget } from '@/components/common/LiveChatWidget';
-import { ContactModal } from '@/components/common/ContactModal';
-import { ProjectsModal } from '@/components/common/ProjectsModal';
+
+const CommandMenu = lazy(() => import('@/components/common/CommandMenu').then(m => ({ default: m.CommandMenu })));
+const ContactModal = lazy(() => import('@/components/common/ContactModal').then(m => ({ default: m.ContactModal })));
+const ProjectsModal = lazy(() => import('@/components/common/ProjectsModal').then(m => ({ default: m.ProjectsModal })));
 
 import { routes } from './routes';
 import ProjectModalRoute from './pages/ProjectModalRoute';
@@ -48,11 +49,10 @@ const AppContent: React.FC = () => {
         <ScrollToTopButton />
         {/* Fixed ambient background & particles — sits below everything */}
         <AmbientBackground />
-        <ParticlesBackground />
-
-        <FilmGrain />
-        <CommandMenu />
-        <LiveChatWidget />
+        <Suspense fallback={null}>
+          <ParticlesBackground />
+          <LiveChatWidget />
+        </Suspense>
 
         <IntersectObserver />
 
@@ -93,8 +93,11 @@ const AppContent: React.FC = () => {
           </div>
         </Suspense>
 
-        <ContactModal />
-        <ProjectsModal />
+        <Suspense fallback={null}>
+          <CommandMenu />
+          <ContactModal />
+          <ProjectsModal />
+        </Suspense>
         <Toaster />
       </RouteGuard>
     </AuthProvider>

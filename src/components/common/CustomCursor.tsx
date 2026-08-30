@@ -1,66 +1,63 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Types
-// ──────────────────────────────────────────────────────────────────────────────
 interface Ripple {
   id: number;
   x: number;
   y: number;
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// CustomCursor
-// ──────────────────────────────────────────────────────────────────────────────
+/**
+ * Hardware-Accelerated Zero-Re-Render Custom Cursor
+ * ──────────────────────────────────────────────────
+ * Manipulates DOM elements directly via translate3d without
+ * triggering React component re-renders on mousemove/mouseover.
+ */
 const CustomCursor: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [hoverText, setHoverText] = useState('');
-  const [ringColor, setRingColor] = useState('rgba(139,92,246,0.55)');
+  const dotRef = useRef<HTMLDivElement>(null);
+  const sparkRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
+  const [visible, setVisible] = useState(false);
 
-  // ── Cursor position (raw + spring-smoothed ring) ──
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-
-  const springCfg = { damping: 22, stiffness: 400, mass: 0.25 };
-  const ringX = useSpring(cursorX, springCfg);
-  const ringY = useSpring(cursorY, springCfg);
-
-  // ── Click ripple spawner ──
   const spawnRipple = useCallback((x: number, y: number) => {
     const id = Date.now();
-    setRipples((prev) => [...prev, { id, x, y }]);
+    setRipples((prev) => [...prev.slice(-3), { id, x, y }]);
     setTimeout(() => {
       setRipples((prev) => prev.filter((r) => r.id !== id));
     }, 620);
   }, []);
 
   useEffect(() => {
-    // Only on pointer-fine (desktop) devices
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     if (isTouch) return;
 
     setVisible(true);
 
-    // ── Mouse move ──
+    let mouseX = -100;
+    let mouseY = -100;
+    let sparkX = -100;
+    let sparkY = -100;
+    let animId: number;
+    let isMoving = false;
+
     const onMove = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
+      isMoving = true;
     };
 
-    // ── Click ripple ──
     const onDown = (e: MouseEvent) => {
       spawnRipple(e.clientX, e.clientY);
     };
 
-    // ── Throttled Hover detection ──
-    let lastOverTime = 0;
+    let lastOver = 0;
     const onOver = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastOverTime < 32) return; // Throttle to max 30 checks/sec
-      lastOverTime = now;
+      if (now - lastOver < 40) return;
+      lastOver = now;
 
       const target = e.target as HTMLElement;
       if (!target) return;
@@ -69,73 +66,101 @@ const CustomCursor: React.FC = () => {
       );
 
       if (interactive) {
-        setIsHovered(true);
-        setHoverText(interactive.getAttribute('data-cursor-text') || '');
-        const colorAttr = interactive.getAttribute('data-cursor-color');
-        if (colorAttr === 'cyan')    setRingColor('rgba(34,211,238,0.6)');
-        else if (colorAttr === 'emerald') setRingColor('rgba(52,211,153,0.6)');
-        else if (colorAttr === 'amber')   setRingColor('rgba(245,158,11,0.6)');
-        else                              setRingColor('rgba(139,92,246,0.6)');
+        const text = interactive.getAttribute('data-cursor-text');
+        if (labelRef.current) {
+          if (text) {
+            labelRef.current.textContent = text;
+            labelRef.current.style.display = 'block';
+          } else {
+            labelRef.current.style.display = 'none';
+          }
+        }
+        if (sparkRef.current) {
+          sparkRef.current.style.transformOrigin = 'center center';
+          sparkRef.current.style.scale = '1.25';
+        }
       } else {
-        setIsHovered(false);
-        setHoverText('');
-        setRingColor('rgba(139,92,246,0.45)');
+        if (labelRef.current) {
+          labelRef.current.style.display = 'none';
+        }
+        if (sparkRef.current) {
+          sparkRef.current.style.scale = '1';
+        }
       }
     };
 
-    // ── Hide when cursor leaves window ──
-    const onLeave = () => cursorX.set(-200);
+    const onLeave = () => {
+      mouseX = -200;
+      mouseY = -200;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(-200px, -200px, 0)`;
+      }
+    };
 
-    window.addEventListener('mousemove', onMove,  { passive: true });
-    window.addEventListener('mousedown', onDown,  { passive: true });
-    window.addEventListener('mouseover', onOver,  { passive: true });
+    // Smooth spark follower loop
+    const tick = () => {
+      if (isMoving) {
+        sparkX += (mouseX - sparkX) * 0.22;
+        sparkY += (mouseY - sparkY) * 0.22;
+        if (sparkRef.current) {
+          sparkRef.current.style.transform = `translate3d(${sparkX}px, ${sparkY}px, 0) translate(-50%, -50%)`;
+        }
+      }
+      animId = requestAnimationFrame(tick);
+    };
+    animId = requestAnimationFrame(tick);
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mousedown', onDown, { passive: true });
+    window.addEventListener('mouseover', onOver, { passive: true });
     document.addEventListener('mouseleave', onLeave);
 
     return () => {
+      cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseover', onOver);
       document.removeEventListener('mouseleave', onLeave);
     };
-  }, [cursorX, cursorY, spawnRipple]);
+  }, [spawnRipple]);
 
   if (!visible) return null;
 
   return (
     <>
-      {/* ── Inner dot — snaps exactly to cursor center ── */}
-      <motion.div
+      {/* ── Inner dot — zero-render transform ── */}
+      <div
+        ref={dotRef}
         className="pointer-events-none fixed top-0 left-0 z-[2147483647] rounded-full"
         style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-          width:  5,
+          width: 5,
           height: 5,
           backgroundColor: '#ffffff',
-          boxShadow: '0 0 10px rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 0 8px rgba(255, 255, 255, 0.9)',
+          transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)',
+          willChange: 'transform',
         }}
-        transition={{ type: 'spring', stiffness: 900, damping: 45, mass: 0.1 }}
       />
 
-      {/* ── Outer Gemini Spark Outline — spring-lagged fixed center ── */}
-      <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[2147483646] flex items-center justify-center"
+      {/* ── Outer Gemini Spark Outline — lerp follower ── */}
+      <div
+        ref={sparkRef}
+        className="pointer-events-none fixed top-0 left-0 z-[2147483646] flex items-center justify-center transition-[scale] duration-200"
         style={{
-          x: ringX,
-          y: ringY,
-          translateX: '-50%',
-          translateY: '-50%',
-          width:  34,
+          width: 34,
           height: 34,
+          transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)',
+          willChange: 'transform',
         }}
-        transition={{ type: 'spring', stiffness: 220, damping: 20 }}
       >
         <svg 
           viewBox="0 0 24 24" 
-          className="w-full h-full overflow-visible"
-          style={{ animation: 'spin-slow 8s linear infinite', transformOrigin: 'center center' }}
+          className="w-full h-full overflow-visible pointer-events-none"
+          style={{ 
+            animation: 'spin-slow 8s linear infinite', 
+            transformOrigin: 'center center',
+            filter: 'drop-shadow(0 0 4px rgba(168, 85, 247, 0.65))'
+          }}
         >
           <defs>
             <linearGradient id="gemini-cursor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -143,9 +168,6 @@ const CustomCursor: React.FC = () => {
               <stop offset="50%" stopColor="#38bdf8" />
               <stop offset="100%" stopColor="#f43f5e" />
             </linearGradient>
-            <filter id="gemini-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#a855f7" floodOpacity="0.8" />
-            </filter>
           </defs>
           <path
             d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
@@ -154,20 +176,15 @@ const CustomCursor: React.FC = () => {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            filter="url(#gemini-glow)"
           />
         </svg>
 
-        {hoverText && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.75 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="absolute font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center bg-black/60 backdrop-blur-md rounded-md py-0.5 border border-purple-500/30 whitespace-nowrap"
-          >
-            {hoverText}
-          </motion.span>
-        )}
-      </motion.div>
+        <span
+          ref={labelRef}
+          className="absolute font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center bg-black/70 rounded-md py-0.5 border border-purple-500/30 whitespace-nowrap"
+          style={{ display: 'none' }}
+        />
+      </div>
 
       {/* ── Click Gemini spark ripple bursts ── */}
       {ripples.map((r) => (
@@ -176,9 +193,9 @@ const CustomCursor: React.FC = () => {
           className="pointer-events-none fixed top-0 left-0 z-[2147483645]"
           style={{
             left: r.x,
-            top:  r.y,
+            top: r.y,
             transform: 'translate(-50%, -50%)',
-            width:  34,
+            width: 34,
             height: 34,
             animation: 'cursor-ripple 0.65s ease-out forwards',
           }}
@@ -188,7 +205,7 @@ const CustomCursor: React.FC = () => {
             <path
               d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
               fill="none"
-              stroke={ringColor}
+              stroke="rgba(168, 85, 247, 0.6)"
               strokeWidth="1.5"
             />
           </svg>

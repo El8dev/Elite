@@ -12,27 +12,10 @@ import React from 'react';
 const AmbientBackground: React.FC = () => {
   return (
     <div className="bg-fx" aria-hidden="true">
-      <style>
-        {`
-          .hero-mesh {
-            position: fixed !important;
-            inset: 0 !important;
-            height: 100vh !important;
-            z-index: 0 !important;
-            background: transparent !important;
-          }
-          @media (max-width:900px) {
-            .hero-mesh {
-              height: 100vh !important;
-            }
-          }
-        `}
-      </style>
-      
       {/* Cyber/Tech line grid overlay */}
       <div className="bg-fx__grid"></div>
 
-      {/* Global lattice mesh */}
+      {/* Global cyber lattice mesh covering the full website */}
       <div aria-hidden="true" className="hero-mesh">
         <div className="hero-mesh__lattice"></div>
         <div className="hero-mesh__sweep"></div>

@@ -119,8 +119,9 @@ img{ max-width:100%; display:block; }
   transform:translateZ(0); will-change:transform; contain:strict;
 }
 .bg-fx__orb{
-  position:absolute; border-radius:50%; opacity:.55; filter:blur(40px);
+  position:absolute; border-radius:50%; opacity:.55;
   animation:bgOrbFloat 16s ease-in-out infinite alternate;
+  transform:translateZ(0); will-change:transform, opacity;
 }
 html.dark .bg-fx__orb{ opacity:.45; }
 .bg-fx__orb--1{ width:55vmax; height:55vmax; top:-18%; right:-12%; background:radial-gradient(circle,rgba(138,78,151,.28),rgba(91,53,100,.10) 40%,transparent 74%); animation-duration:18s; }
@@ -784,16 +785,17 @@ body.is-splashing .scroll-top-btn{
   position:relative; overflow:hidden;
   border-radius:clamp(24px,3vw,36px);
   padding:clamp(30px,4.4vw,60px) clamp(20px,3.4vw,50px) clamp(30px,4.4vw,54px);
-  background:rgba(18, 12, 22, 0.72);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
+  background:rgba(14, 10, 20, 0.94);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
   border:1px solid rgba(186, 104, 203, 0.20);
   box-shadow:var(--shadow-lg), 0 0 45px rgba(124,58,237,0.09), inset 0 1px 0 rgba(255,255,255,0.08);
+  contain: paint;
 }
 html:not(.dark) .deck-panel{
-  background:rgba(255, 255, 255, 0.82);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
+  background:rgba(250, 248, 252, 0.96);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
   border:1px solid rgba(138, 78, 151, 0.16);
   box-shadow:0 20px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
 }
@@ -845,12 +847,13 @@ html:not(.dark) .deck-panel{
   position:relative; overflow:hidden; isolation:isolate;
   display:flex; flex-direction:column;
   border-radius:clamp(20px,2.2vw,28px);
-  background:rgba(12, 13, 22, 0.82);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
+  background:rgba(12, 13, 22, 0.94);
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
   border:1px solid rgba(255, 255, 255, 0.12);
   box-shadow:0 12px 32px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   transition:transform .55s cubic-bezier(.16,1,.3,1), box-shadow .5s ease, border-color .5s ease;
+  contain: paint;
 }
 .deck-card::before{
   content:'';
@@ -873,9 +876,19 @@ html:not(.dark) .deck-panel{
   border-bottom:1px solid rgba(255, 255, 255, 0.08);
 }
 .deck-card--svc .deck-card__media{ aspect-ratio:3 / 2; }
-.deck-card__media img{
+.deck-card__media img:not(.card-micro-illustration-img){
   width:100%; height:100%; object-fit:cover; display:block; transform-origin:center;
   transition:transform 2s cubic-bezier(.16,.84,.32,1);
+}
+.deck-card__media img.card-micro-illustration-img{
+  width: auto !important;
+  height: auto !important;
+  max-width: 90px !important;
+  max-height: 68px !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: 0 auto;
+  transform: translateZ(0);
 }
 /* the ERP dashboard is a wide UI illustration - letterbox it instead of
    cropping the chart off the sides */
@@ -1365,9 +1378,9 @@ html.dark .hero-aura{
    ================================================================ */
 #homeView{ position:relative; }
 .hero-mesh{
-  position:absolute; z-index:0; inset:0 0 auto 0;
-  height:min(900px, 98vh);
-  overflow:hidden; pointer-events:none; contain:strict;
+  position:fixed; z-index:0; inset:0;
+  width:100vw; height:100vh;
+  overflow:hidden; pointer-events:none; contain:strict; isolation:isolate;
 }
 .hero-mesh__lattice{
   position:absolute; inset:-5%;
@@ -1429,7 +1442,6 @@ html:not(.dark) .hero-mesh{ opacity:.5; }
 html:not(.dark) .hero-mesh__stars{ display:none; }
 
 @media (max-width:900px){
-  .hero-mesh{ height:min(700px, 86vh); }
   .hero-mesh__lattice{ opacity:.85; }
   .hero-mesh__sweep{ width:85%; left:-55%; }
 }
@@ -1552,7 +1564,9 @@ html.dark{ --code-note: 285 22% 12%; }
   .splash__hand{ width:clamp(124px,42vw,180px); }
 }
 .hero-mesh.is-idle *,
-.hero-mesh.is-scrolling *{ animation-play-state:paused; }
+.hero-mesh.is-scrolling *,
+body.is-scrolling .hero-mesh *,
+body.is-scrolling .bg-fx__orb { animation-play-state:paused !important; }
 
 /* An open drawer or modal covers the screen, so the lattice underneath is
    still animating for nobody - and that alone was costing the drawer slide

@@ -1,8 +1,10 @@
 import React from 'react';
 import OurVision from '@/features/landing/components/OurVision';
-import { PremiumFooter } from '@/components/common/PremiumFooter';
 import { ServicesSection } from '@/features/landing/components/ServicesSection';
-import { CustomerReviewsSection } from '@/features/landing/components/CustomerReviewsSection';
+import { PremiumFooter } from '@/components/common/PremiumFooter';
+const CustomerReviewsSection = React.lazy(() =>
+  import('@/features/landing/components/CustomerReviewsSection').then((m) => ({ default: m.CustomerReviewsSection }))
+);
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { useTranslation } from 'react-i18next';
@@ -118,7 +120,9 @@ const HomePage: React.FC = () => {
           </div>
 
           <ServicesSection />
-          <CustomerReviewsSection />
+          <React.Suspense fallback={null}>
+            <CustomerReviewsSection />
+          </React.Suspense>
 
           <div className="handoff handoff--closing reveal">
             <div className="handoff__row">

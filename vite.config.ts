@@ -20,6 +20,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['motion', 'lucide-react', 'sonner'],
+          charts: ['recharts'],
+          db: ['@supabase/supabase-js'],
+          sentry: ['@sentry/react']
+        }
+      }
+    }
+  },
   test: {
     globals: true,
     environment: "jsdom",
