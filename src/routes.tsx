@@ -1,10 +1,11 @@
-import HomePage from './pages/HomePage';
-import ProjectsPage from './pages/ProjectsPage';
-import ProjectFullPage from './pages/ProjectFullPage';
-
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import { lazy } from 'react';
 import type { ReactNode } from 'react';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const ProjectFullPage = lazy(() => import('./pages/ProjectFullPage'));
+const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 export interface RouteConfig {
   name: string;

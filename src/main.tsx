@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { ThemeProvider } from "next-themes";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
@@ -24,9 +24,7 @@ const app = (
 );
 
 if (rootElement.hasChildNodes()) {
-  import("react-dom/client").then(({ hydrateRoot }) => {
-    hydrateRoot(rootElement, app);
-  });
+  hydrateRoot(rootElement, app);
 } else {
   createRoot(rootElement).render(app);
 }
