@@ -15,6 +15,7 @@ interface Ripple {
 const CustomCursor: React.FC = () => {
   const dotRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
+  const sparkInnerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [visible, setVisible] = useState(false);
@@ -39,12 +40,23 @@ const CustomCursor: React.FC = () => {
     let sparkY = -100;
     let animId: number;
     let isMoving = false;
+    let isHovering = false;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+
+      if (!isMoving) {
+        sparkX = mouseX;
+        sparkY = mouseY;
+      }
+
       if (dotRef.current) {
+        dotRef.current.style.opacity = '1';
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
+      if (sparkRef.current) {
+        sparkRef.current.style.opacity = '1';
       }
       isMoving = true;
     };
@@ -56,7 +68,7 @@ const CustomCursor: React.FC = () => {
     let lastOver = 0;
     const onOver = (e: MouseEvent) => {
       const now = Date.now();
-      if (now - lastOver < 40) return;
+      if (now - lastOver < 30) return;
       lastOver = now;
 
       const target = e.target as HTMLElement;
@@ -66,6 +78,12 @@ const CustomCursor: React.FC = () => {
       );
 
       if (interactive) {
+        if (!isHovering) {
+          isHovering = true;
+          if (sparkInnerRef.current) {
+            sparkInnerRef.current.style.transform = 'scale(1.28)';
+          }
+        }
         const text = interactive.getAttribute('data-cursor-text');
         if (labelRef.current) {
           if (text) {
@@ -75,33 +93,30 @@ const CustomCursor: React.FC = () => {
             labelRef.current.style.display = 'none';
           }
         }
-        if (sparkRef.current) {
-          sparkRef.current.style.transformOrigin = 'center center';
-          sparkRef.current.style.scale = '1.25';
-        }
       } else {
+        if (isHovering) {
+          isHovering = false;
+          if (sparkInnerRef.current) {
+            sparkInnerRef.current.style.transform = 'scale(1)';
+          }
+        }
         if (labelRef.current) {
           labelRef.current.style.display = 'none';
-        }
-        if (sparkRef.current) {
-          sparkRef.current.style.scale = '1';
         }
       }
     };
 
     const onLeave = () => {
-      mouseX = -200;
-      mouseY = -200;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(-200px, -200px, 0)`;
-      }
+      if (dotRef.current) dotRef.current.style.opacity = '0';
+      if (sparkRef.current) sparkRef.current.style.opacity = '0';
     };
 
-    // Smooth spark follower loop
+    // Smooth responsive spark follower loop
     const tick = () => {
       if (isMoving) {
-        sparkX += (mouseX - sparkX) * 0.22;
-        sparkY += (mouseY - sparkY) * 0.22;
+        // Higher lerp factor (0.55) maintains smooth flow without lagging far behind on menu buttons
+        sparkX += (mouseX - sparkX) * 0.55;
+        sparkY += (mouseY - sparkY) * 0.55;
         if (sparkRef.current) {
           sparkRef.current.style.transform = `translate3d(${sparkX}px, ${sparkY}px, 0) translate(-50%, -50%)`;
         }
@@ -131,58 +146,66 @@ const CustomCursor: React.FC = () => {
       {/* ── Inner dot — zero-render transform ── */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[2147483647] rounded-full"
+        className="pointer-events-none fixed top-0 left-0 z-[2147483647] rounded-full transition-opacity duration-150"
         style={{
           width: 5,
           height: 5,
           backgroundColor: '#ffffff',
-          boxShadow: '0 0 8px rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 0 8px rgba(255, 255, 255, 0.95)',
           transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)',
           willChange: 'transform',
+          opacity: 0,
         }}
       />
 
-      {/* ── Outer Gemini Spark Outline — lerp follower ── */}
+      {/* ── Outer Gemini Spark Outline — lerp follower container ── */}
       <div
         ref={sparkRef}
-        className="pointer-events-none fixed top-0 left-0 z-[2147483646] flex items-center justify-center transition-[scale] duration-200"
+        className="pointer-events-none fixed top-0 left-0 z-[2147483646] flex items-center justify-center transition-opacity duration-150"
         style={{
-          width: 34,
-          height: 34,
+          width: 32,
+          height: 32,
           transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)',
           willChange: 'transform',
+          opacity: 0,
         }}
       >
-        <svg 
-          viewBox="0 0 24 24" 
-          className="w-full h-full overflow-visible pointer-events-none"
-          style={{ 
-            animation: 'spin-slow 8s linear infinite', 
-            transformOrigin: 'center center',
-            filter: 'drop-shadow(0 0 4px rgba(168, 85, 247, 0.65))'
-          }}
+        <div
+          ref={sparkInnerRef}
+          className="w-full h-full flex items-center justify-center transition-transform duration-150 ease-out"
+          style={{ transform: 'scale(1)', transformOrigin: 'center center' }}
         >
-          <defs>
-            <linearGradient id="gemini-cursor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#a855f7" />
-              <stop offset="50%" stopColor="#38bdf8" />
-              <stop offset="100%" stopColor="#f43f5e" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
-            fill="none"
-            stroke="url(#gemini-cursor-grad)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <svg 
+            viewBox="0 0 24 24" 
+            className="w-full h-full overflow-visible pointer-events-none"
+            style={{ 
+              animation: 'spin-slow 8s linear infinite', 
+              transformOrigin: 'center center',
+              filter: 'drop-shadow(0 0 6px rgba(168, 85, 247, 0.75))'
+            }}
+          >
+            <defs>
+              <linearGradient id="gemini-cursor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#c084fc" />
+                <stop offset="50%" stopColor="#38bdf8" />
+                <stop offset="100%" stopColor="#f43f5e" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
+              fill="none"
+              stroke="url(#gemini-cursor-grad)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
 
         <span
           ref={labelRef}
-          className="absolute font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center bg-black/70 rounded-md py-0.5 border border-purple-500/30 whitespace-nowrap"
-          style={{ display: 'none' }}
+          className="absolute font-jetbrains text-[9px] font-bold text-white uppercase tracking-wider px-1 text-center bg-black/75 rounded-md py-0.5 border border-purple-500/30 whitespace-nowrap pointer-events-none"
+          style={{ display: 'none', top: '100%', marginTop: '4px' }}
         />
       </div>
 
@@ -195,8 +218,8 @@ const CustomCursor: React.FC = () => {
             left: r.x,
             top: r.y,
             transform: 'translate(-50%, -50%)',
-            width: 34,
-            height: 34,
+            width: 32,
+            height: 32,
             animation: 'cursor-ripple 0.65s ease-out forwards',
           }}
           aria-hidden="true"
@@ -205,7 +228,7 @@ const CustomCursor: React.FC = () => {
             <path
               d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"
               fill="none"
-              stroke="rgba(168, 85, 247, 0.6)"
+              stroke="rgba(168, 85, 247, 0.7)"
               strokeWidth="1.5"
             />
           </svg>
