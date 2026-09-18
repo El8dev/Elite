@@ -251,7 +251,7 @@ const ProjectsPage: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-transparent text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
-        <title>Projects | Elite Code</title>
+        <title>Projects | EL8 Tech</title>
         <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />
       </Helmet>
 

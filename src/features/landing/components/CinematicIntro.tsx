@@ -133,12 +133,12 @@ const AnimatedEliteLogo: React.FC = () => {
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
-// "ELITE" text with per-letter stagger
+// "EL8" text with per-letter stagger
 // ──────────────────────────────────────────────────────────────────────────────
-const letters = ['E', 'L', 'I', 'T', 'E'];
+const letters = ['E', 'L', '8'];
 
 const EliteText: React.FC = () => (
-  <div className="relative flex items-center" aria-label="ELITE">
+  <div className="relative flex items-center" aria-label="EL8">
     {letters.map((char, i) => (
       <motion.span
         key={i}
@@ -226,7 +226,7 @@ const CinematicIntro: React.FC<CinematicIntroProps> = ({ children }) => {
             exit={overlayExit.exit}
             role="status"
             aria-live="polite"
-            aria-label="Loading ELITE"
+            aria-label="Loading EL8"
           >
             {/* ── Subtle scanline texture ── */}
             <div

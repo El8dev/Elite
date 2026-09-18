@@ -89,7 +89,7 @@ export const SiteHeader: React.FC = () => {
       <header className={`site ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-row">
           <a href="#top" className="brand" onClick={(e) => handleLinkClick(e, '#top')}>
-            <span className="brand__word">ELITE<span>.</span></span>
+            <span className="brand__word">EL8<span>.</span></span>
           </a>
 
           <nav className="nav-pill" aria-label="التنقل الرئيسي">

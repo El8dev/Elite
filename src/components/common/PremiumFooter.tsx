@@ -12,7 +12,7 @@ export const PremiumFooter: React.FC = () => {
     <>
       <footer className="site wrap--md">
         <div className="cta-card reveal">
-          <div className="cta-word">ELITE</div>
+          <div className="cta-word">EL8</div>
           <p className="cta-text">
             {t('footer.brand_desc')}
           </p>

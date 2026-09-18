@@ -7,7 +7,6 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { RouteGuard } from '@/components/common/RouteGuard';
 import AmbientBackground from '@/components/common/AmbientBackground';
 
-const ParticlesBackground = lazy(() => import('@/components/common/ParticlesBackground').then(m => ({ default: m.ParticlesBackground })));
 const LiveChatWidget = lazy(() => import('@/components/common/LiveChatWidget').then(m => ({ default: m.LiveChatWidget })));
 
 import CustomCursor from '@/components/common/CustomCursor';
@@ -50,7 +49,6 @@ const AppContent: React.FC = () => {
         {/* Fixed ambient background & particles — sits below everything */}
         <AmbientBackground />
         <Suspense fallback={null}>
-          <ParticlesBackground />
           <LiveChatWidget />
         </Suspense>
 

@@ -61,7 +61,7 @@ const ProjectModalRoute: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{`${project.title} - Elite Code`}</title>
+        <title>{`${project.title} - EL8 Tech`}</title>
         <meta name="description" content={project.description.substring(0, 155)} />
         <meta property="og:title" content={project.title} />
         <meta property="og:description" content={project.description.substring(0, 155)} />
