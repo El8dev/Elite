@@ -73,8 +73,8 @@ export const CustomerReviewsSection: React.FC = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: reduceMotion ? 0 : 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { type: "spring", stiffness: 100, damping: 15 }
     }
@@ -85,25 +85,23 @@ export const CustomerReviewsSection: React.FC = () => {
       {/* Background ambient lighting */}
       <span aria-hidden="true" className="deck-aura deck-aura--1" style={{ top: '20%', insetInlineEnd: '-10%', opacity: 0.45 }} />
       <span aria-hidden="true" className="deck-aura deck-aura--2" style={{ bottom: '10%', insetInlineStart: '-10%', opacity: 0.45 }} />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight mb-4 md:mb-6 font-alexandria">
-              {t('reviews.title_pre')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">{t('reviews.title_accent')}</span>
-            </h2>
-            <p className="text-base md:text-lg text-muted-foreground font-alexandria">
-              {t('reviews.subtitle')}
-            </p>
-          </motion.div>
-        </div>
 
-        <motion.div 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.header
+          className="deck-head deck-head--plain"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="deck-kicker in">{t('reviews.kicker')}</span>
+          <h2 className="deck-title in">
+            {t('reviews.title_pre')} <span className="grad">{t('reviews.title_accent')}</span>
+          </h2>
+          <p className="deck-sub in">{t('reviews.subtitle')}</p>
+        </motion.header>
+
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants as any}
           initial="hidden"
@@ -119,23 +117,23 @@ export const CustomerReviewsSection: React.FC = () => {
             >
               {/* Subtle top gradient line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               <MessageSquareQuote size={40} className="text-primary/15 absolute top-6 end-6 -z-10 group-hover:scale-110 transition-transform duration-300" />
-              
+
               <div className="flex items-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    size={16} 
-                    className={`${i < review.rating ? 'fill-amber-500 text-amber-500' : 'fill-muted text-muted'} drop-shadow-sm`} 
+                  <Star
+                    key={i}
+                    size={16}
+                    className={`${i < review.rating ? 'fill-amber-500 text-amber-500' : 'fill-muted text-muted'} drop-shadow-sm`}
                   />
                 ))}
               </div>
-              
+
               <p className="text-muted-foreground text-sm leading-relaxed mb-8 flex-grow font-alexandria italic">
                 "{review.content}"
               </p>
-              
+
               <div className="flex items-center mt-auto border-t border-border/50 pt-6">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center text-white font-bold shadow-md shadow-primary/20">
                   {review.name.charAt(0).toUpperCase()}

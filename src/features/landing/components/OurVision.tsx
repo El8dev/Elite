@@ -21,8 +21,8 @@ const OurVision: React.FC = () => {
       <div className="deck-panel reveal">
         <span aria-hidden="true" className="deck-aura deck-aura--1"></span>
         <span aria-hidden="true" className="deck-aura deck-aura--2"></span>
-        <span className="deck-brand">El8 Tech</span>
-        
+        <span className="deck-brand">EL8 Tech</span>
+
         <header className="deck-head">
           <span aria-hidden="true" className="deck-head__mark">
             <svg fill="none" viewBox="0 0 64 64">
@@ -45,10 +45,10 @@ const OurVision: React.FC = () => {
 
         <div className="deck-grid deck-grid--vision">
           {features.map((feature, idx) => (
-            <article 
-              key={idx} 
-              className="deck-card reveal" 
-              data-delay={idx * 70} 
+            <article
+              key={idx}
+              className="deck-card reveal"
+              data-delay={idx * 70}
               style={{ '--acc': feature.color } as React.CSSProperties}
             >
               <div className="deck-card__media">

@@ -10,8 +10,8 @@ export const ServicesSection: React.FC = () => {
       <div className="deck-panel reveal">
         <span aria-hidden="true" className="deck-aura deck-aura--1"></span>
         <span aria-hidden="true" className="deck-aura deck-aura--2"></span>
-        <span className="deck-brand">El8 Tech</span>
-        
+        <span className="deck-brand">EL8 Tech</span>
+
         <header className="deck-head">
           <span aria-hidden="true" className="deck-head__mark">
             <svg fill="none" viewBox="0 0 64 64">
@@ -31,9 +31,9 @@ export const ServicesSection: React.FC = () => {
             {t('services_section.subtitle')}
           </p>
         </header>
-        
+
         <div className="deck-grid deck-grid--services">
-          
+
           <article className="deck-card deck-card--svc reveal" data-delay="0" style={{ '--acc': '#F59E0B' } as React.CSSProperties}>
             <div className="deck-card__media">
               <CardMicroIllustration color="#F59E0B" type="service_web" />
@@ -54,7 +54,7 @@ export const ServicesSection: React.FC = () => {
               </p>
             </div>
           </article>
-          
+
           <article className="deck-card deck-card--svc reveal" data-delay="90" style={{ '--acc': '#10B981' } as React.CSSProperties}>
             <div className="deck-card__media">
               <CardMicroIllustration color="#10B981" type="service_erp" />
@@ -117,7 +117,7 @@ export const ServicesSection: React.FC = () => {
               </p>
             </div>
           </article>
-          
+
         </div>
       </div>
     </section>

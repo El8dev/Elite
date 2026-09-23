@@ -126,7 +126,7 @@ export const HeroRedesign: React.FC = () => {
         <div className="hero__stats">
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="0">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="eager" fetchpriority="high" width="420" height="315" src="/extracted_img_3.webp"/>
+              <img alt="" decoding="async" loading="eager" {...({ fetchpriority: "high" } as Record<string, string>)} width="420" height="315" src="/extracted_img_3.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_1')}</span>
             <span className="stat__sub">{t('globe.stats_label_1')}</span>
