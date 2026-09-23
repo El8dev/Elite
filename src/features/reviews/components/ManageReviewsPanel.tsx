@@ -108,7 +108,7 @@ export const ManageReviewsPanel: React.FC = () => {
         </div>
         <button
           onClick={openNewModal}
-          className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center space-x-2 shadow-sm font-alexandria"
+          className="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center gap-2 shadow-sm font-alexandria"
         >
           <Plus size={18} />
           <span>Add Review</span>
@@ -117,7 +117,7 @@ export const ManageReviewsPanel: React.FC = () => {
 
       {loading ? (
         <div className="flex items-center justify-center h-64 text-muted-foreground">
-          <Loader2 size={24} className="animate-spin mr-3" />
+          <Loader2 size={24} className="animate-spin me-3" />
           <p className="font-alexandria">Loading reviews...</p>
         </div>
       ) : reviews.length === 0 ? (
@@ -126,14 +126,15 @@ export const ManageReviewsPanel: React.FC = () => {
         </div>
       ) : (
         <div className="bg-card rounded-2xl border border-border overflow-hidden">
-          <table className="w-full text-left text-sm text-muted-foreground">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-start text-sm text-muted-foreground">
             <thead className="bg-secondary/50 text-foreground font-medium border-b border-border">
               <tr>
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Rating</th>
                 <th className="px-6 py-4">Content</th>
                 <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-4 text-end">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -144,12 +145,12 @@ export const ManageReviewsPanel: React.FC = () => {
                   <td className="px-6 py-4 truncate max-w-[200px]">{review.content || review.review}</td>
                   <td className="px-6 py-4">
                     {review.is_approved ? (
-                      <span className="flex items-center text-green-500"><CheckCircle size={16} className="mr-1" /> Approved</span>
+                      <span className="flex items-center text-green-500"><CheckCircle size={16} className="me-1" /> Approved</span>
                     ) : (
-                      <span className="flex items-center text-amber-500"><Loader2 size={16} className="mr-1" /> Pending</span>
+                      <span className="flex items-center text-amber-500"><Loader2 size={16} className="me-1" /> Pending</span>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-right space-x-2">
+                  <td className="px-6 py-4 text-end whitespace-nowrap">
                     <button onClick={() => openEditModal(review)} className="p-2 rounded-lg text-muted-foreground hover:text-purple-600 hover:bg-purple-100 transition-colors">
                       <Edit3 size={18} />
                     </button>
@@ -161,6 +162,7 @@ export const ManageReviewsPanel: React.FC = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 
@@ -205,7 +207,7 @@ export const ManageReviewsPanel: React.FC = () => {
                   placeholder="Write the review here..."
                 />
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="is_approved"
@@ -216,7 +218,7 @@ export const ManageReviewsPanel: React.FC = () => {
                 <label htmlFor="is_approved" className="text-sm font-medium text-foreground">Approved for public display</label>
               </div>
 
-              <div className="flex space-x-3 pt-4">
+              <div className="flex gap-3 pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}

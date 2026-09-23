@@ -155,11 +155,13 @@ section{ position:relative; z-index:1; }
 header.site{
   position:fixed; inset-inline:0; top:0; z-index:100;
   padding-block:16px;
+  padding-top:calc(16px + var(--safe-top, 0px));
   background:transparent;
   transition:padding .35s ease, background-color .35s ease, box-shadow .35s ease;
 }
 header.site.scrolled{
   padding-block:10px;
+  padding-top:calc(10px + var(--safe-top, 0px));
   background:var(--header-bg);
   backdrop-filter:blur(10px) saturate(150%);
   -webkit-backdrop-filter:blur(10px) saturate(150%);
@@ -520,16 +522,16 @@ html[dir="rtl"] .cta-btn svg{ transform:rotate(180deg); }
 .social-btn:hover{ color:#fff; background:linear-gradient(135deg,var(--purple),var(--cyan)); border-color:transparent; transform:translateY(-4px) scale(1.07); }
 .social-btn:active{ transform:scale(.94); }
 
-.foot-bottom{ display:flex; align-items:center; justify-content:center; padding-top:34px; }
+.foot-bottom{ display:flex; align-items:center; justify-content:center; padding-top:34px; padding-bottom:var(--safe-bottom, 0px); }
 .foot-bottom p{ font-size:.8rem; color:var(--text-3); font-weight:600; }
 
 /* ---------- Floating chat ---------- */
 /* ---------- Ultra Modern Back-to-Top Arrow Button (White Arrow) ---------- */
 .scroll-top-btn{
   position: fixed !important;
-  left: 28px !important;
-  bottom: 28px !important;
-  z-index: 9999999 !important;
+  inset-inline-start: max(20px, var(--safe-left, 0px)) !important;
+  bottom: calc(24px + var(--safe-bottom, 0px)) !important;
+  z-index: 9999 !important;
   width: 52px !important;
   height: 52px !important;
   border-radius: 16px !important;
@@ -660,6 +662,8 @@ html.is-splashing, body.is-splashing {
 }
 
 /* ---------- Projects Modal / Glassmorphic View ---------- */
+.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+@media (max-width:640px){ .form-grid-2{ grid-template-columns:1fr; gap:12px; } }
 .projects-modal-backdrop{
   position:fixed; inset:0; z-index:9999; 
   background:rgba(4, 3, 10, 0.72); 
@@ -1065,10 +1069,10 @@ html:not(.dark) .deck-panel{
   .stat{ padding:9px 6px 12px; gap:8px; border-radius:15px; }
   .stat__photo{ display:block; width:100%; border-radius:13px; box-shadow:none; }
   .stat__photo img{ width:100%; height:auto; aspect-ratio:1 / 1; object-fit:cover; }
-  .stat__title{ font-size:.67rem; line-height:1.3; }
-  .stat__sub{ font-size:.56rem; }
+  .stat__title{ font-size:.78rem; line-height:1.3; }
+  .stat__sub{ font-size:.66rem; }
 }
-@media (max-width:370px){ .stat__title{ font-size:.62rem; } }
+@media (max-width:370px){ .stat__title{ font-size:.7rem; } .stat__sub{ font-size:.6rem; } }
 
 @media (min-width:901px){
   .deck-card.reveal{ will-change:transform, opacity; }
@@ -1137,9 +1141,14 @@ body.drawer-open{ overflow:hidden; }
   transition:opacity .3s ease, visibility 0s linear 0s;
 }
 .mobile-drawer__panel{
-  padding:20px 20px calc(22px + env(safe-area-inset-bottom));
-  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:calc(18px + var(--safe-top, 0px)) 20px calc(22px + var(--safe-bottom, 0px));
+  overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
 }
+.mobile-drawer__panel .nav-link{ min-height:48px; font-size:1rem; }
+.mobile-drawer__panel .dropdown-item{ min-height:48px; padding:10px 12px; }
+.mobile-drawer__group{ width:100%; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+.mobile-drawer__group > strong{ display:block; font-size:.85rem; color:var(--text-2); margin-bottom:10px; }
+.mobile-drawer__list{ display:flex; flex-direction:column; gap:6px; }
 /* swipe affordance on the inner edge */
 .mobile-drawer__panel::before{
   content:''; position:absolute; top:50%; inset-inline-start:7px; transform:translateY(-50%);
@@ -1250,7 +1259,9 @@ html.dark .hero-aura{
 }
 
 @media (max-width:640px){
-  .hero{ padding-top:120px; padding-bottom:44px; }
+  .hero{ padding-top:calc(104px + var(--safe-top, 0px)); padding-bottom:40px; }
+  .entry-block{ font-size:clamp(1.55rem, 6.2vw, 2.2rem); line-height:1.38; margin-block:18px 14px; }
+  .badge{ font-size:.78rem; padding:8px 14px; }
   .hero-aura{ top:-120px; height:min(560px, 78vh); }
   .hero__text{ font-size:.9rem; line-height:1.85; }
   .hero-cta{ gap:10px; margin-top:24px; }
@@ -1440,6 +1451,9 @@ html:not(.dark) .el8-bg-glow {
     animation: none;
   }
 }
+
+:root{ --card-art-bg: rgba(250,247,252,.98); --card-art-fg: #1a1226; --card-art-grid: .35; }
+html.dark{ --card-art-bg: rgba(6,6,12,.98); --card-art-fg: #fff; --card-art-grid: .2; }
 
 /* ---------- the last few colours that predate the ramp ---------- */
 .social-menu-icon--tiktok{ background:linear-gradient(135deg,#201127 0%,#0E0910 100%); }
@@ -1937,8 +1951,14 @@ html:not(.dark) .btn-hand{ filter:saturate(1.05) contrast(1.04); }
 .hero-cta__main:hover .btn-hand{ transform-origin:center; }
 
 @media (max-width:640px){
-  .hero-cta .hero-cta__main{ padding-inline:clamp(76px, 21vw, 92px); }
-  .btn-hand{ width:clamp(58px, 16.5vw, 74px); }
+  .hero-cta .hero-cta__main{ padding-inline:clamp(64px, 18vw, 92px); }
+  .btn-hand{ width:clamp(50px, 14vw, 74px); }
+}
+@media (max-width:400px){
+  .hero-cta{ flex-direction:column; align-items:stretch; }
+  .hero-cta .hero-cta__main, .hero-cta .ghost-btn{ width:100%; justify-content:center; }
+  .hero-cta .hero-cta__main{ padding-inline:clamp(56px, 16vw, 72px); }
+  .btn-hand{ width:clamp(44px, 12.5vw, 56px); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1947,3 +1967,64 @@ html:not(.dark) .btn-hand{ filter:saturate(1.05) contrast(1.04); }
   .theme-hand, .btn-hand{ transition:none; }
 }
 
+
+
+/* ================================================================
+   Touch & phone profile (added in the mobile pass)
+   ================================================================ */
+
+/* hover lifts are desktop-only: on touch screens they stick after a tap */
+@media (hover: none){
+  .icon-btn:hover:not(:active), .lang-pill:hover:not(:active), .cta-btn:hover:not(:active),
+  .hero-cta__main:hover:not(:active), .ghost-btn:hover:not(:active), .social-btn:hover:not(:active),
+  .scroll-top-btn:hover:not(:active), .projects-modal-close:hover:not(:active),
+  .mobile-close:hover:not(:active), .dropdown-item:hover:not(:active), .stat:hover,
+  .deck-card:hover, .cta-card:hover{ transform:none; filter:none; }
+  .social-btn:hover svg, .ghost-btn:hover svg, .deck-card:hover .deck-card__icon,
+  .dropdown-item:hover .social-menu-icon{ transform:none; }
+  .nav-link:hover svg:not(.chevron-icon){ opacity:0; }
+  /* dropdowns open on tap (.open), never on the synthetic hover a tap leaves behind */
+  .dropdown-wrapper:not(.open):hover .dropdown-menu{ opacity:0; visibility:hidden; }
+  .dropdown-wrapper:not(.open):hover .dropdown-toggle .chevron-icon{ transform:none; }
+  /* project gallery arrows are hover-revealed on desktop; always show on touch */
+  .group:hover .group-hover\:opacity-100, .group-hover\:opacity-100{ opacity:1; }
+}
+
+/* cheaper paint on phones: static glows instead of blurred, breathing layers */
+@media (max-width:768px){
+  .deck-aura{ filter:none; opacity:.4; }
+  .handoff::before{ filter:none; animation:none; opacity:.55; width:clamp(200px,60vw,300px); }
+  .hero-aura{ contain:paint; }
+  .stat__photo, .handoff__hand{ animation:none; }
+  .splash__stage{ will-change:auto; }
+  header.site.scrolled, .nav-pill{ backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  .projects-modal{ backdrop-filter:none; -webkit-backdrop-filter:none; background:var(--surface); }
+  html:not(.dark) .projects-modal{ background:#fff; }
+  .projects-modal-backdrop{ backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+}
+
+/* modals become bottom sheets on phones */
+@media (max-width:640px){
+  .projects-modal-backdrop{ align-items:flex-end; padding:0; }
+  .projects-modal{
+    max-width:none; width:100%; max-height:92dvh; border-radius:26px 26px 0 0;
+    padding:26px 18px calc(22px + var(--safe-bottom, 0px));
+    transform:translateY(24px); overscroll-behavior:contain;
+  }
+  .projects-modal::before{
+    content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
+    width:44px; height:4px; border-radius:99px; background:var(--border-strong); opacity:.8;
+  }
+  .projects-modal-backdrop.active .projects-modal{ transform:translateY(0); }
+  .projects-modal-close{ top:16px; }
+}
+
+/* keep the page still behind any open sheet or drawer */
+body.drawer-open, body.overlay-open{ overflow:hidden; touch-action:none; }
+
+/* under 360px the header actions need every pixel */
+@media (max-width:360px){
+  .brand__word{ font-size:1.05rem; letter-spacing:.12em; }
+  .lang-pill span{ display:none; }
+  .lang-pill{ width:40px; padding-inline:0; justify-content:center; }
+}

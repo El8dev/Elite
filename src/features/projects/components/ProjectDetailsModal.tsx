@@ -36,11 +36,11 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
     if (project) {
       setCurrentIndex(0);
       setDirection(0);
-      
+
       // Preload images to avoid flickering
       const images = project.imageUrls || project.imageUrl || [];
       const displayImages = Array.isArray(images) ? images : [images];
-      
+
       displayImages.forEach((src) => {
         const img = new Image();
         img.src = src;
@@ -70,24 +70,24 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md" onClick={onClose}>
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/80 backdrop-blur-md" onClick={onClose}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-card text-card-foreground border border-border rounded-2xl shadow-2xl flex flex-col md:grid md:grid-cols-12 overflow-x-hidden backdrop-blur-xl"
+          className="relative w-full max-w-4xl max-h-[92dvh] overflow-y-auto bg-card text-card-foreground border border-border rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col md:grid md:grid-cols-12 overflow-x-hidden backdrop-blur-xl"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-25 p-2 bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border rounded-full transition-colors backdrop-blur-md min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="absolute top-4 end-4 z-25 p-2 bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border rounded-full transition-colors backdrop-blur-md min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
             <X size={20} />
           </button>
-          
+
           {/* Left Column - Carousel Section */}
           {displayImages.length > 0 && (
-            <div className="relative w-full h-64 sm:h-80 md:h-full md:min-h-[480px] bg-muted/30 border-b md:border-b-0 md:border-r border-border flex-shrink-0 overflow-hidden group md:col-span-6">
+            <div className="relative w-full h-64 sm:h-80 md:h-full md:min-h-[480px] bg-muted/30 border-b md:border-b-0 md:border-e border-border flex-shrink-0 overflow-hidden group md:col-span-6">
               <AnimatePresence initial={false} custom={direction}>
                 <motion.img
                   key={currentIndex}
@@ -110,13 +110,13 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
               {displayImages.length > 1 && (
                 <>
                   <button
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity hover:bg-black/60 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     onClick={(e) => handleSwipe(e, -1)}
                   >
                     <ChevronLeft size={28} />
                   </button>
                   <button
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity hover:bg-black/60 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     onClick={(e) => handleSwipe(e, 1)}
                   >
                     <ChevronRight size={28} />
@@ -133,8 +133,8 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
                           setCurrentIndex(idx);
                         }}
                         className={`w-2 h-2 rounded-full transition-all box-content p-2 bg-clip-content ${
-                          idx === currentIndex 
-                            ? 'bg-[#F59E0B] w-4 shadow-[0_0_8px_rgba(245,158,11,0.6)]' 
+                          idx === currentIndex
+                            ? 'bg-[#F59E0B] w-4 shadow-[0_0_8px_rgba(245,158,11,0.6)]'
                             : 'bg-foreground/30 hover:bg-foreground/60'
                         }`}
                       />
@@ -144,9 +144,9 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
               )}
             </div>
           )}
-          
+
           {/* Right Column - Details Section */}
-          <div className="p-6 md:p-8 flex-1 md:col-span-6 flex flex-col justify-between overflow-y-auto md:max-h-[85vh]">
+          <div className="p-6 md:p-8 flex-1 md:col-span-6 flex flex-col justify-between overflow-y-auto md:max-h-[85dvh]">
             <div>
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
                 <div>
@@ -165,13 +165,13 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
                   </div>
                 </div>
               </div>
-              
+
               <div className="prose dark:prose-invert prose-sm max-w-none text-muted-foreground leading-relaxed mb-8 font-outfit prose-headings:text-foreground prose-a:text-[#8B5CF6] hover:prose-a:text-[#A855F7] prose-a:no-underline hover:prose-a:underline">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {project.description}
                 </ReactMarkdown>
               </div>
-              
+
               {project.techStack && project.techStack.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 font-outfit">Tech Stack</h3>
@@ -191,7 +191,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
               <div className="pt-6 border-t border-border mt-auto">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 font-outfit">Contributors</h3>
                 <TooltipProvider>
-                  <div className="flex -space-x-3 overflow-hidden">
+                  <div className="flex -space-x-3 rtl:space-x-reverse overflow-hidden">
                     {project.contributors.map((c: any) => {
                       const name = c.full_name || c.username || c.name || 'User';
                       const avatar = c.avatar_url || c.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
@@ -199,10 +199,10 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({ projec
                       return (
                         <Tooltip key={c.id || c.profile_id}>
                           <TooltipTrigger asChild>
-                            <img 
-                              src={avatar} 
-                              alt={name} 
-                              className="inline-block h-10 w-10 rounded-full ring-2 ring-card object-cover hover:-translate-y-1 transition-transform cursor-pointer" 
+                            <img
+                              src={avatar}
+                              alt={name}
+                              className="inline-block h-10 w-10 rounded-full ring-2 ring-card object-cover hover:-translate-y-1 transition-transform cursor-pointer"
                             />
                           </TooltipTrigger>
                           <TooltipContent className="bg-popover border border-border text-popover-foreground p-2.5 rounded-lg shadow-xl font-outfit z-[100]">

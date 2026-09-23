@@ -51,7 +51,7 @@ export const CostEstimator: React.FC = () => {
   }, [selectedType, selectedFeatures, selectedTimeline, PROJECT_TYPES, FEATURES, TIMELINES]);
 
   const toggleFeature = (id: string) => {
-    setSelectedFeatures(prev => 
+    setSelectedFeatures(prev =>
       prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
     );
   };
@@ -63,9 +63,9 @@ export const CostEstimator: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full z-0 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 60%)' }} />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        
+
         <div className="text-center mb-16" dir={i18n.dir()}>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -79,14 +79,14 @@ export const CostEstimator: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" dir={i18n.dir()}>
-          
+
           {/* Options Column */}
           <div className="lg:col-span-2 space-y-10">
-            
+
             {/* Project Type */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h3 className={`text-lg font-bold text-foreground mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
-                <span className="flex items-center justify-center w-6 h-6 rounded bg-purple-500/20 text-purple-400 text-xs">1</span> 
+                <span className="flex items-center justify-center w-6 h-6 rounded bg-purple-500/20 text-purple-400 text-xs">1</span>
                 {t('cost_estimator.project_type')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -95,8 +95,8 @@ export const CostEstimator: React.FC = () => {
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
                     className={`flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 font-alexandria ${
-                      selectedType === type.id 
-                        ? 'bg-purple-500/10 border-purple-500 text-foreground shadow-[0_0_20px_rgba(168,85,247,0.2)]' 
+                      selectedType === type.id
+                        ? 'bg-purple-500/10 border-purple-500 text-foreground shadow-[0_0_20px_rgba(168,85,247,0.2)]'
                         : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50'
                     }`}
                   >
@@ -112,7 +112,7 @@ export const CostEstimator: React.FC = () => {
             {/* Features */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <h3 className={`text-lg font-bold text-foreground mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
-                <span className="flex items-center justify-center w-6 h-6 rounded bg-cyan-500/20 text-cyan-400 text-xs">2</span> 
+                <span className="flex items-center justify-center w-6 h-6 rounded bg-cyan-500/20 text-cyan-400 text-xs">2</span>
                 {t('cost_estimator.features')}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -122,9 +122,9 @@ export const CostEstimator: React.FC = () => {
                     <button
                       key={feature.id}
                       onClick={() => toggleFeature(feature.id)}
-                      className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 font-alexandria text-right ${
-                        isSelected 
-                          ? 'bg-cyan-500/10 border-cyan-500 text-foreground shadow-[0_0_15px_rgba(34,211,238,0.2)]' 
+                      className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 font-alexandria text-end ${
+                        isSelected
+                          ? 'bg-cyan-500/10 border-cyan-500 text-foreground shadow-[0_0_15px_rgba(34,211,238,0.2)]'
                           : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50'
                       }`}
                     >
@@ -144,7 +144,7 @@ export const CostEstimator: React.FC = () => {
             {/* Timeline */}
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
               <h3 className={`text-lg font-bold text-foreground mb-4 flex items-center gap-2 ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
-                <span className="flex items-center justify-center w-6 h-6 rounded bg-emerald-500/20 text-emerald-400 text-xs">3</span> 
+                <span className="flex items-center justify-center w-6 h-6 rounded bg-emerald-500/20 text-emerald-400 text-xs">3</span>
                 {t('cost_estimator.timeline')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -152,9 +152,9 @@ export const CostEstimator: React.FC = () => {
                   <button
                     key={timeline.id}
                     onClick={() => setSelectedTimeline(timeline.id)}
-                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 font-alexandria text-right ${
-                      selectedTimeline === timeline.id 
-                        ? 'bg-emerald-500/10 border-emerald-500 text-foreground shadow-[0_0_15px_rgba(52,211,153,0.2)]' 
+                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 font-alexandria text-end ${
+                      selectedTimeline === timeline.id
+                        ? 'bg-emerald-500/10 border-emerald-500 text-foreground shadow-[0_0_15px_rgba(52,211,153,0.2)]'
                         : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50'
                     }`}
                   >
@@ -168,7 +168,7 @@ export const CostEstimator: React.FC = () => {
           </div>
 
           {/* Result Column */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -176,19 +176,19 @@ export const CostEstimator: React.FC = () => {
           >
             <div className="sticky top-24 w-full bg-card border border-border rounded-3xl p-8 shadow-2xl flex flex-col items-center text-center overflow-hidden">
               <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-purple-500 to-cyan-500" />
-              
+
               <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-6 border border-border">
                 <Calculator className="w-8 h-8 text-foreground/80" />
               </div>
-              
+
               <h4 className={`text-sm font-bold text-muted-foreground mb-2 uppercase tracking-wider ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {t('cost_estimator.est_cost')}
               </h4>
-              
+
               <div className="flex items-start justify-center gap-1 mb-8" dir="ltr">
                 <span className="text-2xl text-cyan-400 mt-2 font-jetbrains">$</span>
                 <AnimatePresence mode="popLayout">
-                  <motion.span 
+                  <motion.span
                     key={estimatedCost}
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -201,7 +201,7 @@ export const CostEstimator: React.FC = () => {
               </div>
 
               <div className="w-full h-px bg-border mb-8" />
-              
+
               <p className={`text-xs text-muted-foreground mb-8 leading-relaxed ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
                 {t('cost_estimator.disclaimer')}
               </p>

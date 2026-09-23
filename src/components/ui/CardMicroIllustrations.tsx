@@ -139,15 +139,16 @@ export const CardMicroIllustration: React.FC<MicroUIProps> = ({ color = '#a855f7
     <div 
       className="w-full h-full relative overflow-hidden flex flex-col items-center justify-center p-3 select-none group cursor-pointer"
       style={{
-        background: `radial-gradient(circle at 50% 30%, ${color}28 0%, rgba(6, 6, 12, 0.98) 85%)`,
+        background: `radial-gradient(circle at 50% 30%, ${color}28 0%, var(--card-art-bg, rgba(6, 6, 12, 0.98)) 85%)`,
       }}
     >
       {/* Ambient Grid Background */}
       <div 
-        className="absolute inset-0 opacity-20 pointer-events-none" 
+        className="absolute inset-0 pointer-events-none" 
         style={{
           backgroundImage: `linear-gradient(to right, ${color}30 1px, transparent 1px), linear-gradient(to bottom, ${color}30 1px, transparent 1px)`,
           backgroundSize: '24px 24px',
+          opacity: 'var(--card-art-grid, 0.2)' as any,
         }}
       />
 
@@ -176,7 +177,7 @@ export const CardMicroIllustration: React.FC<MicroUIProps> = ({ color = '#a855f7
           }}
         />
         <div className="mt-2 text-center">
-          <span className="text-[12px] font-bold text-white tracking-wider block font-sans">
+          <span className="text-[12px] font-bold tracking-wider block font-sans" style={{ color: 'var(--card-art-fg, #fff)' }}>
             {t(cfg.badgeKey, cfg.badgeFallback)}
           </span>
           <span className={`text-[10px] font-sans px-2.5 py-0.5 rounded-full border inline-block mt-0.5 ${cfg.tagColorClass}`}>

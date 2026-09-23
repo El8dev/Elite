@@ -97,7 +97,7 @@ export const ProjectsModal: React.FC = () => {
         </div>
 
         <form id="addProjectModalForm" onSubmit={handleSubmit} style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          <div className="form-grid-2">
             <div>
               <label style={{ display: 'block', fontSize: '.82rem', fontWeight: 700, color: 'var(--text)', marginBottom: '6px' }}>
                 {i18n.language === 'ar' ? 'اسم المشروع / الفكرة' : 'Project Name / Idea'}
@@ -112,7 +112,7 @@ export const ProjectsModal: React.FC = () => {
                   backdropFilter: 'blur(10px)',
                   border: `1px solid ${focusName ? 'rgba(168, 85, 247, 0.8)' : 'rgba(255, 255, 255, 0.12)'}`, 
                   boxShadow: focusName ? '0 0 16px rgba(168, 85, 247, 0.3)' : 'none',
-                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.88rem', outline: 'none', transition: 'all .3s ease' 
+                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.95rem', outline: 'none', transition: 'all .3s ease' 
                 }}
                 onFocus={() => setFocusName(true)}
                 onBlur={() => setFocusName(false)}
@@ -128,7 +128,7 @@ export const ProjectsModal: React.FC = () => {
                   width: '100%', padding: '11px 14px', borderRadius: '14px', 
                   background: 'rgba(255, 255, 255, 0.04)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)', color: 'var(--text)', fontFamily: 'inherit', fontSize: '.88rem', outline: 'none', cursor: 'pointer' 
+                  border: '1px solid rgba(255, 255, 255, 0.12)', color: 'var(--text)', fontFamily: 'inherit', fontSize: '.95rem', outline: 'none', cursor: 'pointer' 
                 }}
               >
                 <option value="web" style={{ background: '#0e0a1a', color: '#fff' }}>{i18n.language === 'ar' ? 'تطبيقات الويب والمواقع' : 'Web Apps & Websites'}</option>
@@ -140,7 +140,7 @@ export const ProjectsModal: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          <div className="form-grid-2">
             <div>
               <label style={{ display: 'block', fontSize: '.82rem', fontWeight: 700, color: 'var(--text)', marginBottom: '6px' }}>
                 {i18n.language === 'ar' ? 'الاسم / اسم الشركة' : 'Name / Company'}
@@ -155,7 +155,7 @@ export const ProjectsModal: React.FC = () => {
                   backdropFilter: 'blur(10px)',
                   border: `1px solid ${focusClient ? 'rgba(168, 85, 247, 0.8)' : 'rgba(255, 255, 255, 0.12)'}`, 
                   boxShadow: focusClient ? '0 0 16px rgba(168, 85, 247, 0.3)' : 'none',
-                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.88rem', outline: 'none', transition: 'all .3s ease' 
+                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.95rem', outline: 'none', transition: 'all .3s ease' 
                 }}
                 onFocus={() => setFocusClient(true)}
                 onBlur={() => setFocusClient(false)}
@@ -175,7 +175,7 @@ export const ProjectsModal: React.FC = () => {
                   backdropFilter: 'blur(10px)',
                   border: `1px solid ${focusContact ? 'rgba(168, 85, 247, 0.8)' : 'rgba(255, 255, 255, 0.12)'}`, 
                   boxShadow: focusContact ? '0 0 16px rgba(168, 85, 247, 0.3)' : 'none',
-                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.88rem', outline: 'none', transition: 'all .3s ease' 
+                  color: 'var(--text)', fontFamily: 'inherit', fontSize: '.95rem', outline: 'none', transition: 'all .3s ease' 
                 }}
                 onFocus={() => setFocusContact(true)}
                 onBlur={() => setFocusContact(false)}
@@ -197,7 +197,7 @@ export const ProjectsModal: React.FC = () => {
                 backdropFilter: 'blur(10px)',
                 border: `1px solid ${focusDetails ? 'rgba(168, 85, 247, 0.8)' : 'rgba(255, 255, 255, 0.12)'}`, 
                 boxShadow: focusDetails ? '0 0 16px rgba(168, 85, 247, 0.3)' : 'none',
-                color: 'var(--text)', fontFamily: 'inherit', fontSize: '.88rem', outline: 'none', resize: 'vertical', transition: 'all .3s ease' 
+                color: 'var(--text)', fontFamily: 'inherit', fontSize: '.95rem', outline: 'none', resize: 'vertical', transition: 'all .3s ease' 
               }}
               onFocus={() => setFocusDetails(true)}
               onBlur={() => setFocusDetails(false)}

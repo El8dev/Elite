@@ -41,7 +41,16 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
-  
+  const isRTL = i18n.dir() === 'rtl';
+
+  useEffect(() => {
+    if (!mobileSidebarOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileSidebarOpen(false); };
+    window.addEventListener('keydown', onKey);
+    document.body.classList.add('drawer-open');
+    return () => { window.removeEventListener('keydown', onKey); document.body.classList.remove('drawer-open'); };
+  }, [mobileSidebarOpen]);
+
   // Publish form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -70,7 +79,7 @@ const Dashboard: React.FC = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  
+
   // Social Links State
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [instagramUrl, setInstagramUrl] = useState('');
@@ -126,15 +135,15 @@ const Dashboard: React.FC = () => {
         navigate('/login');
         return;
       }
-      
+
       const { data: { user }, error: authError } = await supabase.auth.getUser();
-      
+
       if (authError || !user) {
         console.error('Auth verification failed:', authError);
         navigate('/login');
         return;
       }
-      
+
       setCurrentUserId(user.id);
       fetchItems(user.id);
       fetchProfile(user.id);
@@ -249,13 +258,13 @@ const Dashboard: React.FC = () => {
         .select('id, full_name, username, role, job_title, bio, avatar_url, skills, whatsapp_number, instagram_url, linkedin_url, account_status')
         .eq('id', userId)
         .single();
-        
+
       console.log('Fetched profile data:', data, 'Error:', error);
-        
+
       if (data && !error) {
         const fetchedRole = data.role || DEFAULT_MEMBER_ROLE;
         const userIsSystemAdmin = fetchedRole === SYSTEM_ADMIN_ROLE;
-        
+
         setProfileName(data.full_name || '');
         setProfileUsername(data.username || '');
         setProfileRole(fetchedRole);
@@ -642,21 +651,21 @@ const Dashboard: React.FC = () => {
       console.error('Update Profile Error:', error.message, error.details, error.hint);
       toast.error(`Failed to update profile: ${error.message}`);
     }
-    
+
     setProfileLoading(false);
   };
 
 
   return (
     <div className="min-h-screen bg-transparent flex font-outfit text-foreground relative">
-      
+
       {/* SECTION A: Desktop Sidebar (fixed width) */}
-      <aside className="hidden md:flex w-72 bg-card/80 backdrop-blur-xl border-r border-border flex-col shrink-0 relative z-10">
+      <aside className="hidden md:flex w-72 bg-card/80 backdrop-blur-xl border-e border-border flex-col shrink-0 relative z-10">
         <div>
           {/* User Profile */}
-          <div className="p-8 border-b border-border flex items-center space-x-4">
+          <div className="p-8 border-b border-border flex items-center gap-4">
             {isProfileFetching ? (
-              <div className="w-full flex items-center space-x-4 animate-pulse">
+              <div className="w-full flex items-center gap-4 animate-pulse">
                 <div className="w-12 h-12 bg-muted rounded-full shrink-0"></div>
                 <div className="space-y-2 flex-1">
                   <div className="h-4 bg-muted rounded w-3/4"></div>
@@ -679,45 +688,45 @@ const Dashboard: React.FC = () => {
               </>
             )}
           </div>
-          
+
           {/* Management Tabs */}
           <nav className="p-4 space-y-2 mt-4">
-            <button 
+            <button
               onClick={() => setActiveTab('manage')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
             >
               <FolderKanban size={18} />
               <span>{t('dashboard.my_projects')}</span>
             </button>
             {accountStatus === 'approved' && (
-              <button 
+              <button
                 onClick={() => setActiveTab('publish')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
                 <Plus size={18} />
                 <span>{t('dashboard.publish_project')}</span>
               </button>
             )}
-            <button 
+            <button
               onClick={() => setActiveTab('profile')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
             >
               <User size={18} />
               <span>{t('dashboard.profile')}</span>
             </button>
             {isSystemAdmin && (
-              <button 
+              <button
                 onClick={() => setActiveTab('team')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
                 <Shield size={18} />
                 <span>Team Management</span>
               </button>
             )}
             {isSystemAdmin && (
-              <button 
+              <button
                 onClick={() => setActiveTab('admin')}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}
               >
                 <Star size={18} />
                 <span>Manage Reviews</span>
@@ -728,9 +737,9 @@ const Dashboard: React.FC = () => {
 
         {/* Footer actions */}
         <div className="p-4 border-t border-border">
-          <button 
+          <button
             onClick={handleSignOut}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
           >
             <LogOut size={18} />
             <span>{t('dashboard.sign_out')}</span>
@@ -750,14 +759,17 @@ const Dashboard: React.FC = () => {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
             />
             <motion.aside
-              initial={{ x: '-100%' }}
+              initial={{ x: isRTL ? '100%' : '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
+              exit={{ x: isRTL ? '100%' : '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex flex-col z-50 md:hidden shadow-2xl p-6 overflow-y-auto"
+              className="fixed inset-y-0 start-0 w-[min(18rem,85vw)] bg-card border-e border-border flex flex-col z-50 md:hidden shadow-2xl p-6 overflow-y-auto"
+              style={{ paddingTop: 'calc(1.5rem + var(--safe-top, 0px))', paddingBottom: 'calc(1.5rem + var(--safe-bottom, 0px))' }}
+              role="dialog"
+              aria-modal="true"
             >
               <div className="flex items-center justify-between pb-6 border-b border-border mb-6">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold border border-primary/20 overflow-hidden">
                     {avatarPreview || avatarUrl ? (
                       <img src={avatarPreview || avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -772,49 +784,50 @@ const Dashboard: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setMobileSidebarOpen(false)}
-                  className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground"
+                  className="w-11 h-11 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground"
+                  aria-label="Close menu"
                 >
                   <X size={18} />
                 </button>
               </div>
 
               <nav className="space-y-2 flex-1">
-                <button 
+                <button
                   onClick={() => { setActiveTab('manage'); setMobileSidebarOpen(false); }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'manage' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
                 >
                   <FolderKanban size={18} />
                   <span>{t('dashboard.my_projects')}</span>
                 </button>
                 {accountStatus === 'approved' && (
-                  <button 
+                  <button
                     onClick={() => { setActiveTab('publish'); setMobileSidebarOpen(false); }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'publish' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
                   >
                     <Plus size={18} />
                     <span>{t('dashboard.publish_project')}</span>
                   </button>
                 )}
-                <button 
+                <button
                   onClick={() => { setActiveTab('profile'); setMobileSidebarOpen(false); }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'profile' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
                 >
                   <User size={18} />
                   <span>{t('dashboard.profile')}</span>
                 </button>
                 {isSystemAdmin && (
-                  <button 
+                  <button
                     onClick={() => { setActiveTab('team'); setMobileSidebarOpen(false); }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'team' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
                   >
                     <Shield size={18} />
                     <span>Team Management</span>
                   </button>
                 )}
                 {isSystemAdmin && (
-                  <button 
+                  <button
                     onClick={() => { setActiveTab('admin'); setMobileSidebarOpen(false); }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === 'admin' ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}
                   >
                     <Star size={18} />
                     <span>Manage Reviews</span>
@@ -823,9 +836,9 @@ const Dashboard: React.FC = () => {
               </nav>
 
               <div className="pt-4 border-t border-border mt-auto">
-                <button 
+                <button
                   onClick={handleSignOut}
-                  className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
                 >
                   <LogOut size={18} />
                   <span>{t('dashboard.sign_out')}</span>
@@ -837,8 +850,36 @@ const Dashboard: React.FC = () => {
       </AnimatePresence>
 
       {/* SECTION B: Main Workspace */}
-      <main className="flex-1 flex flex-col bg-transparent relative z-0 overflow-hidden">
-        {/* Header */}
+      <main className="flex-1 flex flex-col bg-transparent relative z-0 overflow-hidden min-w-0">
+        {/* Mobile top bar: the sidebar drawer had no trigger on phones */}
+        <div
+          className="md:hidden sticky top-0 z-30 flex items-center justify-between gap-3 px-4 py-3 bg-card/90 border-b border-border"
+          style={{ paddingTop: 'calc(0.75rem + var(--safe-top, 0px))' }}
+        >
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(true)}
+            className="w-11 h-11 rounded-xl bg-secondary flex items-center justify-center text-foreground"
+            aria-label="Open menu"
+            aria-expanded={mobileSidebarOpen}
+          >
+            <Menu size={20} />
+          </button>
+          <span className="font-semibold text-sm truncate">
+            {activeTab === 'manage' ? t('dashboard.my_projects')
+              : activeTab === 'publish' ? t('dashboard.publish_project')
+              : activeTab === 'profile' ? t('dashboard.profile')
+              : activeTab === 'team' ? 'Team Management'
+              : 'Manage Reviews'}
+          </span>
+          <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold border border-primary/20 overflow-hidden shrink-0">
+            {avatarPreview || avatarUrl ? (
+              <img src={avatarPreview || avatarUrl} alt="" className="w-full h-full object-cover" />
+            ) : (
+              profileName ? profileName.charAt(0).toUpperCase() : 'A'
+            )}
+          </div>
+        </div>
 
         {/* Content Area */}
         <div className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
@@ -846,14 +887,14 @@ const Dashboard: React.FC = () => {
 
             {/* Pending Account Banner */}
             {!isSystemAdmin && accountStatus === 'pending' && activeTab !== 'profile' && (
-              <div className="mb-8 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex items-start space-x-4">
+              <div className="mb-8 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex items-start gap-4">
                 <div className="w-12 h-12 bg-amber-500/20 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
                   <Clock size={24} />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-amber-700 dark:text-amber-500">Account Under Review</h3>
                   <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
-                    Your ELITE account is currently under review by administrators. You will be able to publish projects and appear in the community directory once your account has been approved.
+                    Your EL8 account is currently under review by administrators. You will be able to publish projects and appear in the community directory once your account has been approved.
                   </p>
                 </div>
               </div>
@@ -893,14 +934,14 @@ const Dashboard: React.FC = () => {
                             )}
                           </div>
                           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button 
+                            <button
                               onClick={() => openEditProjectModal(item)}
                               className="text-muted-foreground hover:text-purple-500 transition-colors"
                               title="Edit Project"
                             >
                               <Edit3 size={18} />
                             </button>
-                            <button 
+                            <button
                               onClick={() => setItemToDelete(item.id)}
                               className="text-muted-foreground hover:text-red-500 transition-colors"
                               title="Delete Project"
@@ -927,12 +968,12 @@ const Dashboard: React.FC = () => {
             {activeTab === 'publish' && (accountStatus === 'approved' || isSystemAdmin) && (
               <form onSubmit={handlePublish} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
                 <h2 className="text-2xl font-medium text-foreground mb-8">{t('dashboard.project_details')}</h2>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.project_title')}</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -940,12 +981,12 @@ const Dashboard: React.FC = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">
-                      {t('dashboard.description')} <span className="text-xs text-primary ml-2 font-normal">(Markdown supported)</span>
+                      {t('dashboard.description')} <span className="text-xs text-primary ms-2 font-normal">(Markdown supported)</span>
                     </label>
-                    <textarea 
+                    <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
@@ -957,8 +998,8 @@ const Dashboard: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">Live URL</label>
-                      <input 
-                        type="url" 
+                      <input
+                        type="url"
                         value={liveUrl}
                         onChange={(e) => setLiveUrl(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -967,8 +1008,8 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-muted-foreground mb-2">GitHub URL</label>
-                      <input 
-                        type="url" 
+                      <input
+                        type="url"
                         value={githubUrl}
                         onChange={(e) => setGithubUrl(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -986,7 +1027,7 @@ const Dashboard: React.FC = () => {
                       </div>
                       <p className="text-sm font-medium text-foreground mb-1">{t('dashboard.click_to_upload')}</p>
                       <p className="text-xs text-muted-foreground mb-4">{t('dashboard.supported_formats')}</p>
-                      <label className="px-4 py-2 bg-card border border-input text-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-secondary transition-colors shadow-sm flex items-center space-x-2">
+                      <label className="px-4 py-2 bg-card border border-input text-foreground rounded-lg text-sm font-medium cursor-pointer hover:bg-secondary transition-colors shadow-sm flex items-center gap-2">
                         <Upload size={16} />
                         <span>{t('dashboard.select_files')}</span>
                         <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
@@ -1030,24 +1071,24 @@ const Dashboard: React.FC = () => {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label className="block text-sm font-medium text-muted-foreground">{t('dashboard.contributors')}</label>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => setIsContributorModalOpen(true)}
-                        className="text-sm text-primary hover:text-primary/80 font-medium flex items-center space-x-1"
+                        className="text-sm text-primary hover:text-primary/80 font-medium flex items-center gap-1"
                       >
                         <Plus size={16} />
                         <span>{t('dashboard.add_team_member')}</span>
                       </button>
                     </div>
                     {selectedContributors.length === 0 ? (
-                      <div className="w-full px-4 py-4 rounded-xl bg-background border border-input text-sm text-muted-foreground flex items-center space-x-2">
+                      <div className="w-full px-4 py-4 rounded-xl bg-background border border-input text-sm text-muted-foreground flex items-center gap-2">
                         <Users size={16} className="text-muted-foreground" />
                         <span>{t('dashboard.no_contributors')}</span>
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2">
                         {selectedContributors.map(user => (
-                          <div key={user.id} className="flex items-center space-x-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
+                          <div key={user.id} className="flex items-center gap-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
                             <div className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs md:text-sm font-bold">
                               {user.name.charAt(0)}
                             </div>
@@ -1068,13 +1109,13 @@ const Dashboard: React.FC = () => {
                   {/* Personal Profile Only Toggle */}
                   <div className="flex items-center justify-between py-4 border-b border-border">
                     <div>
-                      <h4 className="font-medium text-foreground flex items-center space-x-2">
+                      <h4 className="font-medium text-foreground flex items-center gap-2">
                         <span>{t('dashboard.personal_profile_only')}</span>
                         <span className="bg-violet-500/20 text-violet-600 dark:text-violet-400 text-xs md:text-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">{t('dashboard.new_badge')}</span>
                       </h4>
                       <p className="text-sm text-muted-foreground mt-1">{t('dashboard.personal_profile_desc')}</p>
                     </div>
-                    <button 
+                    <button
                       type="button"
                       onClick={() => {
                         const next = !personalProfileOnly;
@@ -1087,10 +1128,10 @@ const Dashboard: React.FC = () => {
                   </div>
 
                   <div className="pt-4 flex justify-end">
-                    <button 
+                    <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 min-w-[160px] justify-center"
+                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[160px] justify-center"
                     >
                       {isSubmitting ? (
                         <>
@@ -1109,7 +1150,7 @@ const Dashboard: React.FC = () => {
             {activeTab === 'profile' && (
               <form onSubmit={handleProfileSubmit} className="bg-card rounded-3xl p-10 shadow-sm border border-border max-w-2xl">
                 <h2 className="text-2xl font-medium text-foreground mb-8 text-center">{t('dashboard.profile_settings')}</h2>
-                
+
                 {/* Avatar Upload */}
                 <div className="relative group w-32 h-32 rounded-full overflow-hidden border-4 border-card shadow-md mx-auto mb-8 bg-muted">
                   {avatarPreview || avatarUrl ? (
@@ -1128,8 +1169,8 @@ const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.full_name')}</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={profileName}
                       onChange={(e) => setProfileName(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -1138,8 +1179,8 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.username')}</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={profileUsername}
                       onChange={(e) => setProfileUsername(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -1150,8 +1191,8 @@ const Dashboard: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.role_title')}</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={profileJobTitle}
                     onChange={(e) => setProfileJobTitle(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
@@ -1168,7 +1209,7 @@ const Dashboard: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.bio')}</label>
-                  <textarea 
+                  <textarea
                     value={profileBio}
                     onChange={(e) => setProfileBio(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground resize-none h-32"
@@ -1179,9 +1220,9 @@ const Dashboard: React.FC = () => {
                 {/* Dynamic Skills System */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('dashboard.skills_tech')}</label>
-                  <div className="flex space-x-2 mb-3">
-                    <input 
-                      type="text" 
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      type="text"
                       value={skillInput}
                       onChange={(e) => setSkillInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -1193,7 +1234,7 @@ const Dashboard: React.FC = () => {
                       className="flex-1 px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground"
                       placeholder={t('dashboard.skills_placeholder')}
                     />
-                    <button 
+                    <button
                       type="button"
                       onClick={addSkill}
                       className="w-12 h-12 bg-secondary hover:bg-secondary/80 text-foreground rounded-xl flex items-center justify-center transition-colors border border-input"
@@ -1210,7 +1251,7 @@ const Dashboard: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.8 }}
                           layout
-                          className="flex items-center space-x-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm"
+                          className="flex items-center gap-2 bg-card border border-input text-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-sm"
                         >
                           <span>{skill}</span>
                           <button
@@ -1229,13 +1270,13 @@ const Dashboard: React.FC = () => {
 
 
                 <div className="pt-4 flex justify-end border-t border-border">
-                  <button 
+                  <button
                     type="submit"
                     disabled={profileLoading}
                     className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center justify-center min-w-[150px]"
                   >
                     {profileLoading ? (
-                      <span className="flex items-center space-x-2">
+                      <span className="flex items-center gap-2">
                         <svg className="animate-spin h-5 w-5 text-primary-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -1271,7 +1312,7 @@ const Dashboard: React.FC = () => {
             )}
 
             {activeTab === 'team' && isSystemAdmin && (
-              <AdminPanel 
+              <AdminPanel
                 isSystemAdmin={isSystemAdmin}
                 pendingUsers={pendingUsers}
                 setPendingUsers={setPendingUsers}
@@ -1279,7 +1320,7 @@ const Dashboard: React.FC = () => {
                 setAdminLoading={setAdminLoading}
               />
             )}
-            
+
           </div>
         </div>
       </main>
@@ -1297,14 +1338,14 @@ const Dashboard: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-6">
               Are you sure you want to delete this project? This action cannot be undone.
             </p>
-            <div className="flex justify-end space-x-3">
-              <button 
+            <div className="flex justify-end gap-3">
+              <button
                 onClick={() => setItemToDelete(null)}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-colors"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={confirmDelete}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors"
               >
@@ -1317,12 +1358,12 @@ const Dashboard: React.FC = () => {
 
       {/* Edit Project Modal */}
       {editProjectModalOpen && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-md p-4 overflow-y-auto">
-          <div className="bg-card rounded-3xl p-6 md:p-10 shadow-2xl w-full max-w-2xl border border-border my-8">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-background/40 backdrop-blur-md p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-card rounded-3xl p-5 sm:p-6 md:p-10 shadow-2xl w-full max-w-2xl border border-border my-4 sm:my-8">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-foreground font-alexandria">Edit Project</h3>
-              <button 
-                onClick={() => setEditProjectModalOpen(false)} 
+              <button
+                onClick={() => setEditProjectModalOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X size={20} />
@@ -1343,7 +1384,7 @@ const Dashboard: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-muted-foreground mb-2">
-                  {t('dashboard.description', 'Description')} <span className="text-xs text-primary ml-2 font-normal">(Markdown supported)</span>
+                  {t('dashboard.description', 'Description')} <span className="text-xs text-primary ms-2 font-normal">(Markdown supported)</span>
                 </label>
                 <textarea
                   value={editProjectDescription}
@@ -1360,7 +1401,7 @@ const Dashboard: React.FC = () => {
                     type="url"
                     value={editProjectLiveUrl}
                     onChange={(e) => setEditProjectLiveUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-left"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-start"
                     dir="ltr"
                   />
                 </div>
@@ -1370,7 +1411,7 @@ const Dashboard: React.FC = () => {
                     type="url"
                     value={editProjectGithubUrl}
                     onChange={(e) => setEditProjectGithubUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-left"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-input focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-foreground text-start"
                     dir="ltr"
                   />
                 </div>
@@ -1378,7 +1419,7 @@ const Dashboard: React.FC = () => {
 
               <div className="flex items-center justify-between py-4 border-b border-border">
                 <div>
-                  <h4 className="font-medium text-foreground flex items-center space-x-2">
+                  <h4 className="font-medium text-foreground flex items-center gap-2">
                     <span>{t('dashboard.personal_profile_only', 'Personal Profile Only')}</span>
                   </h4>
                   <p className="text-sm text-muted-foreground mt-1">Only show on your developer profile (hide from public feed).</p>
@@ -1395,7 +1436,7 @@ const Dashboard: React.FC = () => {
                 </button>
               </div>
 
-              <div className="flex justify-end pt-4 space-x-3 space-x-reverse">
+              <div className="flex justify-end pt-4 gap-3 space-x-reverse">
                 <button
                   type="button"
                   onClick={() => setEditProjectModalOpen(false)}
@@ -1406,7 +1447,7 @@ const Dashboard: React.FC = () => {
                 <button
                   type="submit"
                   disabled={editProjectSubmitting}
-                  className="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-2 space-x-reverse"
+                  className="px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2 space-x-reverse"
                 >
                   {editProjectSubmitting ? (
                     <>
@@ -1425,10 +1466,10 @@ const Dashboard: React.FC = () => {
 
       {/* Image Cropper Modal */}
       {cropModalOpen && imageToCrop && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-md p-4 overflow-y-auto">
           <div className="bg-card rounded-3xl p-6 shadow-2xl w-full max-w-lg border border-border flex flex-col">
             <h3 className="text-lg font-medium text-foreground mb-4">Crop Avatar</h3>
-            <div className="relative w-full h-80 bg-muted rounded-xl overflow-hidden mb-6">
+            <div className="relative w-full h-[min(20rem,55dvh)] bg-muted rounded-xl overflow-hidden mb-6">
               <Cropper
                 image={imageToCrop}
                 crop={crop}
@@ -1441,8 +1482,8 @@ const Dashboard: React.FC = () => {
                 onZoomChange={setZoom}
               />
             </div>
-            <div className="flex justify-end space-x-3">
-              <button 
+            <div className="flex justify-end gap-3">
+              <button
                 type="button"
                 onClick={() => {
                   setCropModalOpen(false);
@@ -1455,7 +1496,7 @@ const Dashboard: React.FC = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 type="button"
                 onClick={handleApplyCrop}
                 className="px-5 py-2.5 rounded-xl text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 transition-colors shadow-sm"
@@ -1469,10 +1510,10 @@ const Dashboard: React.FC = () => {
 
       {/* Contributor Search Modal */}
       {isContributorModalOpen && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4">
-          <div className="bg-card rounded-2xl shadow-xl w-full max-w-md border border-border flex flex-col h-[500px] overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-sm p-4">
+          <div className="bg-card rounded-2xl shadow-xl w-full max-w-md border border-border flex flex-col h-[min(500px,85dvh)] overflow-hidden">
             <div className="p-5 border-b border-border flex justify-between items-center bg-card shrink-0">
-              <h3 className="text-lg font-semibold text-foreground flex items-center space-x-2">
+              <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Users size={20} className="text-primary" />
                 <span>Add Contributors</span>
               </h3>
@@ -1480,16 +1521,16 @@ const Dashboard: React.FC = () => {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="p-5 border-b border-border bg-secondary/50 shrink-0">
               <div className="relative">
-                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input 
-                  type="text" 
+                <Search size={18} className="absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
                   value={contributorSearchQuery}
                   onChange={(e) => setContributorSearchQuery(e.target.value)}
                   placeholder="Search by name or @username..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-background border border-input focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm text-foreground"
+                  className="w-full ps-10 pe-4 py-2.5 rounded-xl bg-background border border-input focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm text-foreground"
                 />
               </div>
             </div>
@@ -1515,13 +1556,13 @@ const Dashboard: React.FC = () => {
                   {searchedProfiles.map(user => {
                     const isSelected = !!selectedContributors.find(c => c.id === user.id);
                     return (
-                      <button 
+                      <button
                         key={user.id}
                         type="button"
                         onClick={() => toggleContributor({ id: user.id, name: user.full_name || user.username, username: user.username })}
                         className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${isSelected ? 'bg-primary/10' : 'hover:bg-secondary'}`}
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-muted border border-border flex items-center justify-center text-muted-foreground font-medium shrink-0 overflow-hidden">
                             {user.avatar_url ? (
                               <img src={user.avatar_url} alt={user.full_name} className="w-full h-full object-cover" />
@@ -1529,7 +1570,7 @@ const Dashboard: React.FC = () => {
                               (user.full_name || user.username || '?').charAt(0).toUpperCase()
                             )}
                           </div>
-                          <div className="text-left">
+                          <div className="text-start">
                             <p className="text-sm font-medium text-foreground">{user.full_name || user.username}</p>
                             <p className="text-xs text-muted-foreground">@{user.username}</p>
                           </div>
@@ -1545,9 +1586,9 @@ const Dashboard: React.FC = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="p-5 border-t border-border bg-card shrink-0 flex justify-end">
-              <button 
+              <button
                 type="button"
                 onClick={() => setIsContributorModalOpen(false)}
                 className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-sm font-medium transition-all shadow-sm"

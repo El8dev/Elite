@@ -11,7 +11,7 @@ export const LiveChatWidget: React.FC = () => {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed end-5 z-50 flex flex-col items-end" style={{ bottom: 'calc(1.5rem + var(--safe-bottom, 0px))' }}>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -56,7 +56,7 @@ export const LiveChatWidget: React.FC = () => {
 
       <button
         onClick={toggleOpen}
-        className="flex items-center justify-center w-14 h-14 bg-slate-950/85 backdrop-blur-xl border border-purple-500/50 rounded-2xl shadow-[0_0_25px_rgba(168,85,247,0.45)] hover:border-purple-400 hover:shadow-[0_0_35px_rgba(168,85,247,0.7)] hover:scale-105 transition-all duration-300 text-purple-300 hover:text-white"
+        className="flex items-center justify-center w-14 h-14 bg-slate-950/85 md:backdrop-blur-xl border border-purple-500/50 rounded-2xl shadow-[0_0_25px_rgba(168,85,247,0.45)] hover:border-purple-400 hover:shadow-[0_0_35px_rgba(168,85,247,0.7)] hover:scale-105 transition-all duration-300 text-purple-300 hover:text-white"
         aria-label="Live Chat"
       >
         <AnimatePresence mode="wait">

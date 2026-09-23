@@ -53,14 +53,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUs
   return (
     <div className="space-y-6 relative">
       {/* Top‑right toggle – always visible */}
-      <div className="absolute top-6 right-6 z-50">
+      <div className="absolute top-6 end-6 z-50">
         <ThemeLanguageToggle />
       </div>
       <nav className="flex flex-wrap gap-2 border-b border-border pb-4">
         <button
           type="button"
           onClick={() => setActiveSection('pending')}
-          className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeSection === 'pending'
               ? 'bg-primary/10 text-primary'
               : 'text-muted-foreground hover:bg-secondary'
@@ -72,7 +72,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUs
         <button
           type="button"
           onClick={() => setActiveSection('users')}
-          className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeSection === 'users'
               ? 'bg-primary/10 text-primary'
               : 'text-muted-foreground hover:bg-secondary'
@@ -84,7 +84,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isSystemAdmin, pendingUs
         <button
           type="button"
           onClick={() => setActiveSection('content')}
-          className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
             activeSection === 'content'
               ? 'bg-primary/10 text-primary'
               : 'text-muted-foreground hover:bg-secondary'
@@ -181,7 +181,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
       if (err?.code) console.error('Error code:', err.code);
       if (err?.message) console.error('Error message:', err.message);
       if (err?.details) console.error('Error details:', err.details);
-      
+
       toast.error(`Failed to ${action === 'approved' ? 'approve' : 'reject'} user. See console for details.`);
     } finally {
       setActionLoadingId(null);
@@ -191,7 +191,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
   if (adminLoading) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <Loader2 size={24} className="animate-spin mr-3" />
+        <Loader2 size={24} className="animate-spin me-3" />
         <p>Loading pending users...</p>
       </div>
     );
@@ -205,7 +205,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
         <p className="text-sm text-muted-foreground mt-2 text-center mb-6">{t('dashboard.no_pending_accounts', 'There are no accounts awaiting review.')}</p>
         <button
           onClick={fetchPendingUsers}
-          className="flex items-center space-x-2 px-4 py-2 bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-secondary text-foreground hover:bg-secondary/80 rounded-xl transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
           <span>Refresh</span>
@@ -220,7 +220,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
         <p className="text-sm text-muted-foreground">{pendingUsers.length} {t('dashboard.accounts_awaiting_review')}</p>
         <button
           onClick={fetchPendingUsers}
-          className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
           <span>Refresh</span>
@@ -237,7 +237,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
             exit={{ opacity: 0, y: -10 }}
             className="bg-card rounded-2xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow"
           >
-            <div className="flex items-start space-x-4">
+            <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-muted border-2 border-border flex items-center justify-center text-muted-foreground font-semibold text-xl shrink-0 overflow-hidden">
                 {user.avatar_url ? (
                   <img src={user.avatar_url} alt={user.full_name || undefined} className="w-full h-full object-cover" />
@@ -268,11 +268,11 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
               </div>
             </div>
 
-            <div className="flex justify-end space-x-2 mt-5 pt-4 border-t border-border">
+            <div className="flex justify-end gap-2 mt-5 pt-4 border-t border-border">
               <button
                 onClick={() => handleAction(user.id, 'rejected')}
                 disabled={actionLoadingId === user.id}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50 flex items-center space-x-1.5"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50 flex items-center gap-1.5"
               >
                 <XCircle size={16} />
                 <span>{t('dashboard.reject')}</span>
@@ -280,7 +280,7 @@ const PendingApprovalsSection: React.FC<PendingApprovalsSectionProps> = ({
               <button
                 onClick={() => handleAction(user.id, 'approved')}
                 disabled={actionLoadingId === user.id}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-1.5"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 transition-colors shadow-sm disabled:opacity-50 flex items-center gap-1.5"
               >
                 <CheckCircle size={16} />
                 <span>{t('dashboard.approve')}</span>
@@ -400,7 +400,7 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <Loader2 size={24} className="animate-spin mr-3" />
+        <Loader2 size={24} className="animate-spin me-3" />
         <p>Loading users...</p>
       </div>
     );
@@ -448,15 +448,15 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
 
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/50">
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Account Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Job Title</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">System Role</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">Actions</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">Account Status</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">Job Title</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">System Role</th>
+                <th className="px-6 py-4 text-start text-xs font-semibold uppercase tracking-wider text-muted-foreground">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -500,7 +500,7 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
                       <button
                         onClick={() => setUserToDelete(user.id)}
                         disabled={deleteLoading}
-                        className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                        className="px-4 py-2 rounded-xl text-sm font-medium text-red-600 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                       >
                         <Trash2 size={16} />
                         <span>Delete</span>
@@ -520,8 +520,8 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
           <div className="bg-card rounded-2xl p-6 shadow-2xl w-full max-w-sm border border-border transform transition-all">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-foreground">Confirm Deletion</h3>
-              <button 
-                onClick={() => setUserToDelete(null)} 
+              <button
+                onClick={() => setUserToDelete(null)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 disabled={deleteLoading}
               >
@@ -531,18 +531,18 @@ const ManageAllUsersSection: React.FC<ManageAllUsersSectionProps> = ({ isSystemA
             <p className="text-sm text-muted-foreground mb-6">
               Are you sure you want to delete this user? This action cannot be undone.
             </p>
-            <div className="flex justify-end space-x-3">
-              <button 
+            <div className="flex justify-end gap-3">
+              <button
                 onClick={() => setUserToDelete(null)}
                 disabled={deleteLoading}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground bg-secondary hover:bg-secondary/80 transition-all duration-300 disabled:opacity-50"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => handleDeleteUser(userToDelete)}
                 disabled={deleteLoading}
-                className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-sm disabled:opacity-50 flex items-center space-x-2"
+                className="px-4 py-2 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2"
               >
                 {deleteLoading ? (
                   <>
@@ -614,7 +614,7 @@ const ManageContentSection: React.FC<ManageContentSectionProps> = ({ isSystemAdm
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <Loader2 size={24} className="animate-spin mr-3" />
+        <Loader2 size={24} className="animate-spin me-3" />
         <p>Loading all content...</p>
       </div>
     );
@@ -626,7 +626,7 @@ const ManageContentSection: React.FC<ManageContentSectionProps> = ({ isSystemAdm
         <h3 className="text-lg font-semibold text-foreground">All Projects ({projects.length})</h3>
         <button
           onClick={fetchAllProjects}
-          className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 rounded-lg transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.73L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 1 0-2.81 6.73L3 16"/></svg>
           <span>Refresh</span>
@@ -643,7 +643,7 @@ const ManageContentSection: React.FC<ManageContentSectionProps> = ({ isSystemAdm
             <div key={project.id} className="bg-card border border-border p-5 rounded-2xl shadow-sm flex flex-col">
               <h4 className="font-semibold text-foreground text-lg">{project.title}</h4>
               <p className="text-sm text-muted-foreground line-clamp-2 mt-1 mb-4 flex-1">{project.description}</p>
-              
+
               <div className="flex items-center justify-between pt-4 border-t border-border/50">
                 <div className="flex gap-2">
                   {project.personal_profile_only && <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 text-[10px] rounded uppercase font-bold tracking-wider">Profile Only</span>}

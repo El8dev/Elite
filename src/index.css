@@ -66,9 +66,14 @@
     --text-hero:    clamp(2.5rem, 5vw, 4rem);
     --text-display: clamp(1.75rem, 3vw, 2.5rem);
     --text-title:   clamp(1.25rem, 2vw, 1.5rem);
-    --text-body:    0.9375rem;
+    --text-body:    clamp(0.95rem, 0.92rem + 0.25vw, 1.05rem);
     --text-small:   0.875rem;
-    --text-micro:   0.875rem;
+    --text-micro:   0.8125rem;
+    /* ── Safe areas (notched phones; viewport-fit=cover is set in index.html) ── */
+    --safe-top:    env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left:   env(safe-area-inset-left, 0px);
+    --safe-right:  env(safe-area-inset-right, 0px);
   }
 
   .dark {
@@ -199,11 +204,22 @@
     @apply snap-start;
   }
 
-  /* ── Mobile Performance Overrides ─────────────────────────────────────── */
+  /* ── Mobile type ──────────────────────────────────────────────────────────
+     The root stays at the browser default (16px). Sections scale themselves
+     with clamp() instead of a global shrink, so body text stays legible and
+     iOS never auto-zooms into a form field (which happens below 16px). */
   @media (max-width: 768px) {
-    html {
-      font-size: 12px !important; /* Shrink all rem-based units globally */
-    }
+    input, select, textarea { font-size: max(16px, 1em); }
+  }
+
+  /* ── Touch ergonomics ─────────────────────────────────────────────────── */
+  a, button, [role="button"], input, select, textarea, summary {
+    touch-action: manipulation;          /* no 300ms double-tap delay */
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (hover: none) {
+    /* hover-only reveals must be visible on touch screens */
+    .group-hover\:opacity-100 { opacity: 1; }
   }
 
   /* ── Theme Transition Guard (Prevents layout thrashing on theme switch) ── */

@@ -22,7 +22,7 @@ const ProjectFullPage: React.FC = () => {
       if (!projectId) return;
       try {
         const data = await fetchProjectById(projectId);
-        
+
         // Ensure image_url array exists and handle legacy data
         let imageUrls: string[] = [];
         if (Array.isArray(data.image_url)) {
@@ -101,11 +101,11 @@ const ProjectFullPage: React.FC = () => {
 
       <main className="flex-grow pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          
+
           {/* Back Button */}
-          <button 
+          <button
             onClick={handleClose}
-            className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 group"
           >
             <ArrowLeft size={20} className="transform group-hover:-translate-x-1 transition-transform" />
             <span className="font-medium">Back</span>
@@ -113,28 +113,28 @@ const ProjectFullPage: React.FC = () => {
 
           {/* Header Section */}
           <div className="mb-12">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-6"
             >
               {project.title}
             </motion.h1>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
               className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground"
             >
               {project.owner && (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <img src={project.owner.avatarUrl || 'https://via.placeholder.com/40'} alt={project.owner.name} className="w-8 h-8 rounded-full object-cover border border-border" />
                   <span className="font-medium text-foreground">{project.owner.name}</span>
                 </div>
               )}
               {project.createdAt && (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Calendar size={16} />
                   <span>{new Date(project.createdAt).toLocaleDateString()}</span>
                 </div>
@@ -143,7 +143,7 @@ const ProjectFullPage: React.FC = () => {
           </div>
 
           {/* Main Gallery */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -151,7 +151,7 @@ const ProjectFullPage: React.FC = () => {
           >
             <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-muted border border-border/50 mb-4 shadow-xl">
               <AnimatePresence mode="wait">
-                <motion.img 
+                <motion.img
                   key={activeImage}
                   src={project.imageUrls[activeImage]}
                   alt={`${project.title} preview`}
@@ -163,11 +163,11 @@ const ProjectFullPage: React.FC = () => {
                 />
               </AnimatePresence>
             </div>
-            
+
             {project.imageUrls.length > 1 && (
-              <div className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide">
+              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                 {project.imageUrls.map((url: string, index: number) => (
-                  <button 
+                  <button
                     key={index}
                     onClick={() => setActiveImage(index)}
                     className={`relative w-24 h-16 md:w-32 md:h-20 rounded-xl overflow-hidden flex-shrink-0 transition-all ${activeImage === index ? 'ring-2 ring-primary border-transparent' : 'border border-border opacity-70 hover:opacity-100'}`}
@@ -181,15 +181,15 @@ const ProjectFullPage: React.FC = () => {
 
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            
+
             {/* Left Column: Description */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className="lg:col-span-2 prose prose-invert prose-lg max-w-none prose-headings:font-outfit prose-headings:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
             >
-              <h2 className="text-2xl font-semibold mb-6 flex items-center space-x-2 text-foreground">
+              <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-foreground">
                 <Code2 size={24} className="text-primary" />
                 <span>About the Project</span>
               </h2>
@@ -201,7 +201,7 @@ const ProjectFullPage: React.FC = () => {
             </motion.div>
 
             {/* Right Column: Sidebar */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -214,7 +214,7 @@ const ProjectFullPage: React.FC = () => {
                   <div className="space-y-3">
                     {project.liveUrl && (
                       <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between p-3 rounded-xl bg-background border border-border hover:border-primary/50 transition-colors group">
-                        <div className="flex items-center space-x-3 text-foreground">
+                        <div className="flex items-center gap-3 text-foreground">
                           <ExternalLink size={18} className="text-muted-foreground group-hover:text-primary transition-colors" />
                           <span className="font-medium text-sm">Live Preview</span>
                         </div>
@@ -223,7 +223,7 @@ const ProjectFullPage: React.FC = () => {
                     )}
                     {project.githubUrl && (
                       <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between p-3 rounded-xl bg-background border border-border hover:border-primary/50 transition-colors group">
-                        <div className="flex items-center space-x-3 text-foreground">
+                        <div className="flex items-center gap-3 text-foreground">
                           <Github size={18} className="text-muted-foreground group-hover:text-primary transition-colors" />
                           <span className="font-medium text-sm">Source Code</span>
                         </div>

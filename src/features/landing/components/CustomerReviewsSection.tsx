@@ -1,7 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { getSupabase } from '@/lib/supabase';
-import { Star, MessageSquareQuote, Loader2 } from 'lucide-react';
+import { Star, MessageSquareQuote } from 'lucide-react';
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 
 interface Review {
@@ -13,6 +14,7 @@ interface Review {
 }
 
 export const CustomerReviewsSection: React.FC = () => {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const reduceMotion = useReducedMotionPref();
@@ -50,13 +52,9 @@ export const CustomerReviewsSection: React.FC = () => {
     fetchReviews();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="py-24 relative overflow-hidden flex justify-center items-center">
-        <Loader2 size={32} className="animate-spin text-primary" />
-      </section>
-    );
-  }
+  // Render nothing until the data is in: a spinner block here shifts the whole
+  // page down and then away again (CLS) on every home-page load.
+  if (loading) return null;
 
   if (reviews.length === 0) {
     return null; // Don't show the section if there are no approved reviews
@@ -83,7 +81,7 @@ export const CustomerReviewsSection: React.FC = () => {
   };
 
   return (
-    <section className="py-28 relative overflow-hidden wrap" id="reviews">
+    <section className="py-16 md:py-28 relative overflow-hidden wrap" id="reviews">
       {/* Background ambient lighting */}
       <span aria-hidden="true" className="deck-aura deck-aura--1" style={{ top: '20%', insetInlineEnd: '-10%', opacity: 0.45 }} />
       <span aria-hidden="true" className="deck-aura deck-aura--2" style={{ bottom: '10%', insetInlineStart: '-10%', opacity: 0.45 }} />
@@ -96,11 +94,11 @@ export const CustomerReviewsSection: React.FC = () => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight mb-6 font-alexandria">
-              Loved by <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">Developers</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight mb-4 md:mb-6 font-alexandria">
+              {t('reviews.title_pre')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">{t('reviews.title_accent')}</span>
             </h2>
-            <p className="text-lg text-muted-foreground font-alexandria">
-              See what our community has to say about their experience.
+            <p className="text-base md:text-lg text-muted-foreground font-alexandria">
+              {t('reviews.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -117,14 +115,14 @@ export const CustomerReviewsSection: React.FC = () => {
               key={review.id}
               variants={itemVariants as any}
               whileHover={reduceMotion ? {} : { y: -5, transition: { duration: 0.2 } }}
-              className="bg-[rgba(18,12,22,0.72)] dark:bg-[rgba(18,12,22,0.72)] backdrop-blur-xl border border-[rgba(186,104,203,0.18)] rounded-3xl p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 hover:border-[rgba(186,104,203,0.35)] transition-all duration-300 flex flex-col h-full"
+              className="bg-card/95 dark:bg-[rgba(18,12,22,0.9)] md:dark:bg-[rgba(18,12,22,0.72)] md:backdrop-blur-xl border border-[rgba(186,104,203,0.18)] rounded-3xl p-6 md:p-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 hover:border-[rgba(186,104,203,0.35)] transition-all duration-300 flex flex-col h-full"
             >
               {/* Subtle top gradient line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
-              <MessageSquareQuote size={40} className="text-primary/15 absolute top-6 right-6 -z-10 group-hover:scale-110 transition-transform duration-300" />
+              <MessageSquareQuote size={40} className="text-primary/15 absolute top-6 end-6 -z-10 group-hover:scale-110 transition-transform duration-300" />
               
-              <div className="flex items-center space-x-1 mb-6">
+              <div className="flex items-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
                   <Star 
                     key={i} 
@@ -142,9 +140,9 @@ export const CustomerReviewsSection: React.FC = () => {
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center text-white font-bold shadow-md shadow-primary/20">
                   {review.name.charAt(0).toUpperCase()}
                 </div>
-                <div className="ml-3">
+                <div className="ms-3">
                   <h4 className="font-semibold text-foreground font-alexandria text-sm">{review.name}</h4>
-                  <p className="text-xs text-muted-foreground">Verified User</p>
+                  <p className="text-xs text-muted-foreground">{t('reviews.verified')}</p>
                 </div>
               </div>
             </motion.div>

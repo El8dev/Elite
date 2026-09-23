@@ -311,5 +311,11 @@
     "text": "EL8 is an Iraqi engineering studio. We design, build, and ship software — from web platforms and mobile apps to AI systems and hardware. Production-ready in weeks.",
     "cta_main": "Start Your Project",
     "cta_alt": "Contact Us"
+  },
+  "reviews": {
+    "title_pre": "Loved by",
+    "title_accent": "Our Clients",
+    "subtitle": "What people say after shipping with EL8.",
+    "verified": "Verified client"
   }
 }

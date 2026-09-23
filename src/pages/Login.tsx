@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'motion/react';
@@ -35,7 +35,7 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ label, id, ...props }) =>
       />
       <label
         htmlFor={id}
-        className={`absolute left-4 font-outfit transition-all duration-200 pointer-events-none ${
+        className={`absolute start-4 font-outfit transition-all duration-200 pointer-events-none ${
           lifted
             ? 'top-2 text-xs md:text-sm font-semibold tracking-widest uppercase text-purple-400'
             : 'top-1/2 -translate-y-1/2 text-sm text-muted-foreground'
@@ -62,13 +62,22 @@ const Login: React.FC = () => {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // Pointer glow: written straight to a CSS variable (no React re-render per
+  // mousemove) and skipped entirely on touch devices.
+  const glowRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    let raf = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        glowRef.current?.style.setProperty('--gx', `${e.clientX}px`);
+        glowRef.current?.style.setProperty('--gy', `${e.clientY}px`);
+      });
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => { window.removeEventListener('mousemove', handleMouseMove); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,24 +107,29 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-transparent flex items-center justify-center p-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`} dir={i18n.dir()}>
-      
+    <div
+      className={`min-h-[100dvh] bg-transparent flex items-center justify-center px-4 font-outfit relative overflow-hidden ${isRTL ? 'rtl font-alexandria' : ''}`}
+      style={{ paddingTop: 'calc(4.5rem + var(--safe-top, 0px))', paddingBottom: 'calc(1.5rem + var(--safe-bottom, 0px))' }}
+      dir={i18n.dir()}
+    >
+
       {/* Top Controls */}
-      <div className={`absolute top-6 z-50 ${isRTL ? 'left-6' : 'right-6'}`}>
+      <div className="absolute end-4 sm:end-6 z-50" style={{ top: 'calc(1rem + var(--safe-top, 0px))' }}>
         <ThemeLanguageToggle />
       </div>
-      {/* ── Dynamic ambient glow ── */}
+      {/* ── Pointer-following ambient glow (desktop only) ── */}
       <div
-        className="pointer-events-none fixed inset-0 z-0 transition-[background] duration-500"
+        ref={glowRef}
+        className="pointer-events-none fixed inset-0 z-0 hidden sm:block"
         style={{
-          background: `radial-gradient(700px at ${mousePosition.x}px ${mousePosition.y}px, rgba(139,92,246,0.05), rgba(34,211,238,0.03), transparent 75%)`,
+          background: 'radial-gradient(700px at var(--gx, 50%) var(--gy, 40%), rgba(139,92,246,0.05), rgba(34,211,238,0.03), transparent 75%)',
         }}
         aria-hidden="true"
       />
 
-      {/* ── Floating ambient orbs ── */}
+      {/* ── Floating ambient orbs (skipped on phones: two 60vmax layers cost more than they add) ── */}
       <div
-        className="pointer-events-none fixed -top-1/4 -left-1/4 w-[60vmax] h-[60vmax] rounded-full animate-float"
+        className="pointer-events-none fixed -top-1/4 -left-1/4 w-[60vmax] h-[60vmax] rounded-full animate-float hidden sm:block"
         style={{
           background: 'radial-gradient(circle, rgba(139,92,246,0.12), transparent 50%)',
           willChange: 'transform'
@@ -123,7 +137,7 @@ const Login: React.FC = () => {
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none fixed -bottom-1/4 -right-1/4 w-[50vmax] h-[50vmax] rounded-full animate-float-delayed"
+        className="pointer-events-none fixed -bottom-1/4 -right-1/4 w-[50vmax] h-[50vmax] rounded-full animate-float-delayed hidden sm:block"
         style={{
           background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 50%)',
           willChange: 'transform'
@@ -139,11 +153,9 @@ const Login: React.FC = () => {
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
       >
         <div
-          className="rounded-3xl p-8 md:p-10 relative overflow-hidden"
+          className="rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden"
           style={{
             background: 'var(--card)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
             border: '1px solid var(--border)',
             boxShadow: 'var(--shadow-hover)',
           }}
@@ -310,9 +322,9 @@ const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="mt-4 text-xs text-foreground/60 dark:text-foreground/75 hover:text-foreground transition-colors flex items-center justify-center gap-1 mx-auto"
+              className="mt-4 min-h-[44px] px-3 text-xs text-foreground/60 dark:text-foreground/75 hover:text-foreground transition-colors flex items-center justify-center gap-1 mx-auto"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rtl:rotate-180"><path d="m15 18-6-6 6-6"/></svg>
               {t('auth.back_to_main', 'Back to Main')}
             </button>
           </div>

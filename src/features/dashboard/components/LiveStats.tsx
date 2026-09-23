@@ -10,7 +10,7 @@ const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: str
     bounce: 0,
     duration: duration * 1000,
   });
-  
+
   React.useEffect(() => {
     if (isInView) {
       springValue.set(value);
@@ -35,7 +35,7 @@ const AnimatedCounter: React.FC<{ value: number; duration?: number; suffix?: str
 
 // Tech Partners Array
 const technologies = [
-  'REACT', 'NEXT.JS', 'TYPESCRIPT', 'NODE.JS', 'PYTHON', 
+  'REACT', 'NEXT.JS', 'TYPESCRIPT', 'NODE.JS', 'PYTHON',
   'AWS', 'GOOGLE CLOUD', 'DOCKER', 'POSTGRESQL', 'TAILWIND CSS', 'FIGMA'
 ];
 
@@ -46,7 +46,7 @@ export const LiveStats: React.FC = () => {
   return (
     <section className="relative w-full py-16 z-10 border-y border-border bg-muted/20" id="stats">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        
+
         {/* Number Counters */}
         <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16 ${isRTL ? 'font-alexandria' : 'font-outfit'}`} dir={i18n.dir()}>
           <AnimatedCounter value={20} suffix="+" label={t('stats.completed_project')} />
@@ -62,15 +62,15 @@ export const LiveStats: React.FC = () => {
         <p className={`text-xs text-muted-foreground uppercase tracking-[0.3em] mb-8 text-center ${isRTL ? 'font-alexandria' : 'font-outfit'}`}>
           {t('stats.tech_stack')}
         </p>
-        
+
         <div className="relative flex overflow-x-hidden w-full group">
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          
+
           <div className="animate-marquee whitespace-nowrap flex items-center gap-16 group-hover:[animation-play-state:paused]">
             {[...technologies, ...technologies].map((tech, idx) => (
-              <span 
-                key={idx} 
+              <span
+                key={idx}
                 className="text-xl md:text-3xl font-bold text-muted-foreground/30 hover:text-foreground/70 transition-colors duration-300 font-jetbrains tracking-widest select-none"
               >
                 {tech}
@@ -79,7 +79,7 @@ export const LiveStats: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       <style>{`
         .animate-marquee {
           animation: marquee 30s linear infinite;
