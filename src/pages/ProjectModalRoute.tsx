@@ -15,13 +15,13 @@ const ProjectModalRoute: React.FC = () => {
       if (!projectId) return;
       try {
         const data = await fetchProjectById(projectId);
-        
+
         // Map to Project type expected by ProjectDetailsModal
         const mappedProject = {
           id: data.id,
           title: data.title,
           description: data.description,
-          imageUrls: data.image_urls || [data.image_url || 'https://via.placeholder.com/800x600'],
+          imageUrls: data.image_urls || [data.image_url || '/images/placeholder-project.svg'],
           technologies: data.technologies || [],
           liveUrl: data.live_url,
           githubUrl: data.github_url,

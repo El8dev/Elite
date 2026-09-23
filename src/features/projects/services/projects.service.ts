@@ -1,9 +1,12 @@
 import { getSupabase } from '@/lib/supabase';
 
+export const PROJECTS_PAGE_SIZE = 12;
+
 /**
- * Fetches all public projects (not restricted to personal profile only)
+ * Fetches a page of public projects (newest first). Pass `offset` to load the
+ * next page; a result shorter than `limit` means there is nothing more.
  */
-export const fetchPublicProjects = async (): Promise<any[]> => {
+export const fetchPublicProjects = async (offset = 0, limit = PROJECTS_PAGE_SIZE): Promise<any[]> => {
   const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('projects')
@@ -15,7 +18,8 @@ export const fetchPublicProjects = async (): Promise<any[]> => {
       )
     `)
     .eq('personal_profile_only', false)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
 
   if (error) {
     throw new Error(`Failed to fetch public projects: ${error.message}`);

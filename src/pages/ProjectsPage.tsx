@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { Developer, Project } from '@/data/portfolioData';
-import { fetchPublicProjects } from '@/features/projects/services/projects.service';
+import { fetchPublicProjects, PROJECTS_PAGE_SIZE } from '@/features/projects/services/projects.service';
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 import { useTranslation } from 'react-i18next';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
@@ -22,72 +22,75 @@ onProjectClick: (id: string) => void;
 
 const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onProjectClick, reduceMotion }) => {
   const { playHoverTick } = useCinematicSound();
+  const cover = project.imageUrls?.[0] || (Array.isArray(project.imageUrl) ? project.imageUrl[0] : project.imageUrl) || '/images/placeholder-project.svg';
 
   return (
-    <motion.div
-      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+    <motion.article
+      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
       whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      className="group relative mb-8 overflow-hidden rounded-3xl bg-card shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-border transition-all hover:ring-primary/50 break-inside-avoid"
+      viewport={{ once: true, margin: '-40px' }}
+      className="group relative flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl bg-card ring-1 ring-border shadow-[0_8px_28px_rgba(0,0,0,0.08)] transition-[box-shadow,ring-color] hover:ring-primary/50 min-w-0"
     >
-      <div
-        className="relative cursor-pointer overflow-hidden aspect-auto h-auto"
-        onClick={() => {
-          playHoverTick();
-          onProjectClick(project.id);
-        }}
+      <button
+        type="button"
+        className="proj-card__media relative block w-full text-start cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        onClick={() => { playHoverTick(); onProjectClick(project.id); }}
+        aria-label={project.title}
       >
-        <motion.img
-          src={project.imageUrls?.[0] || project.imageUrl}
-          alt={project.title}
-          className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        <img
+          src={cover}
+          alt=""
+          width={800}
+          height={600}
           loading="lazy"
+          decoding="async"
+          className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/placeholder-project.svg'; }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
-      </div>
+      </button>
 
-      <div className="relative p-2 md:p-6 bg-card text-card-foreground">
-        <div className="mb-4 flex items-center justify-between">
-          <button
-            onClick={() => onProjectClick(project.id)}
-            className="flex items-center gap-3 group/dev focus:outline-none"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-sm transition-opacity group-hover/dev:opacity-100 opacity-0" />
-              <img
-                src={developer.avatarUrl}
-                alt={developer.name}
-                className="relative h-6 w-6 md:h-10 md:w-10 rounded-full object-cover ring-2 ring-white/10 transition-all group-hover/dev:ring-purple-500/50"
-              />
-            </div>
-            <div className="text-left">
-              <p className="text-[11px] md:text-sm font-semibold text-foreground/90 font-outfit group-hover/dev:text-foreground transition-colors line-clamp-1">{developer.name}</p>
-              <p className="text-[9px] md:text-sm uppercase tracking-wider text-primary font-outfit line-clamp-1">{developer.role}</p>
-            </div>
-          </button>
-        </div>
-
-        <h3 className="mb-2 text-sm sm:text-2xl font-bold text-foreground font-outfit leading-tight line-clamp-2">
+      <div className="flex flex-col gap-2 p-3 sm:p-5 min-w-0">
+        <h3 className="text-sm sm:text-lg font-bold leading-snug text-foreground font-outfit line-clamp-2">
           {project.title}
         </h3>
-        <p className="mb-5 text-[11px] sm:text-base leading-relaxed text-muted-foreground font-outfit line-clamp-2">
+        <p className="hidden sm:block text-sm leading-relaxed text-muted-foreground font-outfit line-clamp-2">
           {project.description}
         </p>
 
         {project.techStack && project.techStack.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-             {project.techStack.slice(0, 3).map((tech, i) => (
-                <span key={i} className="px-1 py-0.5 text-[9px] md:text-sm font-semibold tracking-wider uppercase bg-secondary/80 border border-border/50 text-foreground/80 rounded-full font-outfit">
-                  {tech}
-                </span>
-             ))}
-             {project.techStack.length > 3 && (
-                <span className="px-2 py-1 text-xs md:text-sm font-semibold text-muted-foreground font-outfit">+{project.techStack.length - 3}</span>
-             )}
+          <div className="flex flex-wrap gap-1.5 min-w-0">
+            {project.techStack.slice(0, 2).map((tech, i) => (
+              <span key={i} className="max-w-full truncate px-2 py-0.5 text-[11px] sm:text-xs font-semibold tracking-wide bg-secondary/80 border border-border/50 text-foreground/80 rounded-full font-outfit">
+                {tech}
+              </span>
+            ))}
+            {project.techStack.length > 2 && (
+              <span className="px-1.5 py-0.5 text-[11px] sm:text-xs font-semibold text-muted-foreground font-outfit">+{project.techStack.length - 2}</span>
+            )}
           </div>
         )}
+
+        <button
+          type="button"
+          onClick={() => onProjectClick(project.id)}
+          className="mt-1 flex items-center gap-2 min-w-0 text-start group/dev focus:outline-none"
+        >
+          <img
+            src={developer.avatarUrl}
+            alt=""
+            width={32}
+            height={32}
+            loading="lazy"
+            className="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover ring-1 ring-border shrink-0"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/placeholder-avatar.svg'; }}
+          />
+          <span className="min-w-0">
+            <span className="block text-xs sm:text-sm font-semibold text-foreground/90 font-outfit truncate group-hover/dev:text-foreground">{developer.name}</span>
+            <span className="block text-[11px] sm:text-xs text-primary font-outfit truncate">{developer.role}</span>
+          </span>
+        </button>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 
@@ -101,64 +104,80 @@ reduceMotion: boolean;
   const location = useLocation();
   const [feedItems, setFeedItems] = useState<Array<{ dev: Developer; proj: Project }>>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
 
+  const mapPage = (data: any[]) => {
+    const items = data.map((item: any) => {
+      const owner = item.profiles;
+      const dev: Developer = {
+        id: owner?.id || item.owner_id,
+        username: owner?.username,
+        name: owner?.full_name || owner?.username || 'Unknown Developer',
+        role: owner?.job_title || 'Developer',
+        avatarUrl: owner?.avatar_url || '/images/placeholder-avatar.svg',
+        bio: owner?.bio || '',
+        skills: owner?.skills || [],
+      };
+
+      const techStackRaw = item.tech_stack;
+      const techStack = Array.isArray(techStackRaw)
+        ? techStackRaw
+        : typeof techStackRaw === 'string'
+          ? techStackRaw.split(',').map((s: string) => s.trim()).filter(Boolean)
+          : [];
+
+      const proj: Project = {
+        id: item.id,
+        developerId: item.owner_id,
+        ownerId: item.owner_id,
+        title: item.title,
+        description: item.description,
+        imageUrl: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
+        imageUrls: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
+        techStack,
+
+        contributors: item.project_contributors?.map((c: any) => c.profiles) || [],
+        liveUrl: item.live_link,
+        repoUrl: item.github_link,
+        createdAt: item.created_at,
+        updatedAt: item.created_at
+      };
+
+      return { dev, proj };
+    });
+    return items;
+  };
+
+  const loadPage = async (offset: number) => {
+    const data = await fetchPublicProjects(offset, PROJECTS_PAGE_SIZE);
+    setHasMore(data.length === PROJECTS_PAGE_SIZE);
+    return mapPage(data);
+  };
+
   useEffect(() => {
     let isMounted = true;
-    const loadProjects = async () => {
-      try {
-        const data = await fetchPublicProjects();
-        if (isMounted) {
-          const items = data.map((item: any) => {
-            const owner = item.profiles;
-            const dev: Developer = {
-              id: owner?.id || item.owner_id,
-              username: owner?.username,
-              name: owner?.full_name || owner?.username || 'Unknown Developer',
-              role: owner?.job_title || 'Developer',
-              avatarUrl: owner?.avatar_url || 'https://via.placeholder.com/150',
-              bio: owner?.bio || '',
-              skills: owner?.skills || [],
-            };
-
-            const techStackRaw = item.tech_stack;
-            const techStack = Array.isArray(techStackRaw)
-              ? techStackRaw
-              : typeof techStackRaw === 'string'
-                ? techStackRaw.split(',').map((s: string) => s.trim()).filter(Boolean)
-                : [];
-
-            const proj: Project = {
-              id: item.id,
-              developerId: item.owner_id,
-              ownerId: item.owner_id,
-              title: item.title,
-              description: item.description,
-              imageUrl: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
-              imageUrls: Array.isArray(item.image_url) ? item.image_url : [item.image_url].filter(Boolean),
-              techStack,
-
-              contributors: item.project_contributors?.map((c: any) => c.profiles) || [],
-              liveUrl: item.live_link,
-              repoUrl: item.github_link,
-              createdAt: item.created_at,
-              updatedAt: item.created_at
-            };
-
-            return { dev, proj };
-          });
-          setFeedItems(items);
-        }
-      } catch (err: any) {
-        if (isMounted) setError(err.message || 'An error occurred while fetching projects');
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    loadProjects();
+    loadPage(0)
+      .then((items) => { if (isMounted) setFeedItems(items); })
+      .catch((err: any) => { if (isMounted) setError(err.message || 'An error occurred while fetching projects'); })
+      .finally(() => { if (isMounted) setLoading(false); });
     return () => { isMounted = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const items = await loadPage(feedItems.length);
+      setFeedItems((prev) => [...prev, ...items]);
+    } catch (err: any) {
+      setError(err.message || 'Could not load more projects');
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const handleProjectClick = (projectId: string) => {
     navigate(`/project/${projectId}`, { state: { backgroundLocation: location } });
@@ -185,12 +204,12 @@ reduceMotion: boolean;
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 md:px-8">
+    <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8">
       <motion.div
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
         animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-        className="mb-16 mt-20 text-center"
+        className="mb-8 sm:mb-14 mt-6 sm:mt-12 text-center"
       >
         <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-7xl">
           {t('home.title_part1')}{' '}
@@ -203,7 +222,7 @@ reduceMotion: boolean;
         </p>
       </motion.div>
 
-      <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
+      <div className="proj-grid">
         {feedItems.map((item, index) => (
           <FeedPost
             key={item.proj.id + index}
@@ -214,6 +233,14 @@ reduceMotion: boolean;
           />
         ))}
       </div>
+
+      {hasMore && (
+        <div className="flex justify-center mt-8 sm:mt-12">
+          <button type="button" onClick={loadMore} disabled={loadingMore} className="ghost-btn" aria-busy={loadingMore}>
+            <span>{loadingMore ? t('projects.loading_more', 'Loading…') : t('projects.load_more', 'Load more projects')}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

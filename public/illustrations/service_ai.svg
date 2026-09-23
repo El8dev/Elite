@@ -13,6 +13,23 @@
       </feMerge>
     </filter>
   </defs>
+  <!-- el8-stage: shared halo + floor shadow so every illustration sits the same way -->
+  <defs>
+    <radialGradient id="el8-stage-halo-service_ai" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.30" />
+      <stop offset="60%" stop-color="#8b5cf6" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="el8-stage-floor-service_ai" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g class="el8-stage" aria-hidden="true">
+    <ellipse cx="65" cy="45" rx="62.4" ry="45" fill="url(#el8-stage-halo-service_ai)" />
+    <ellipse cx="65" cy="84.6" rx="44.2" ry="4.5" fill="url(#el8-stage-floor-service_ai)" />
+  </g>
+
 
   <!-- Outer Orbital Grid Rings -->
   <circle cx="65" cy="45" r="32" stroke="#8b5cf6" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.5" />

@@ -841,20 +841,20 @@ html:not(.dark) .deck-panel{
   transition:transform .55s cubic-bezier(.16,1,.3,1), box-shadow .5s ease, border-color .5s ease;
   contain: paint;
 }
+/* resting state is neutral: surface + border only. The brand accent appears on
+   hover / the active card, so the grid reads calm and the pointer finds focus. */
 .deck-card::before{
   content:'';
   position:absolute; inset:0; pointer-events:none; z-index:1;
-  background:radial-gradient(circle at 90% 0%, var(--acc, rgba(168,85,247,0.35)) 0%, transparent 65%);
-  opacity:0.25; transition:opacity .5s ease;
+  background:radial-gradient(circle at 90% 0%, var(--acc) 0%, transparent 65%);
+  opacity:0; transition:opacity .5s ease;
 }
-.deck-card:hover{
-  transform:translateY(-8px) scale(1.015);
-  border-color:var(--acc,rgba(168,85,247,0.7));
-  box-shadow:var(--shadow-lg), 0 0 40px -10px var(--acc,rgba(168,85,247,0.6)), inset 0 1px 0 0 var(--border);
+.deck-card:hover, .deck-card.is-active{
+  transform:translateY(-6px);
+  border-color:var(--acc);
+  box-shadow:var(--shadow-lg), 0 0 36px -12px var(--acc), inset 0 1px 0 0 var(--border);
 }
-.deck-card:hover::before{
-  opacity:0.55;
-}
+.deck-card:hover::before, .deck-card.is-active::before{ opacity:.28; }
 
 .deck-card__media{
   position:relative; flex:0 0 auto; overflow:hidden;
@@ -866,16 +866,30 @@ html:not(.dark) .deck-panel{
   width:100%; height:100%; object-fit:cover; display:block; transform-origin:center;
   transition:transform 2s cubic-bezier(.16,.84,.32,1);
 }
-.deck-card__media img.card-micro-illustration-img{
-  width: auto !important;
-  height: auto !important;
-  max-width: 90px !important;
-  max-height: 68px !important;
-  object-fit: contain !important;
-  display: block !important;
-  margin: 0 auto;
-  transform: translateZ(0);
+/* ---- card artwork: neutral stage, accent glow only on hover / active ---- */
+.card-art{
+  position:relative; width:100%; height:100%; display:grid; place-items:center;
+  overflow:hidden; padding:10%;
+  background:
+    linear-gradient(to right, var(--card-art-line) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(to bottom, var(--card-art-line) 1px, transparent 1px) 0 0 / 24px 24px,
+    radial-gradient(circle at 50% 30%, var(--surface) 0%, var(--surface-2) 90%);
 }
+.card-art__glow{
+  position:absolute; width:60%; aspect-ratio:1; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, var(--acc) 0%, transparent 70%);
+  opacity:0; transform:scale(.8);
+  transition:opacity .5s ease, transform .6s var(--ease-out);
+}
+.deck-card:hover .card-art__glow, .deck-card.is-active .card-art__glow{ opacity:.28; transform:scale(1); }
+.card-art__img{
+  position:relative; z-index:1; width:auto; height:auto; max-width:min(128px,62%); max-height:96px;
+  object-fit:contain; display:block; transform:translateZ(0);
+  transition:transform .6s var(--ease-out);
+}
+.deck-card:hover .card-art__img{ transform:translateY(-3px) scale(1.04); }
+:root{ --card-art-line: rgba(64,39,71,.07); }
+html.dark{ --card-art-line: rgba(188,135,200,.07); }
 /* the ERP dashboard is a wide UI illustration - letterbox it instead of
    cropping the chart off the sides */
 .deck-card__media img.is-art{
@@ -884,10 +898,7 @@ html:not(.dark) .deck-panel{
 }
 /* only the service cards carry a corner number, so only they need the shade */
 .deck-card__scrim{ display:none; }
-.deck-card--svc .deck-card__scrim{
-  display:block; position:absolute; inset:0 0 auto 0; height:40%; z-index:1; pointer-events:none;
-  background:linear-gradient(to bottom, var(--border), transparent);
-}
+
 
 /* ---- the caption block ---- */
 .deck-card__content{
@@ -916,11 +927,12 @@ html:not(.dark) .deck-panel{
 .deck-card__icon svg{ width:22px; height:22px; stroke: #ffffff; stroke-width: 2.2; }
 .deck-card:hover .deck-card__icon{ transform:rotate(-7deg) scale(1.1); box-shadow:0 16px 32px -6px var(--acc, #8A4E97), 0 0 24px -2px var(--acc, #8A4E97), 0 0 0 4px var(--surface); }
 .deck-card__title{
-  font-size:clamp(1.05rem,1.6vw,1.26rem); font-weight:800; color:var(--text); margin-bottom:9px;
-  letter-spacing:-0.01em;
+  font-size:clamp(1rem,1.5vw,1.18rem); font-weight:800; color:var(--text); margin-bottom:8px;
+  letter-spacing:-0.01em; line-height:1.35;
 }
 .deck-card__desc{
-  font-size:clamp(.82rem,1.05vw,.92rem); line-height:1.85; color:var(--text-2);
+  font-size:clamp(.84rem,1.05vw,.93rem); line-height:1.8; color:var(--text-2);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
 }
 
 /* the 7th vision card sits centred in the middle column */
@@ -965,6 +977,8 @@ html:not(.dark) .deck-panel{
 
 @media (max-width:900px){
   .deck{ padding-block:30px; }
+  .deck-grid--vision{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .deck-grid--vision .deck-card:nth-child(7){ grid-column:1 / -1; }
   .deck--services{ padding-top:8px; }
   .deck-panel{ padding:50px 16px 28px; border-radius:var(--radius-lg); }
   .deck-head{ margin-bottom:24px; padding-top:2px; }
@@ -985,23 +999,20 @@ html:not(.dark) .deck-panel{
   .deck-sub{ font-size:.85rem; line-height:1.7; }
   .deck-grid{ gap:16px; }
 
-  .deck-grid--vision{ grid-template-columns:1fr; }
-  .deck-grid--vision .deck-card:nth-child(7){ grid-column:auto; }
-  .deck-grid--vision .deck-card{ border-radius:var(--radius-lg); }
-  .deck-grid--vision .deck-card .deck-card__media{ aspect-ratio:1.85 / 1; }
+  .deck-grid--vision, .deck-grid--services{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+  .deck-grid--vision .deck-card:nth-child(7){ grid-column:1 / -1; }
+  .deck-grid--vision .deck-card:nth-child(7) .deck-card__media{ aspect-ratio:2.6 / 1; }
+  .deck-grid--vision .deck-card, .deck-grid--services .deck-card{ border-radius:var(--radius-md); }
+  .deck-card__media, .deck-card--svc .deck-card__media{ aspect-ratio:4 / 3; }
+  .card-art__img{ max-width:min(92px,64%); max-height:70px; }
 
-  .deck-grid--services{ grid-template-columns:1fr; }
-  .deck-grid--services .deck-card{ border-radius:var(--radius-lg); }
-  .deck-card--svc .deck-card__media{ aspect-ratio:1.85 / 1; }
-  .deck-card__media img.is-art{ padding:8% 5%; }
-
-  .deck-card__content{ padding:14px 16px 18px; }
+  .deck-card__content{ padding:12px 12px 14px; }
   .deck-card__rule{ width:26px; height:2px; margin-bottom:10px; }
   .deck-card__text{ font-size:.9rem; line-height:1.5; }
   .deck-card__icon{ width:36px; height:36px; border-radius:var(--radius-sm); margin-top:-30px; margin-bottom:10px; box-shadow:0 8px 18px -8px var(--acc,#8A4E97), 0 0 0 3px var(--surface); }
   .deck-card__icon svg{ width:18px; height:18px; }
-  .deck-card__title{ font-size:.95rem; line-height:1.4; margin-bottom:6px; }
-  .deck-card__desc{ font-size:.82rem; line-height:1.7; }
+  .deck-card__title{ font-size:.9rem; line-height:1.35; margin-bottom:5px; }
+  .deck-card__desc{ font-size:.78rem; line-height:1.6; -webkit-line-clamp:3; }
 }
 
 @media (max-width:370px){
@@ -1037,6 +1048,7 @@ html:not(.dark) .deck-panel{
   .deck-card.reveal.in .deck-card__media img{ transition-duration:1.5s; }
   .deck-card:hover{ transform:none; }
   .deck-card:active{ transform:scale(.99); }
+  .deck-card:active .card-art__glow{ opacity:.28; transform:scale(1); }
 }
 
 /* hero cards go three-across on a phone instead of stacking */
@@ -1332,7 +1344,8 @@ html.dark .deck-title .grad{
              inset 0 1px 0 rgba(255,255,255,.28);
 }
 .deck-card__rule{ background:linear-gradient(90deg, var(--brand-300), transparent); }
-.deck-card{ --acc:var(--brand-500); }
+.deck-card{ --acc:var(--brand-300); }
+html:not(.dark) .deck-card{ --acc:var(--brand-500); }
 .deck-aura--1{ background:radial-gradient(circle, rgba(138,78,151,.22), rgba(138,78,151,.07) 44%, transparent 74%); }
 .deck-aura--2{ background:radial-gradient(circle, rgba(186,104,203,.15), rgba(186,104,203,.05) 44%, transparent 74%); }
 .hero-aura{
@@ -2057,3 +2070,35 @@ html:not(.dark) .scroll-top-btn{
 /* section headers share one voice (reviews now uses the deck header too) */
 .deck-head--plain{ text-align:center; max-width:640px; margin-inline:auto; margin-bottom:clamp(28px,4vw,44px); }
 .deck-head--plain .deck-title{ margin-bottom:10px; }
+
+
+/* ================================================================
+   Hero photos: one treatment for the set (brand tint + soft vignette)
+   ================================================================ */
+.stat__photo{ position:relative; }
+.stat__photo::after{
+  content:''; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+  background:
+    linear-gradient(180deg, rgba(138,78,151,.04), rgba(14,9,16,.22)),
+    radial-gradient(120% 90% at 50% 20%, transparent 55%, rgba(14,9,16,.28));
+  mix-blend-mode:multiply;
+}
+html:not(.dark) .stat__photo::after{
+  background:
+    linear-gradient(180deg, rgba(138,78,151,.03), rgba(64,39,71,.12)),
+    radial-gradient(120% 90% at 50% 20%, transparent 60%, rgba(64,39,71,.16));
+}
+.stat__photo img{ filter:saturate(.92) contrast(1.04); }
+
+/* ================================================================
+   Projects grid: 2 columns on phones, compact cards, fixed image ratio
+   ================================================================ */
+.proj-grid{
+  display:grid; gap:12px;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+@media (min-width:640px){ .proj-grid{ gap:20px; } }
+@media (min-width:1024px){ .proj-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+@media (min-width:1400px){ .proj-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); } }
+.proj-card__media{ aspect-ratio:4 / 3; overflow:hidden; background:var(--surface-2); }
+.proj-card__media img{ width:100%; height:100%; object-fit:cover; }

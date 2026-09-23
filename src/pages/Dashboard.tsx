@@ -5,6 +5,7 @@ import { ManageReviewsPanel } from '@/features/reviews/components/ManageReviewsP
 import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3, Menu, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase-client';
+import { resizeImage } from '@/lib/resizeImage';
 import Cropper, { Area } from 'react-easy-crop';
 import { motion, AnimatePresence } from 'motion/react';
 import { getCroppedImg } from '@/lib/cropImage';
@@ -325,7 +326,8 @@ const Dashboard: React.FC = () => {
       const uploadedImageUrls: string[] = [];
 
       if (images.length > 0) {
-        for (const file of images) {
+        for (const raw of images) {
+          const file = await resizeImage(raw, { maxEdge: 1400 });
           const fileExt = file.name.split('.').pop();
           const fileName = `${currentUserId}/${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
 
@@ -603,13 +605,14 @@ const Dashboard: React.FC = () => {
     let finalAvatarUrl = avatarUrl;
 
     if (avatarFile) {
-      const fileExt = avatarFile.name.split('.').pop();
+      const avatarUpload = await resizeImage(avatarFile, { maxEdge: 512, quality: 0.85 });
+      const fileExt = avatarUpload.name.split('.').pop();
       const fileName = `${userId}-${Math.random()}.${fileExt}`;
       const filePath = `${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, avatarFile, { upsert: true });
+        .upload(filePath, avatarUpload, { upsert: true });
 
       if (!uploadError) {
         const { data: publicUrlData } = supabase.storage

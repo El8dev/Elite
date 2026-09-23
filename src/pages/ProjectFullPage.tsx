@@ -30,7 +30,7 @@ const ProjectFullPage: React.FC = () => {
         } else if (data.image_url) {
           imageUrls = [data.image_url];
         } else {
-          imageUrls = ['https://via.placeholder.com/800x600'];
+          imageUrls = ['/images/placeholder-project.svg'];
         }
 
         const mappedProject = {
@@ -129,7 +129,7 @@ const ProjectFullPage: React.FC = () => {
             >
               {project.owner && (
                 <div className="flex items-center gap-2">
-                  <img src={project.owner.avatarUrl || 'https://via.placeholder.com/40'} alt={project.owner.name} className="w-8 h-8 rounded-full object-cover border border-border" />
+                  <img src={project.owner.avatarUrl || '/images/placeholder-avatar.svg'} alt={project.owner.name} className="w-8 h-8 rounded-full object-cover border border-border" />
                   <span className="font-medium text-foreground">{project.owner.name}</span>
                 </div>
               )}

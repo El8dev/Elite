@@ -96,39 +96,36 @@
     "title": "Our Vision",
     "subtitle": "Ideas ship. Fast.",
     "desc": "We cut the typical development timeline in half. Your platform goes from concept to production in weeks — not the months you've been quoted elsewhere.",
-    "services": [
-      "Web & Mobile Applications",
-      "Desktop Software (Windows / macOS)",
-      "AI & Intelligent Systems",
-      "Hardware & IoT Integration",
-      "Business & Management Systems",
-      "Technical Strategy & Consulting",
-      "Digital Product Design"
-    ],
     "kicker": "Our Approach",
-    "card_badges": {
-      "voice_ai": "Voice AI",
-      "voice_sub": "Real-time Processing",
-      "erp": "Business Systems",
-      "erp_sub": "End-to-End Management",
-      "design": "UI/UX Design",
-      "design_sub": "Smooth & Interactive",
-      "multiplatform": "Web · Mobile · Desktop",
-      "multiplatform_sub": "One Build, Every Platform",
-      "security": "Data & Security",
-      "security_sub": "Encrypted & Protected",
-      "hardware": "Hardware & IoT",
-      "hardware_sub": "Custom Controllers",
-      "ai_infra": "AI Infrastructure",
-      "ai_infra_sub": "Always-On Performance",
-      "service_web": "Full-Stack Development",
-      "service_web_sub": "Fast & Scalable",
-      "service_erp": "Process Automation",
-      "service_erp_sub": "Smart Dashboards",
-      "service_uiux": "Interface Design",
-      "service_uiux_sub": "Pixel-Perfect Results",
-      "service_ai": "AI Solutions",
-      "service_ai_sub": "Smart & Responsive"
+    "cards": {
+      "voice_ai": {
+        "title": "Voice & Conversational AI",
+        "desc": "Arabic-first speech systems: transcription, voice agents and call automation that answer in under two seconds."
+      },
+      "apps": {
+        "title": "Web, Mobile & Desktop Apps",
+        "desc": "One codebase, every platform. Fast, offline-ready apps that look sharp on a phone, a browser and Windows or macOS."
+      },
+      "business": {
+        "title": "Business & ERP Systems",
+        "desc": "HR, inventory, sales and reporting in one dashboard, built around how your company actually works."
+      },
+      "data": {
+        "title": "Data & Security",
+        "desc": "PostgreSQL, row-level security and encrypted backups, so your data is fast to query and safe by default."
+      },
+      "hardware": {
+        "title": "Hardware & IoT",
+        "desc": "Custom controllers, sensor networks and the software that talks to them, from prototype to production units."
+      },
+      "ai_infra": {
+        "title": "AI Infrastructure",
+        "desc": "Model serving, pipelines and monitoring that keep AI features fast and affordable once real users arrive."
+      },
+      "design": {
+        "title": "UI/UX & Product Design",
+        "desc": "Interfaces people enjoy using. Research, prototypes and design systems that turn visitors into customers."
+      }
     }
   },
   "auth": {
@@ -212,14 +209,24 @@
     "title1": "Our",
     "title2": "Services",
     "subtitle": "Everything you need to bring your product to life — designed, built, and shipped by one team.",
-    "web_dev": "Web & App Development",
-    "web_dev_desc": "Websites and apps that load fast, look sharp, and work on every device. Built to convert visitors into customers.",
-    "business_sys": "Business & Management Systems",
-    "business_sys_desc": "Complete software for running your business — HR, inventory, sales, and reporting in one integrated dashboard.",
-    "uiux": "UI/UX Design",
-    "uiux_desc": "Interfaces your users will actually enjoy using. Clean, intuitive design that drives engagement and keeps people coming back.",
-    "ai_data": "AI & Data Solutions",
-    "ai_data_desc": "From smart chatbots to data analysis — we integrate AI where it actually moves the needle for your business."
+    "cards": {
+      "web": {
+        "title": "Web & App Development",
+        "desc": "Websites and apps that load fast, look sharp, and work on every device. Built to convert visitors into customers."
+      },
+      "business": {
+        "title": "Business & Management Systems",
+        "desc": "Complete software for running your business — HR, inventory, sales, and reporting in one integrated dashboard."
+      },
+      "uiux": {
+        "title": "UI/UX Design",
+        "desc": "Interfaces your users will actually enjoy using. Clean, intuitive design that drives engagement and keeps people coming back."
+      },
+      "ai": {
+        "title": "AI & Data Solutions",
+        "desc": "From smart chatbots to data analysis — we integrate AI where it actually moves the needle for your business."
+      }
+    }
   },
   "contact": {
     "success_title": "Request sent successfully!",
@@ -318,5 +325,9 @@
     "subtitle": "What people say after shipping with EL8.",
     "verified": "Verified client",
     "kicker": "Client stories"
+  },
+  "projects": {
+    "load_more": "Load more projects",
+    "loading_more": "Loading…"
   }
 }

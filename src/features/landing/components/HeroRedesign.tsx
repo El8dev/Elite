@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 export const HeroRedesign: React.FC = () => {
   const { t } = useTranslation();
-  
+
   // Use sessionStorage so the state survives HMR and page reloads during the session
   const [hasPlayedEntrance, setHasPlayedEntrance] = React.useState(() => {
     return sessionStorage.getItem('hasPlayedHeroEntrance') === 'true';
   });
-  
+
   const [runAnim, setRunAnim] = React.useState(hasPlayedEntrance);
   const [isDone, setIsDone] = React.useState(hasPlayedEntrance);
 
@@ -46,7 +46,7 @@ export const HeroRedesign: React.FC = () => {
     const lineStagger = 170;
     const wordStagger = 65;
     const baseDelay = lineIndex * lineStagger;
-    
+
     if (isAccent) {
       return (
         <span className="entry-line-wrap" data-entry-line>
@@ -126,7 +126,7 @@ export const HeroRedesign: React.FC = () => {
         <div className="hero__stats">
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="0">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="eager" {...({ fetchpriority: "high" } as Record<string, string>)} width="420" height="315" src="/extracted_img_3.webp"/>
+              <img alt="" decoding="async" loading="eager" {...({ fetchpriority: "high" } as Record<string, string>)} width="420" height="315" src="/hero-ai-web.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_1')}</span>
             <span className="stat__sub">{t('globe.stats_label_1')}</span>
@@ -134,7 +134,7 @@ export const HeroRedesign: React.FC = () => {
           <div className="stat-divider"></div>
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="180">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="eager" width="420" height="420" src="/extracted_img_4.webp"/>
+              <img alt="" decoding="async" loading="eager" width="420" height="420" src="/hero-mobile.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_2')}</span>
             <span className="stat__sub">{t('globe.stats_label_2')}</span>
@@ -142,7 +142,7 @@ export const HeroRedesign: React.FC = () => {
           <div className="stat-divider"></div>
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="360">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="eager" width="420" height="275" src="/extracted_img_5.webp"/>
+              <img alt="" decoding="async" loading="eager" width="420" height="275" src="/hero-data.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_3')}</span>
             <span className="stat__sub">{t('globe.stats_label_3')}</span>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#201127"/><stop offset="1" stop-color="#402747"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <g fill="#BA68CB" fill-opacity=".35">
+    <path d="M330 220h140v30H330zM300 250h30v60h-30zM470 250h30v60h-30zM330 310h140v30H330zM300 340h30v60h-30zM470 340h30v60h-30zM330 400h140v30H330z"/>
+  </g>
+  <text x="400" y="500" text-anchor="middle" font-family="Outfit, system-ui, sans-serif" font-size="22" fill="#BC87C8" fill-opacity=".7">EL8 project</text>
+</svg>

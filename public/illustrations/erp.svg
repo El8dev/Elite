@@ -20,6 +20,23 @@
       </feMerge>
     </filter>
   </defs>
+  <!-- el8-stage: shared halo + floor shadow so every illustration sits the same way -->
+  <defs>
+    <radialGradient id="el8-stage-halo-erp" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.30" />
+      <stop offset="60%" stop-color="#10b981" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="el8-stage-floor-erp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g class="el8-stage" aria-hidden="true">
+    <ellipse cx="60" cy="45" rx="57.6" ry="45" fill="url(#el8-stage-halo-erp)" />
+    <ellipse cx="60" cy="84.6" rx="40.8" ry="4.5" fill="url(#el8-stage-floor-erp)" />
+  </g>
+
 
   <!-- Background Axis & Dotted Grid -->
   <line x1="15" y1="76" x2="112" y2="76" stroke="#ffffff30" stroke-width="1.5" />

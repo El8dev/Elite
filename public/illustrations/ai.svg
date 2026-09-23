@@ -12,6 +12,23 @@
       </feMerge>
     </filter>
   </defs>
+  <!-- el8-stage: shared halo + floor shadow so every illustration sits the same way -->
+  <defs>
+    <radialGradient id="el8-stage-halo-ai" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.30" />
+      <stop offset="60%" stop-color="#6366f1" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="el8-stage-floor-ai" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g class="el8-stage" aria-hidden="true">
+    <ellipse cx="60" cy="45" rx="57.6" ry="45" fill="url(#el8-stage-halo-ai)" />
+    <ellipse cx="60" cy="84.6" rx="40.8" ry="4.5" fill="url(#el8-stage-floor-ai)" />
+  </g>
+
 
   <!-- Neural Matrix Synapse Cables -->
   <g stroke="#6366f1" stroke-width="1.5" opacity="0.6">

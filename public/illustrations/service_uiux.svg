@@ -12,6 +12,23 @@
       </feMerge>
     </filter>
   </defs>
+  <!-- el8-stage: shared halo + floor shadow so every illustration sits the same way -->
+  <defs>
+    <radialGradient id="el8-stage-halo-service_uiux" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.30" />
+      <stop offset="60%" stop-color="#f43f5e" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="el8-stage-floor-service_uiux" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g class="el8-stage" aria-hidden="true">
+    <ellipse cx="65" cy="45" rx="62.4" ry="45" fill="url(#el8-stage-halo-service_uiux)" />
+    <ellipse cx="65" cy="84.6" rx="44.2" ry="4.5" fill="url(#el8-stage-floor-service_uiux)" />
+  </g>
+
 
   <!-- Left Card: Screen Wireframe -->
   <rect x="12" y="12" width="48" height="66" rx="7" fill="url(#uiux-card-grad)" stroke="#ec4899" stroke-width="1.8" />
