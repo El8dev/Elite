@@ -149,7 +149,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Alexandria', 'Outfit', system-ui, sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
     /* Texture comes from the fixed pixel-8 layer (AmbientBackground); a second
        background-attachment:fixed paint here forces repaints on mobile scroll. */
   }

@@ -311,7 +311,7 @@ html[dir="rtl"] .mobile-drawer__panel{ transform:translateX(-100%); }
   position:relative; z-index:2; overflow:hidden;
 }
 .stat{
-  flex:1 1 270px; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;
+  flex:1 1 220px; min-width:0; max-width:100%; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;
   padding:26px 20px 22px; border-radius:var(--radius-lg); position:relative; overflow:visible; z-index:1;
   background:var(--bg-alt); border:1px solid var(--border);
   cursor:pointer;
@@ -452,7 +452,7 @@ html[dir="ltr"] .dropdown-item:hover{ transform:translateX(3px); }
 .dropdown-item span{ display:block; font-size:.76rem; color:var(--text-2); margin-top:2px; }
 html[dir="ltr"] .project-card:hover .project-link-btn svg{ transform:translateX(5px) rotate(0deg); }
 @keyframes visionGlowPulse{ 0%,100%{ transform:scale(1); opacity:.55; } 50%{ transform:scale(1.18); opacity:.85; } }
-@media(max-width:960px){ .feature-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:960px){ .feature-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
 @media(max-width:560px){ .feature-grid{ grid-template-columns:1fr; } }
 
 /* ---------- Professional 3D Anti-Gravity Floating Animation for 7 Vision Photos ---------- */
@@ -644,7 +644,7 @@ html.is-splashing, body.is-splashing {
 }
 
 /* ---------- Projects Modal / Glassmorphic View ---------- */
-.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.form-grid-2{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-bottom:16px; }
 @media (max-width:640px){ .form-grid-2{ grid-template-columns:1fr; gap:12px; } }
 .projects-modal-backdrop{
   position:fixed; inset:0; z-index:9999;
@@ -757,7 +757,7 @@ body.is-splashing .scroll-top-btn{
   --bento-glow: rgba(124, 58, 237, 0.35);
   --bento-radius: 28px;
 }
-@media(max-width:992px){ .bento-grid-3{ grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:992px){ .bento-grid-3{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
 @media(max-width:640px){ .bento-grid-3{ grid-template-columns: 1fr; } }
 
 /* ================================================================
@@ -826,8 +826,8 @@ html:not(.dark) .deck-panel{
 
 /* ================= cards: image on top, caption underneath ================= */
 .deck-grid{ position:relative; z-index:1; display:grid; gap:20px; align-items:stretch; }
-.deck-grid--vision{ grid-template-columns:repeat(3,1fr); }
-.deck-grid--services{ grid-template-columns:repeat(2,1fr); }
+.deck-grid--vision{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+.deck-grid--services{ grid-template-columns:repeat(2, minmax(0,1fr)); }
 
 .deck-card{
   position:relative; overflow:hidden; isolation:isolate;
@@ -1054,7 +1054,7 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
 /* hero cards go three-across on a phone instead of stacking */
 @media (max-width:640px){
   .hero__stats{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;
     margin-top:34px; padding:11px 9px; border-radius:var(--radius-lg);
   }
   .stat-divider{ display:none; }
@@ -1170,8 +1170,8 @@ body.drawer-open .scroll-top-btn{
 /* Purely static gradients - no filter, no animation, so it costs one paint. */
 .hero-aura{
   position:absolute; z-index:0; pointer-events:none; contain:strict;
-  top:-150px; left:50%; transform:translateX(-50%);
-  width:100vw; height:min(760px, 92vh);
+  top:-150px; inset-inline:0; width:auto; transform:none;
+  height:min(760px, 92vh);
   background:
     radial-gradient(ellipse 38% 42% at 50% 22%, rgba(139,92,246,.26), transparent 68%),
     radial-gradient(ellipse 34% 30% at 16% 42%, rgba(99,102,241,.14), transparent 70%),
@@ -2107,3 +2107,18 @@ html:not(.dark) .stat__photo::after{
 @media (min-width:1400px){ .proj-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); } }
 .proj-card__media{ aspect-ratio:4 / 3; overflow:hidden; background:var(--surface-2); }
 .proj-card__media img{ width:100%; height:100%; object-fit:cover; }
+
+
+/* ================================================================
+   Safari safety net: nothing may size the page wider than the screen
+   ================================================================ */
+html, body{ overflow-x:clip; max-width:100%; }
+#root, main, section, header.site, footer, .wrap, .wrap--md{ max-width:100%; min-width:0; }
+.hero__stats, .hero-cta, .deck-grid, .proj-grid{ max-width:100%; min-width:0; }
+.hero-cta__main, .ghost-btn{ max-width:100%; }
+.stat__photo, .stat__photo img, .deck-card, .deck-card__media, .card-art, .card-art__img{ max-width:100%; min-width:0; }
+@media (max-width:640px){
+  .stat__photo img{ width:100%; height:auto; }
+  .hero__stats{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+  .hero-cta .hero-cta__main{ flex-shrink:1; min-width:0; }
+}
