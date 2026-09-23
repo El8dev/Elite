@@ -1,9 +1,10 @@
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 /**
  * Fetches all approved profiles with their associated projects
  */
 export const fetchApprovedProfiles = async (): Promise<any[]> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('profiles')
     .select('*, projects(*)')
@@ -22,6 +23,7 @@ export const fetchApprovedProfiles = async (): Promise<any[]> => {
  * @param id The developer's profile ID
  */
 export const fetchProfileById = async (id: string): Promise<any> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
@@ -40,6 +42,7 @@ export const fetchProfileById = async (id: string): Promise<any> => {
  * @param identifier The username or profile ID
  */
 export const fetchProfileByUsernameOrId = async (identifier: string): Promise<any> => {
+  const supabase = await getSupabase();
   // Check if identifier is UUID
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier);
   

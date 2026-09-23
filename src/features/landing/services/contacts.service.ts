@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 export interface ContactMessagePayload {
   developer_id: string;
@@ -11,6 +11,7 @@ export interface ContactMessagePayload {
  * Sends a contact message to a specific developer
  */
 export const sendContactMessage = async (payload: ContactMessagePayload): Promise<void> => {
+  const supabase = await getSupabase();
   const { error } = await supabase
     .from('contact_messages')
     .insert([payload]);

@@ -8,7 +8,6 @@ const CustomerReviewsSection = React.lazy(() =>
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { useTranslation } from 'react-i18next';
-import { SplashIntro } from '@/features/landing/components/SplashIntro';
 import { HeroRedesign } from '@/features/landing/components/HeroRedesign';
 
 import { useRevealAnimations } from '@/hooks/useRevealAnimations';
@@ -53,7 +52,6 @@ const HomePage: React.FC = () => {
         </script>
       </Helmet>
 
-      <SplashIntro />
       <SiteHeader />
 
 

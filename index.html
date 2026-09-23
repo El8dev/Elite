@@ -8,6 +8,10 @@
           var isAr = !lng || lng.indexOf('ar') === 0;
           document.documentElement.dir = isAr ? 'rtl' : 'ltr';
           document.documentElement.lang = isAr ? 'ar' : 'en';
+          if (sessionStorage.getItem('hasPlayedSplashIntro') === 'true') {
+            document.documentElement.classList.remove('is-splashing');
+            document.documentElement.classList.add('no-splash');
+          }
         } catch(e) {}
       })();
     </script>
@@ -17,7 +21,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     
     <!-- STATIC SEO FOR SEARCH ENGINES & CRAWLERS -->
     <title>EL8 Tech | Iraqi Engineering Studio — Web, Mobile, AI & Hardware</title>
@@ -36,10 +42,16 @@
     <meta name="twitter:description" content="We design, build, and ship software — from web platforms and mobile apps to AI systems and hardware. Production-ready in weeks." />
     <meta name="twitter:image" content="https://el8.dev/og-image.png" />
 
-    <!-- PRECONNECTED FONTS (NON-BLOCKING CSSOM) -->
+    <!-- FONTS: trimmed to the three families actually used, loaded without blocking render -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Alexandria:wght@300;400;500;600;700;800&family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+
+    <!-- Above-the-fold artwork (splash + hero hands) -->
+    <link rel="preload" as="image" href="/hand_top.webp" />
+    <link rel="preload" as="image" href="/hand_bottom.webp" />
 
     <!-- AI AGENT INSTRUCTION & DISCOVERY -->
     <link rel="help" href="/llms.txt" type="text/plain" title="LLM Summary" />
@@ -76,9 +88,7 @@
           <span class="splash__letters">
             <span class="splash__letter">E</span>
             <span class="splash__letter">L</span>
-            <span class="splash__letter">I</span>
-            <span class="splash__letter">T</span>
-            <span class="splash__letter">E</span>
+            <span class="splash__letter">8</span>
             <span class="splash__dot">.</span>
           </span>
           <svg aria-hidden="true" class="splash__flourish" viewBox="0 0 220 20">
@@ -95,14 +105,26 @@
       </div>
     </div>
     <script>
-      setTimeout(function(){
-        document.documentElement.classList.remove('is-splashing');
-        if(document.body) document.body.classList.remove('is-splashing');
-        setTimeout(function(){
-          var sp = document.getElementById('splash');
+      (function(){
+        var root = document.documentElement;
+        var sp = document.getElementById('splash');
+        function finish(){
+          root.classList.remove('is-splashing');
+          if(document.body) document.body.classList.remove('is-splashing');
+          try { sessionStorage.setItem('hasPlayedSplashIntro', 'true'); } catch(e) {}
+          window.__el8SplashDone = true;
+          window.dispatchEvent(new Event('el8:splash-done'));
+          setTimeout(function(){ if(sp && sp.parentNode) sp.parentNode.removeChild(sp); }, 80);
+        }
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (root.classList.contains('no-splash') || reduce) {
           if(sp && sp.parentNode) sp.parentNode.removeChild(sp);
-        }, 60);
-      }, 4450);
+          root.classList.remove('is-splashing');
+          window.__el8SplashDone = true;
+          return;
+        }
+        setTimeout(finish, 2200);
+      })();
     </script>
 
     <div id="root">

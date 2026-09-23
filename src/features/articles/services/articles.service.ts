@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 export interface Article {
   id: string;
@@ -27,6 +27,7 @@ export interface Article {
  * Fetches all public articles, ordered by created_at descending
  */
 export const fetchPublicArticles = async (): Promise<Article[]> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('articles')
     .select(`
@@ -84,6 +85,7 @@ export const fetchPublicArticles = async (): Promise<Article[]> => {
  * Fetches articles authored by a specific user profile
  */
 export const fetchArticlesByAuthor = async (authorId: string): Promise<Article[]> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('articles')
     .select('*')
@@ -112,6 +114,7 @@ export const createArticle = async (article: {
   author_name?: string;
   author_avatar?: string;
 }): Promise<any> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('articles')
     .insert([
@@ -145,6 +148,7 @@ export const updateArticle = async (
   articleId: string,
   updates: Partial<Article>
 ): Promise<any> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('articles')
     .update(updates)
@@ -163,6 +167,7 @@ export const updateArticle = async (
  * Deletes an article
  */
 export const deleteArticle = async (articleId: string): Promise<void> => {
+  const supabase = await getSupabase();
   const { error } = await supabase
     .from('articles')
     .delete()

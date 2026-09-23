@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, User, Briefcase, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCinematicSound } from '@/hooks/useCinematicSound';
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 import { useTranslation } from 'react-i18next';
 
 // Inline styles for the CommandMenu overlay
@@ -46,6 +46,7 @@ export const CommandMenu: React.FC = () => {
   useEffect(() => {
     const fetchSearchData = async () => {
       try {
+        const supabase = await getSupabase();
         const [projRes, devRes] = await Promise.all([
           supabase.from('projects').select('id, title, is_masterpiece').limit(20),
           supabase.from('profiles').select('id, full_name, username').eq('account_status', 'approved').limit(20),

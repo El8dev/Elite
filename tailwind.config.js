@@ -29,12 +29,12 @@ export default {
         },
         extend: {
             fontFamily: {
-                'inter': ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                'outfit': ['Outfit', 'sans-serif'],
-                'jetbrains': ['"JetBrains Mono"', 'monospace'],
-                'cairo': ['Cairo', 'sans-serif'],
-                'alexandria': ['Alexandria', 'sans-serif'],
-                'ibm-arabic': ['"IBM Plex Arabic"', 'sans-serif'],
+                'inter': ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                'outfit': ['Outfit', 'system-ui', 'sans-serif'],
+                'jetbrains': ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                'cairo': ['Alexandria', 'system-ui', 'sans-serif'],
+                'alexandria': ['Alexandria', 'system-ui', 'sans-serif'],
+                'ibm-arabic': ['Alexandria', 'system-ui', 'sans-serif'],
             },
             colors: {
                 border: 'hsl(var(--border))',

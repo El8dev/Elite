@@ -1,9 +1,10 @@
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 
 /**
  * Fetches all public projects (not restricted to personal profile only)
  */
 export const fetchPublicProjects = async (): Promise<any[]> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('projects')
     .select(`
@@ -28,6 +29,7 @@ export const fetchPublicProjects = async (): Promise<any[]> => {
  * @param ownerId The developer's profile ID
  */
 export const fetchProjectsByOwner = async (ownerId: string): Promise<any[]> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('projects')
     .select(`
@@ -51,6 +53,7 @@ export const fetchProjectsByOwner = async (ownerId: string): Promise<any[]> => {
  * @param projectId The project ID
  */
 export const fetchProjectById = async (projectId: string): Promise<any> => {
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from('projects')
     .select(`

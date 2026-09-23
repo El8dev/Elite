@@ -4,7 +4,7 @@ import { DashboardProject, AdminProfileRow, PendingUser } from '@/features/admin
 import { ManageReviewsPanel } from '@/features/reviews/components/ManageReviewsPanel';
 import { LogOut, User, FolderKanban, Plus, Trash2, Settings, Bell, X, Camera, Image as ImageIcon, Upload, Users, Search, Check, Loader2, Shield, Clock, CheckCircle, XCircle, Lock, UserCog, FileText, Edit3, Menu, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase-client';
 import Cropper, { Area } from 'react-easy-crop';
 import { motion, AnimatePresence } from 'motion/react';
 import { getCroppedImg } from '@/lib/cropImage';

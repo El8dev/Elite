@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase-client';
 import { Lock, Shield, Search, Users, CheckCircle, XCircle, Trash2, Loader2, FolderKanban, Clock, UserCog, Code2, X } from 'lucide-react';
 import { ThemeLanguageToggle } from '@/components/common/ThemeLanguageToggle';
 import { motion } from 'motion/react';

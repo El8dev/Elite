@@ -1,5 +1,5 @@
 import React, { Component, type ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "next-themes";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
@@ -55,8 +55,6 @@ const app = (
   </AppErrorBoundary>
 );
 
-if (rootElement.hasChildNodes()) {
-  hydrateRoot(rootElement, app);
-} else {
-  createRoot(rootElement).render(app);
-}
+// The markup inside #root is a crawler-only shell, not a React-rendered tree,
+// so we always create a fresh root (hydrating would mismatch and re-render anyway).
+createRoot(rootElement).render(app);

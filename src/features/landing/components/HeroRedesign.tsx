@@ -15,10 +15,8 @@ export const HeroRedesign: React.FC = () => {
   React.useEffect(() => {
     if (hasPlayedEntrance) return;
 
-    const isSplashing = document.documentElement.classList.contains('is-splashing');
-    const delay = isSplashing ? 4450 : 0;
-    
-    const timeoutId = setTimeout(() => {
+    let doneTimer: ReturnType<typeof setTimeout> | undefined;
+    const start = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setRunAnim(true);
@@ -26,10 +24,22 @@ export const HeroRedesign: React.FC = () => {
           sessionStorage.setItem('hasPlayedHeroEntrance', 'true');
         });
       });
-      setTimeout(() => setIsDone(true), 2500);
-    }, delay);
+      doneTimer = setTimeout(() => setIsDone(true), 2500);
+    };
 
-    return () => clearTimeout(timeoutId);
+    // index.html owns the splash; it fires `el8:splash-done` when the curtain
+    // lifts (or sets __el8SplashDone immediately when the splash is skipped).
+    const w = window as Window & { __el8SplashDone?: boolean };
+    const stillSplashing = document.documentElement.classList.contains('is-splashing') && !w.__el8SplashDone;
+    if (!stillSplashing) {
+      start();
+      return () => { if (doneTimer) clearTimeout(doneTimer); };
+    }
+    window.addEventListener('el8:splash-done', start, { once: true });
+    return () => {
+      window.removeEventListener('el8:splash-done', start);
+      if (doneTimer) clearTimeout(doneTimer);
+    };
   }, [hasPlayedEntrance]);
 
   const renderAnimatedLine = (text: string, lineIndex: number, isAccent = false) => {
@@ -116,7 +126,7 @@ export const HeroRedesign: React.FC = () => {
         <div className="hero__stats">
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="0">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="lazy" src="/extracted_img_3.webp"/>
+              <img alt="" decoding="async" loading="eager" fetchPriority="high" width="420" height="315" src="/extracted_img_3.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_1')}</span>
             <span className="stat__sub">{t('globe.stats_label_1')}</span>
@@ -124,7 +134,7 @@ export const HeroRedesign: React.FC = () => {
           <div className="stat-divider"></div>
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="180">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="lazy" src="/extracted_img_4.webp"/>
+              <img alt="" decoding="async" loading="eager" width="420" height="420" src="/extracted_img_4.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_2')}</span>
             <span className="stat__sub">{t('globe.stats_label_2')}</span>
@@ -132,7 +142,7 @@ export const HeroRedesign: React.FC = () => {
           <div className="stat-divider"></div>
           <div className={`stat reveal-scale ${hasPlayedEntrance ? 'in' : ''}`} data-delay="360">
             <div className="stat__photo">
-              <img alt="" decoding="async" loading="lazy" src="/extracted_img_5.webp"/>
+              <img alt="" decoding="async" loading="eager" width="420" height="275" src="/extracted_img_5.webp"/>
             </div>
             <span className="stat__title">{t('globe.stats_value_3')}</span>
             <span className="stat__sub">{t('globe.stats_label_3')}</span>

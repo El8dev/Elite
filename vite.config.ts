@@ -27,8 +27,8 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom'],
           ui: ['motion', 'lucide-react', 'sonner'],
           charts: ['recharts'],
-          db: ['@supabase/supabase-js'],
-          sentry: ['@sentry/react']
+          db: ['@supabase/supabase-js']
+          // sentry is dynamic-imported in main.tsx; listing it here would force an eager chunk.
         }
       }
     }

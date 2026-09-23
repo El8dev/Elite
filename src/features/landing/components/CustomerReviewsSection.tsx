@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { supabase } from '@/lib/supabase';
+import { getSupabase } from '@/lib/supabase';
 import { Star, MessageSquareQuote, Loader2 } from 'lucide-react';
 import { useReducedMotionPref } from '@/hooks/useReducedMotionPref';
 
@@ -20,6 +20,7 @@ export const CustomerReviewsSection: React.FC = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
+        const supabase = await getSupabase();
         const { data, error } = await supabase
           .from('customer_reviews')
           .select('*')
