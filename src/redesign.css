@@ -295,8 +295,7 @@ html[dir="rtl"] .mobile-drawer__panel{ transform:translateX(-100%); }
     opacity:1 !important; transform:none !important; transition:none !important;
   }
   .entry-glow{ opacity:.25 !important; transition:none !important; }
-  .entry-block.entry-done .entry-fill--accent{ animation:none !important; }
-}
+  .entry-block.entry-done .entry-fill--accent{ animation:none !important; }}
 
 .hero__text{
   max-width:680px; margin-inline:auto; text-align:center; color:var(--text-2);
@@ -391,8 +390,7 @@ html[dir="rtl"] .mobile-drawer__panel{ transform:translateX(-100%); }
   50%{ transform:translateY(-10px) rotate(-1.5deg); }
 }
 @media (prefers-reduced-motion: reduce){
-  .stat__photo{ animation:none !important; }
-}
+  .stat__photo{ animation:none !important; }}
 
 .stat__title{
   position:relative; z-index:1;
@@ -421,8 +419,7 @@ html[dir="rtl"] .mobile-drawer__panel{ transform:translateX(-100%); }
 }
 @media(max-width:860px){
   .stat-divider{ display:none; }
-  .hero__stats{ gap:14px; padding:18px 12px; }
-}
+  .hero__stats{ gap:14px; padding:18px 12px; }}
 
 /* ---------- Dropdown Menu ---------- */
 .dropdown-wrapper{ position:relative; display:inline-block; }
@@ -452,8 +449,8 @@ html[dir="ltr"] .dropdown-item:hover{ transform:translateX(3px); }
 .dropdown-item span{ display:block; font-size:.76rem; color:var(--text-2); margin-top:2px; }
 html[dir="ltr"] .project-card:hover .project-link-btn svg{ transform:translateX(5px) rotate(0deg); }
 @keyframes visionGlowPulse{ 0%,100%{ transform:scale(1); opacity:.55; } 50%{ transform:scale(1.18); opacity:.85; } }
-@media(max-width:960px){ .feature-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-@media(max-width:560px){ .feature-grid{ grid-template-columns:1fr; } }
+@media(max-width:960px){ .feature-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }}
+@media(max-width:560px){ .feature-grid{ grid-template-columns:1fr; }}
 
 /* ---------- Professional 3D Anti-Gravity Floating Animation for 7 Vision Photos ---------- */
 @keyframes floatLevitate{
@@ -471,7 +468,7 @@ html[dir="ltr"] .project-card:hover .project-link-btn svg{ transform:translateX(
   38%{ opacity:.95; transform:translateX(-50%) scale(1.05); }
   100%{ opacity:0; transform:translateX(-50%) scale(1.55); }
 }
-@media(max-width:860px){ .card-grid{ grid-template-columns:1fr; } }
+@media(max-width:860px){ .card-grid{ grid-template-columns:1fr; }}
 
 /* ---------- Footer / CTA ---------- */
 footer.site{ padding-block:80px 40px; }
@@ -551,86 +548,6 @@ html[dir="rtl"] .cta-btn svg{ transform:rotate(180deg); }
 }
 @keyframes pulse-ring{ 0%{ transform:scale(.9); opacity:.7; } 100%{ transform:scale(1.4); opacity:0; } }
 
-/* ---------- Welcome splash: hands frame the name like a signature ---------- */
-
-/* Lock scroll during splash screen */
-html.is-splashing, body.is-splashing {
-  overflow: hidden !important;
-  height: 100dvh !important;
-  width: 100% !important;
-  touch-action: none !important;
-}
-
-.splash{
-  position:fixed; inset:0; width:100%; height:100dvh;
-  z-index:999999; display:flex; align-items:center; justify-content:center; overflow:hidden; touch-action:none;
-  background:
-    radial-gradient(circle at 22% 18%, rgba(139,92,246,.32), transparent 55%),
-    radial-gradient(circle at 80% 84%, rgba(6,182,212,.26), transparent 55%),
-    #07070c;
-  animation:splashFade 2200ms ease forwards;
-}
-@keyframes splashFade{
-  0%,82%{ opacity:1; }
-  100%{ opacity:0; visibility:hidden; pointer-events:none; }
-}
-.splash__stage{
-  display:flex; flex-direction:column; align-items:center; position:relative;
-  animation:splashStageExit 2200ms ease forwards;
-}
-@keyframes splashStageExit{
-  0%,82%{ filter:blur(0); transform:scale(1); }
-  100%{ filter:blur(14px); transform:scale(1.05); }
-}
-
-.splash__hand{
-  width:clamp(140px,24vw,220px); height:auto; display:block; opacity:0;
-  filter:drop-shadow(0 18px 30px rgba(0,0,0,.55));
-}
-.splash__hand--top{ margin-bottom:-8px; transform:translateY(-30px); animation:splashHandTop 700ms cubic-bezier(.2,.8,.24,1) 60ms forwards; }
-.splash__hand--bottom{ margin-top:-8px; transform:translateY(30px); animation:splashHandBottom 700ms cubic-bezier(.2,.8,.24,1) 60ms forwards; }
-@keyframes splashHandTop{ to{ opacity:1; transform:translateY(0); } }
-@keyframes splashHandBottom{ to{ opacity:1; transform:translateY(0); } }
-
-.splash__wordmark{ position:relative; display:flex; flex-direction:column; align-items:center; padding:4px 18px; }
-.splash__glow{
-  position:absolute; inset:-70% -40%; z-index:0; pointer-events:none; border-radius:50%;
-  background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,92,246,.5), rgba(34,211,238,.2) 55%, transparent 75%);
-  filter:blur(28px); opacity:0;
-  animation:splashGlow 500ms ease-out 1100ms forwards;
-}
-@keyframes splashGlow{ to{ opacity:1; } }
-
-.splash__letters{
-  position:relative; z-index:1; display:flex; direction:ltr; font-family:var(--font-brand); font-weight:800;
-  font-size:clamp(2.1rem,6.6vw,3.2rem); letter-spacing:.13em; color:#fff;
-}
-.splash__letter{ display:inline-block; opacity:0; filter:blur(6px); transform:translateY(14px); animation:splashLetterIn 460ms cubic-bezier(.16,.8,.24,1) forwards; }
-.splash__letter:nth-child(1){ animation-delay:480ms; }
-.splash__letter:nth-child(2){ animation-delay:600ms; }
-.splash__letter:nth-child(3){ animation-delay:720ms; }
-@keyframes splashLetterIn{ to{ opacity:1; filter:blur(0); transform:translateY(0); } }
-.splash__dot{
-  display:inline-block; color:var(--cyan); opacity:0; transform:translateY(14px) scale(.5);
-  animation:splashDotIn 400ms cubic-bezier(.34,1.56,.64,1) 940ms forwards;
-}
-@keyframes splashDotIn{ to{ opacity:1; transform:translateY(0) scale(1); } }
-
-.splash__flourish{ position:relative; z-index:1; display:block; width:min(70%,210px); height:20px; margin-top:8px; overflow:visible; }
-.splash__flourish path{
-  fill:none; stroke:url(#splashFlourishGrad); stroke-width:3.4; stroke-linecap:round;
-  stroke-dasharray:260; stroke-dashoffset:260;
-  animation:splashFlourishDraw 520ms cubic-bezier(.3,.75,.35,1) 1100ms forwards;
-}
-@keyframes splashFlourishDraw{ to{ stroke-dashoffset:0; } }
-
-@media (prefers-reduced-motion: reduce){
-  .splash{ animation:none !important; opacity:0 !important; visibility:hidden !important; pointer-events:none !important; }
-  .splash *{ animation:none !important; }
-}
-@media(max-width:520px){
-  .splash__hand{ width:clamp(112px,32vw,180px); }
-}
 
 /* ---------- Reveal animation ---------- */
 .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
@@ -640,12 +557,11 @@ html.is-splashing, body.is-splashing {
 
 @media(max-width:860px){
   .nav-pill{ display:none; }
-  .burger{ display:flex; }
-}
+  .burger{ display:flex; }}
 
 /* ---------- Projects Modal / Glassmorphic View ---------- */
 .form-grid-2{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-bottom:16px; }
-@media (max-width:640px){ .form-grid-2{ grid-template-columns:1fr; gap:12px; } }
+@media (max-width:640px){ .form-grid-2{ grid-template-columns:1fr; gap:12px; }}
 .projects-modal-backdrop{
   position:fixed; inset:0; z-index:9999;
   background:rgba(4, 3, 10, 0.72);
@@ -736,7 +652,7 @@ html:not(.dark) .projects-modal {
   box-shadow:0 12px 28px -4px rgba(124,58,237,0.6), 0 0 20px rgba(255,255,255,0.3);
   border-color:rgba(124,58,237,0.5);
 }
-@media(max-width:768px){ .svc-grid{ grid-template-columns:1fr; } }
+@media(max-width:768px){ .svc-grid{ grid-template-columns:1fr; }}
 
 /* 3D Anti-Gravity Floating Motion for the 4 Service Photos */
 @keyframes svcPhotoFloat{
@@ -744,11 +660,7 @@ html:not(.dark) .projects-modal {
   50%{ transform:translateY(-10px) scale(1.03); filter:brightness(1.08) drop-shadow(0 15px 25px rgba(124,58,237,0.25)); }
 }
 
-/* Hide Back-to-Top button completely during the splash welcome screen */
-html.is-splashing .scroll-top-btn,
-body.is-splashing .scroll-top-btn{
-  display:none !important; opacity:0 !important; visibility:hidden !important; pointer-events:none !important;
-}
+
 /* ---------- SignalDesk Luxury Bento Design System ---------- */
 :root{
   --bento-card-bg: rgba(18, 16, 36, 0.78);
@@ -757,8 +669,8 @@ body.is-splashing .scroll-top-btn{
   --bento-glow: rgba(124, 58, 237, 0.35);
   --bento-radius: 28px;
 }
-@media(max-width:992px){ .bento-grid-3{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media(max-width:640px){ .bento-grid-3{ grid-template-columns: 1fr; } }
+@media(max-width:992px){ .bento-grid-3{ grid-template-columns: repeat(2, minmax(0,1fr)); }}
+@media(max-width:640px){ .bento-grid-3{ grid-template-columns: 1fr; }}
 
 /* ================================================================
    El8 - Vision & Elite Services  (poster cards, text inside image)
@@ -988,8 +900,7 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   .deck-brand{ top:16px; font-size:.6rem; letter-spacing:.18em; }
   .deck-grid{ gap:13px; }
   .deck-card__icon{ width:40px; height:40px; border-radius:var(--radius-sm); margin-top:-34px; margin-bottom:11px; }
-  .deck-card__icon svg{ width:19px; height:19px; }
-}
+  .deck-card__icon svg{ width:19px; height:19px; }}
 
 /* phones: spacious single-column cards with responsive micro-illustrations */
 @media (max-width:640px){
@@ -1018,15 +929,13 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
 @media (max-width:370px){
   .deck-card__text{ font-size:.84rem; }
   .deck-card__desc{ font-size:.78rem; line-height:1.65; }
-  .deck-card__title{ font-size:.88rem; }
-}
+  .deck-card__title{ font-size:.88rem; }}
 
 @media (prefers-reduced-motion: reduce){
   .deck-panel.reveal, .deck-card.reveal, .deck-kicker.reveal, .deck-title.reveal, .deck-sub.reveal,
   .deck-card.reveal .deck-card__content, .deck-card.reveal .deck-card__media img{
     opacity:1 !important; transform:none !important;
-  }
-}
+  }}
 
 /* the floating button is fixed, so give it a layer of its own too */
 .scroll-top-btn{ will-change:transform, opacity; }
@@ -1064,12 +973,11 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   .stat__title{ font-size:.78rem; line-height:1.3; }
   .stat__sub{ font-size:.66rem; }
 }
-@media (max-width:370px){ .stat__title{ font-size:.7rem; } .stat__sub{ font-size:.6rem; } }
+@media (max-width:370px){ .stat__title{ font-size:.7rem; } .stat__sub{ font-size:.6rem; }}
 
 @media (min-width:901px){
   .deck-card.reveal{ will-change:transform, opacity; }
-  .deck-card.reveal.in{ will-change:auto; }
-}
+  .deck-card.reveal.in{ will-change:auto; }}
 
 /* ================================================================
    Social icon tiles + mobile drawer ergonomics
@@ -1115,8 +1023,7 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   .lang-pill svg{ width:14px; height:14px; }
   .nav-actions{ gap:6px; }
   .icon-btn{ width:40px; height:40px; }
-  .burger{ width:40px; height:40px; }
-}
+  .burger{ width:40px; height:40px; }}
 
 /* ---- drawer: animate cleanly and lock the page behind it ---- */
 body.drawer-open{ overflow:hidden; }
@@ -1258,13 +1165,11 @@ html.dark .hero-aura{
   .hero__text{ font-size:.9rem; line-height:1.85; }
   .hero-cta{ gap:10px; margin-top:24px; }
   .hero-cta .cta-btn, .ghost-btn{ padding:12px 18px; font-size:.86rem; }
-  .hero-scroll{ margin-top:26px; font-size:.66rem; }
-}
+  .hero-scroll{ margin-top:26px; font-size:.66rem; }}
 
 @media (prefers-reduced-motion: reduce){
   .entry-fill--accent{ animation:none; background-position:0 0; }
-  .hero-scroll svg{ animation:none; }
-}
+  .hero-scroll svg{ animation:none; }}
 
 /* ================================================================
    El8 visual identity
@@ -1439,8 +1344,7 @@ html:not(.dark) .el8-bg-glow {
 @media (prefers-reduced-motion: reduce) {
   .el8-pixel-bg {
     animation: none;
-  }
-}
+  }}
 
 :root{ --card-art-bg: rgba(250,247,252,.98); --card-art-fg: #1a1226; --card-art-grid: .35; }
 html.dark{ --card-art-bg: rgba(6,6,12,.98); --card-art-fg: #fff; --card-art-grid: .2; }
@@ -1455,8 +1359,7 @@ html.dark{ --card-art-bg: rgba(6,6,12,.98); --card-art-fg: #fff; --card-art-grid
 }
 html.dark{ --code-note: 285 22% 12%; }
 
-/* leftovers from the pre-brand stylesheet */
-.splash-mark, .splash__glow{ background:#0E0910; }
+
 .social-btn--insta, .social-menu-icon--insta{
   background:linear-gradient(135deg,#FEDA75 0%,#FA7E1E 24%,#D62976 54%,#962FBF 78%,#4F5BD5 100%);
 }
@@ -1465,13 +1368,6 @@ html.dark{ --code-note: 285 22% 12%; }
 }
 .social-btn--tiktok{ background:linear-gradient(135deg,#201127 0%,#0E0910 100%); }
 
-/* ---------- splash picks up the same canvas ---------- */
-.splash{
-  background:
-    radial-gradient(circle at 22% 18%, rgba(138,78,151,.30), transparent 55%),
-    radial-gradient(circle at 80% 84%, rgba(186,104,203,.22), transparent 55%),
-    #0E0910;
-}
 
 /* ================================================================
    El8 section language
@@ -1498,67 +1394,6 @@ html.dark{ --code-note: 285 22% 12%; }
 }
 
 
-
-/* ================================================================
-   Splash: a fixed, symmetrical stage
-   ================================================================ */
-/* The two plates have different native ratios (455x191 and 520x199). Sizing by
-   height instead of width renders them at the same optical weight, and the
-   reserved aspect-ratio means the stage never reflows while they decode. */
-/* Both plates render at exactly the same width, so their wrists line up on the
-   same vertical edge and neither hand looks bigger than the other. Sizing by
-   height instead left them 12px apart in width, because the two crops have
-   different native ratios (455x191 and 520x199). */
-.splash__hand{
-  width:clamp(132px,38vw,210px); height:auto;
-  max-width:78vw;
-  object-fit:contain; object-position:center;
-  will-change:transform, opacity;
-}
-.splash__hand--top{ aspect-ratio:455 / 191; margin-bottom:-6px; }
-.splash__hand--bottom{ aspect-ratio:520 / 199; margin-top:-6px; }
-
-/* The wordmark's glow box is 70% taller than the wordmark itself, so it spilled
-   over the upper hand. Because the wordmark comes after that hand in the DOM
-   and is positioned, the glow painted on top of it - and it fades in at 2500ms,
-   which is why the hand appeared to dim right at the end of the intro. Lifting
-   both hands above the wordmark puts the glow back behind the whole scene. */
-.splash__hand{ position:relative; z-index:3; }
-.splash__wordmark{ z-index:2; }
-.splash__glow{
-  background:radial-gradient(ellipse 60% 60% at 50% 50%,
-    rgba(138,78,151,.5), rgba(186,104,203,.2) 55%, transparent 75%);
-}
-
-.splash__dot{ color:var(--brand-300); }
-/* The stage used to be centred by flexbox, so its centre moved whenever its
-   own width changed - and its width is set by the widest child, which changes
-   as the letters and the flourish appear. Pinning it to the viewport centre
-   with a transform makes the centre fixed: the group can grow or shrink and it
-   still stays exactly in the middle. */
-.splash{ width:100%; height:100%; }
-.splash__stage{
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  min-height:clamp(190px,42vw,280px); justify-content:center;
-  width:max-content; max-width:92vw;
-}
-@keyframes splashStageExit{
-  0%,82%{ filter:blur(0); transform:translate(-50%,-50%) scale(1); }
-  100%  { filter:blur(14px); transform:translate(-50%,-50%) scale(1.05); }
-}
-/* every element in the stack is centred on the same axis */
-.splash__hand{ margin-inline:auto; }
-.splash__wordmark{ margin-inline:auto; }
-.splash__flourish{ margin-inline:auto; }
-/* the wordmark keeps a fixed footprint so the letters cannot drag the layout
-   sideways as they appear one by one */
-.splash__letters{ justify-content:center; min-width:0; }
-.splash__wordmark{ width:100%; text-align:center; }
-
-@media(max-width:520px){
-  .splash__hand{ width:clamp(124px,42vw,180px); }
-}
 body.drawer-open .el8-pixel-bg,
 body.overlay-open .el8-pixel-bg,
 body.page-hidden .el8-pixel-bg { animation-play-state:paused !important; }
@@ -1644,8 +1479,7 @@ html{ scroll-behavior:smooth; }
   html{ scroll-behavior:auto; }
   .cta-btn:active, .ghost-btn:active, .icon-btn:active, .lang-pill:active,
   .burger:active, .mobile-close:active, .social-btn:active,
-  .scroll-top-btn:active, .nav-link:active, .deck-card:active{ transform:none; }
-}
+  .scroll-top-btn:active, .nav-link:active, .deck-card:active{ transform:none; }}
 
 /* The artwork is declared once here and every instance points at it, so the
    two plates are embedded twice in the file instead of eleven times. */
@@ -1803,8 +1637,7 @@ html:not(.dark) .handoff__hand{ opacity:1; }
   .handoff__hand{ width:clamp(88px,26vw,118px); }
   .handoff__ai{ width:36px; height:36px; }
   .handoff--closing .handoff__hand{ width:clamp(98px,30vw,132px); }
-  .handoff--closing .handoff__ai{ width:40px; height:40px; }
-}
+  .handoff--closing .handoff__ai{ width:40px; height:40px; }}
 
 /* ---------- theme toggle ---------- */
 /* Layout inside the button, top to bottom:
@@ -1879,8 +1712,7 @@ html:not(.dark) .tm-halo{ opacity:.45; }
 
 @media (max-width:400px){
   .theme-btn{ width:46px; height:46px; border-radius:var(--radius-md); }
-  .theme-btn .theme-icon{ width:35px; height:35px; }
-}
+  .theme-btn .theme-icon{ width:35px; height:35px; }}
 
 /* ---------- the drawer signs off with the same mark ---------- */
 /* The pair was overlapping itself here; opened out and stacked, it repeats the
@@ -1901,8 +1733,7 @@ html:not(.dark) .drawer-hand{ filter:saturate(.95); }
 @media (max-width:360px){
   .drawer-hand{ width:96px; }
   .drawer-ai{ width:38px; height:38px; }
-  .drawer-ai i{ font-size:10px; }
-}
+  .drawer-ai i{ font-size:10px; }}
 
 /* ---------- the primary button is held between two palms ---------- */
 /* A lane is reserved on each side by the button's own inline padding, so the
@@ -1948,21 +1779,17 @@ html:not(.dark) .btn-hand{ filter:saturate(1.05) contrast(1.04); }
 
 @media (max-width:640px){
   .hero-cta .hero-cta__main{ padding-inline:clamp(64px, 18vw, 92px); }
-  .btn-hand{ width:clamp(50px, 14vw, 74px); }
-}
+  .btn-hand{ width:clamp(50px, 14vw, 74px); }}
 @media (max-width:400px){
   .hero-cta{ flex-direction:column; align-items:stretch; }
   .hero-cta .hero-cta__main, .hero-cta .ghost-btn{ width:100%; justify-content:center; }
   .hero-cta .hero-cta__main{ padding-inline:clamp(56px, 16vw, 72px); }
-  .btn-hand{ width:clamp(44px, 12.5vw, 56px); }
-}
+  .btn-hand{ width:clamp(44px, 12.5vw, 56px); }}
 
 @media (prefers-reduced-motion: reduce){
   .theme-btn.is-flipping{ animation:none; }
   .handoff.reveal{ opacity:1 !important; transform:none !important; }
-  .theme-hand, .btn-hand{ transition:none; }
-}
-
+  .theme-hand, .btn-hand{ transition:none; }}
 
 
 /* ================================================================
@@ -1992,7 +1819,6 @@ html:not(.dark) .btn-hand{ filter:saturate(1.05) contrast(1.04); }
   .handoff::before{ filter:none; animation:none; opacity:.55; width:clamp(200px,60vw,300px); }
   .hero-aura{ contain:paint; }
   .stat__photo, .handoff__hand{ animation:none; }
-  .splash__stage{ will-change:auto; }
   header.site.scrolled, .nav-pill{ backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
   .projects-modal{ backdrop-filter:none; -webkit-backdrop-filter:none; background:var(--surface); }
   html:not(.dark) .projects-modal{ background:#fff; }
@@ -2102,9 +1928,9 @@ html:not(.dark) .stat__photo::after{
   display:grid; gap:12px;
   grid-template-columns:repeat(2, minmax(0, 1fr));
 }
-@media (min-width:640px){ .proj-grid{ gap:20px; } }
-@media (min-width:1024px){ .proj-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
-@media (min-width:1400px){ .proj-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); } }
+@media (min-width:640px){ .proj-grid{ gap:20px; }}
+@media (min-width:1024px){ .proj-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); }}
+@media (min-width:1400px){ .proj-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); }}
 .proj-card__media{ aspect-ratio:4 / 3; overflow:hidden; background:var(--surface-2); }
 .proj-card__media img{ width:100%; height:100%; object-fit:cover; }
 
@@ -2120,5 +1946,4 @@ html, body{ overflow-x:clip; max-width:100%; }
 @media (max-width:640px){
   .stat__photo img{ width:100%; height:auto; }
   .hero__stats{ grid-template-columns:repeat(3, minmax(0,1fr)); }
-  .hero-cta .hero-cta__main{ flex-shrink:1; min-width:0; }
-}
+  .hero-cta .hero-cta__main{ flex-shrink:1; min-width:0; }}

@@ -58,3 +58,10 @@ const app = (
 // The markup inside #root is a crawler-only shell, not a React-rendered tree,
 // so we always create a fresh root (hydrating would mismatch and re-render anyway).
 createRoot(rootElement).render(app);
+
+// Tell the inline splash in index.html that the app is on screen, so the
+// curtain never lifts onto an empty page on a slow connection.
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  (window as Window & { __el8AppReady?: boolean }).__el8AppReady = true;
+  window.dispatchEvent(new Event('el8:app-ready'));
+}));

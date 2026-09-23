@@ -42,6 +42,15 @@
     <meta name="twitter:description" content="We design, build, and ship software — from web platforms and mobile apps to AI systems and hardware. Production-ready in weeks." />
     <meta name="twitter:image" content="https://el8.dev/og-image.png" />
 
+    <!-- SPLASH: render-blocking on purpose (tiny) so the intro is styled on first paint -->
+    <link rel="stylesheet" href="/splash.css" />
+    <style>
+      /* first paint, before any app CSS: dark canvas, no unstyled text flash */
+      html.is-splashing, html.is-splashing body { background:#0E0910; }
+      /* crawler-only shell: in the DOM for search engines, never painted for people */
+      .seo-shell { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+    </style>
+
     <!-- FONTS: trimmed to the three families actually used, loaded without blocking render -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -123,12 +132,25 @@
           window.__el8SplashDone = true;
           return;
         }
-        setTimeout(finish, 2200);
+        // Leave only when BOTH the intro has played (2.2s) AND the app has
+        // mounted, so a slow connection never shows a blank page behind the
+        // curtain. Hard cap at 9s in case the app fails to boot.
+        var minTimeDone = false, appReady = !!window.__el8AppReady, left = false;
+        function maybeLeave(){
+          if (left || !(minTimeDone && appReady)) return;
+          left = true;
+          if (sp) sp.classList.add('is-leaving');
+          setTimeout(finish, 520);
+        }
+        setTimeout(function(){ minTimeDone = true; maybeLeave(); }, 2200);
+        window.addEventListener('el8:app-ready', function(){ appReady = true; maybeLeave(); }, { once: true });
+        setTimeout(function(){ appReady = true; minTimeDone = true; maybeLeave(); }, 9000);
       })();
     </script>
 
     <div id="root">
-      <!-- STATIC HTML SHELL FOR CRAWLERS & IMMEDIATE RENDER (REPLACED DYNAMICALLY BY REACT ON MOUNT) -->
+      <!-- STATIC HTML SHELL FOR CRAWLERS (visually hidden; replaced by React on mount) -->
+      <div class="seo-shell">
       <header>
         <h1>EL8 Tech | Iraqi Engineering Studio — Web, Mobile, AI & Hardware</h1>
         <p>EL8 Tech is an Iraqi engineering studio that designs, builds, and ships software — web platforms, mobile apps, AI systems, desktop software, and hardware. Production-ready in weeks.</p>
@@ -182,6 +204,7 @@
           </ul>
         </section>
       </main>
+      </div>
     </div>
 
     <noscript>
