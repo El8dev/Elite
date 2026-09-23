@@ -1691,7 +1691,10 @@ html{ scroll-behavior:smooth; }
   gap:clamp(8px,2vw,18px);
   position:relative; z-index:1;
   direction: ltr;
+  width:100%; max-width:100%;
 }
+.handoff__hand{ flex:0 1 auto; min-width:0; }
+.handoff__filament, .handoff__ai{ flex:0 0 auto; }
 
 /* Organic radial ambient light orb behind the hands - zero square box edges */
 .handoff::before{
@@ -1725,11 +1728,13 @@ html{ scroll-behavior:smooth; }
 
 /* Left hand: palm up, wrist left, fingertips raised upward towards center */
 .handoff__hand--left{
+  transform:rotate(14deg);            /* base pose: kept even when the float animation is off */
   animation:floatHandLeft 3.7s ease-in-out infinite alternate;
 }
 
 /* Right hand: mirrored (scaleX(-1)), palm up, wrist right, fingertips raised upward towards center */
 .handoff__hand--right{
+  transform:scaleX(-1) rotate(14deg); /* base pose: the mirror must not live only in the keyframes */
   animation:floatHandRight 4.5s ease-in-out 0.8s infinite alternate;
 }
 

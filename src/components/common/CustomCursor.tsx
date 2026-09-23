@@ -33,6 +33,7 @@ const CustomCursor: React.FC = () => {
     if (isTouch) return;
 
     setVisible(true);
+    document.documentElement.classList.add('has-custom-cursor');
 
     let mouseX = -100;
     let mouseY = -100;
@@ -139,6 +140,7 @@ const CustomCursor: React.FC = () => {
     document.addEventListener('mouseleave', onLeave);
 
     return () => {
+      document.documentElement.classList.remove('has-custom-cursor');
       if (animId) cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mousedown', onDown);
