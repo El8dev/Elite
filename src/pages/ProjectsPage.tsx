@@ -16,14 +16,13 @@ import { PremiumFooter } from '@/components/common/PremiumFooter';
 interface FeedPostProps {
   developer: Developer;
   project: Project;
-  onDeveloperClick: (id: string, username?: string) => void;
-  onProjectClick: (id: string) => void;
+onProjectClick: (id: string) => void;
   reduceMotion: boolean;
 }
 
-const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClick, onProjectClick, reduceMotion }) => {
+const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onProjectClick, reduceMotion }) => {
   const { playHoverTick } = useCinematicSound();
-  
+
   return (
     <motion.div
       initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -31,8 +30,8 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
       viewport={{ once: true, margin: '-50px' }}
       className="group relative mb-8 overflow-hidden rounded-3xl bg-card shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-border transition-all hover:ring-primary/50 break-inside-avoid"
     >
-      <div 
-        className="relative cursor-pointer overflow-hidden aspect-auto h-auto" 
+      <div
+        className="relative cursor-pointer overflow-hidden aspect-auto h-auto"
         onClick={() => {
           playHoverTick();
           onProjectClick(project.id);
@@ -50,7 +49,7 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
       <div className="relative p-2 md:p-6 bg-card text-card-foreground">
         <div className="mb-4 flex items-center justify-between">
           <button
-            onClick={() => onDeveloperClick(developer.id, (developer as any).username)}
+            onClick={() => onProjectClick(project.id)}
             className="flex items-center gap-3 group/dev focus:outline-none"
           >
             <div className="relative">
@@ -95,10 +94,9 @@ const FeedPost: React.FC<FeedPostProps> = ({ developer, project, onDeveloperClic
 // ------------------------------------------------------------------
 // ShowcaseFeed
 // ------------------------------------------------------------------
-const ShowcaseFeed: React.FC<{ 
-  onDeveloperClick: (id: string, username?: string) => void; 
-  reduceMotion: boolean;
-}> = ({ onDeveloperClick, reduceMotion }) => {
+const ShowcaseFeed: React.FC<{
+reduceMotion: boolean;
+}> = ({ reduceMotion }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [feedItems, setFeedItems] = useState<Array<{ dev: Developer; proj: Project }>>([]);
@@ -125,9 +123,9 @@ const ShowcaseFeed: React.FC<{
             };
 
             const techStackRaw = item.tech_stack;
-            const techStack = Array.isArray(techStackRaw) 
-              ? techStackRaw 
-              : typeof techStackRaw === 'string' 
+            const techStack = Array.isArray(techStackRaw)
+              ? techStackRaw
+              : typeof techStackRaw === 'string'
                 ? techStackRaw.split(',').map((s: string) => s.trim()).filter(Boolean)
                 : [];
 
@@ -211,7 +209,6 @@ const ShowcaseFeed: React.FC<{
             key={item.proj.id + index}
             developer={item.dev}
             project={item.proj}
-            onDeveloperClick={onDeveloperClick}
             onProjectClick={handleProjectClick}
             reduceMotion={reduceMotion}
           />
@@ -224,19 +221,22 @@ const ShowcaseFeed: React.FC<{
 const ProjectsPage: React.FC = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotionPref();
-  
+  // A full-viewport gradient that follows the pointer is pure repaint cost on
+  // phones (there is no pointer to follow), so treat coarse pointers like reduced motion.
+  const staticBg = reduceMotion || (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches);
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (staticBg) return;
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY, reduceMotion]);
+  }, [mouseX, mouseY, staticBg]);
 
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
@@ -244,9 +244,6 @@ const ProjectsPage: React.FC = () => {
   const yPercent = useTransform(springY, [0, window.innerHeight || 1000], [40, 60]);
   const bgTemplate = useMotionTemplate`radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(139,92,246,0.06) 0%, rgba(99,102,241,0.03) 40%, transparent 70%)`;
 
-  const handleDeveloperClick = (id: string, username?: string) => {
-    navigate(`/developer/${username || id}`);
-  };
 
   return (
     <div className="relative min-h-screen bg-transparent text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
@@ -255,7 +252,7 @@ const ProjectsPage: React.FC = () => {
         <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />
       </Helmet>
 
-      {!reduceMotion && (
+      {!staticBg && (
         <motion.div
           className="pointer-events-none fixed inset-0 z-0"
           style={{ background: bgTemplate }}
@@ -265,8 +262,7 @@ const ProjectsPage: React.FC = () => {
       <SiteHeader />
 
       <main className="relative z-10 pt-24 pb-32 min-h-[80vh]">
-        <ShowcaseFeed 
-          onDeveloperClick={handleDeveloperClick} 
+        <ShowcaseFeed
           reduceMotion={reduceMotion}
         />
       </main>

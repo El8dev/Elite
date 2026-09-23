@@ -128,37 +128,6 @@ img{ max-width:100%; display:block; }
 ::-webkit-scrollbar-track{ background:transparent; }
 ::-webkit-scrollbar-thumb{ background:linear-gradient(var(--purple),var(--cyan)); border-radius:10px; border:2px solid var(--bg); }
 
-/* ---------- Background ambience ---------- */
-.bg-fx{
-  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-  transform:translateZ(0); will-change:transform; contain:strict;
-}
-.bg-fx__orb{
-  position:absolute; border-radius:50%; opacity:.55;
-  animation:bgOrbFloat 16s ease-in-out infinite alternate;
-  transform:translateZ(0); will-change:transform, opacity;
-}
-html.dark .bg-fx__orb{ opacity:.45; }
-.bg-fx__orb--1{ width:55vmax; height:55vmax; top:-18%; right:-12%; background:radial-gradient(circle,rgba(138,78,151,.28),rgba(91,53,100,.10) 40%,transparent 74%); animation-duration:18s; }
-.bg-fx__orb--2{ width:60vmax; height:60vmax; bottom:-22%; left:-14%; background:radial-gradient(circle,rgba(186,104,203,.22),rgba(186,104,203,.07) 40%,transparent 74%); animation-duration:22s; animation-delay:-5s; }
-.bg-fx__orb--3{ width:42vmax; height:42vmax; top:35%; left:6%; background:radial-gradient(circle,rgba(64,39,71,.24),rgba(64,39,71,.08) 42%,transparent 72%); animation-duration:15s; animation-delay:-8s; }
-.bg-fx__orb--4{ width:48vmax; height:48vmax; top:55%; right:4%; background:radial-gradient(circle,rgba(138,78,151,.22),rgba(186,104,203,.07) 42%,transparent 74%); animation-duration:20s; animation-delay:-11s; }
-.bg-fx__orb--5{ width:40vmax; height:40vmax; bottom:8%; left:30%; background:radial-gradient(circle,rgba(91,53,100,.20),rgba(64,39,71,.06) 40%,transparent 72%); animation-duration:17s; animation-delay:-3s; }
-.bg-fx__grid{
-  position:absolute; inset:0;
-  background-image:
-    radial-gradient(var(--grid-dot, rgba(186,104,203,0.32)) 1.2px, transparent 1.2px),
-    linear-gradient(to right, rgba(138,78,151,0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(138,78,151,0.035) 1px, transparent 1px);
-  background-size:34px 34px, 68px 68px, 68px 68px;
-  opacity:.32;
-}
-@keyframes bgOrbFloat {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(3vw, 2vh, 0) scale(1.06); }
-  100% { transform: translate3d(-2vw, 4vh, 0) scale(0.95); }
-}
-
 /* ---------- Layout helpers ---------- */
 .wrap{ max-width:1180px; margin-inline:auto; padding-inline:24px; }
 .wrap--md{ max-width:900px; margin-inline:auto; padding-inline:24px; }
@@ -1061,8 +1030,6 @@ html:not(.dark) .deck-panel{
    Touch-device performance profile
    ================================================================ */
 @media (max-width:900px){
-  .bg-fx__orb{ display:none; }
-  .bg-fx__grid{ opacity:.12; }
   .deck-aura{ opacity:.3; width:280px; height:280px; }
   .stat__photo{ animation:none; }
   .deck-card.reveal{ transition-duration:.8s, 1s; }
@@ -1368,9 +1335,6 @@ html.dark .deck-title .grad{
 .deck-card{ --acc:var(--brand-500); }
 .deck-aura--1{ background:radial-gradient(circle, rgba(138,78,151,.22), rgba(138,78,151,.07) 44%, transparent 74%); }
 .deck-aura--2{ background:radial-gradient(circle, rgba(186,104,203,.15), rgba(186,104,203,.05) 44%, transparent 74%); }
-.bg-fx__orb--1{ background:radial-gradient(circle, rgba(138,78,151,.24), rgba(91,53,100,.09) 40%, transparent 74%); }
-.bg-fx__orb--2{ background:radial-gradient(circle, rgba(186,104,203,.18), rgba(186,104,203,.06) 40%, transparent 74%); }
-.bg-fx__orb--3{ background:radial-gradient(circle, rgba(64,39,71,.20), rgba(64,39,71,.06) 42%, transparent 72%); }
 .hero-aura{
   background:
     radial-gradient(ellipse 38% 42% at 50% 20%, rgba(138,78,151,.20), transparent 70%),
@@ -1583,7 +1547,8 @@ html.dark{ --code-note: 285 22% 12%; }
   .splash__hand{ width:clamp(124px,42vw,180px); }
 }
 body.drawer-open .el8-pixel-bg,
-body.overlay-open .el8-pixel-bg { animation-play-state:paused !important; }
+body.overlay-open .el8-pixel-bg,
+body.page-hidden .el8-pixel-bg { animation-play-state:paused !important; }
 
 /* a tighter shadow on the sliding panel - the wide one re-blurred every frame */
 .mobile-drawer__panel{ box-shadow:-14px 0 30px -14px rgba(14,9,16,.6); }

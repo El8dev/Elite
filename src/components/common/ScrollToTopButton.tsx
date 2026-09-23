@@ -7,16 +7,18 @@ export const ScrollToTopButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    let raf = 0;
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const next = window.scrollY > 300;
+        setIsVisible((prev) => (prev === next ? prev : next));
+      });
     };
-
+    toggleVisibility();
     window.addEventListener('scroll', toggleVisibility, { passive: true });
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    return () => { window.removeEventListener('scroll', toggleVisibility); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   const scrollToTop = () => {

@@ -38,9 +38,10 @@ const CustomCursor: React.FC = () => {
     let mouseY = -100;
     let sparkX = -100;
     let sparkY = -100;
-    let animId: number;
+    let animId = 0;
     let isMoving = false;
     let isHovering = false;
+    let loopRunning = false;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -59,6 +60,10 @@ const CustomCursor: React.FC = () => {
         sparkRef.current.style.opacity = '1';
       }
       isMoving = true;
+      if (!loopRunning) {
+        loopRunning = true;
+        animId = requestAnimationFrame(tick);
+      }
     };
 
     const onDown = (e: MouseEvent) => {
@@ -111,19 +116,22 @@ const CustomCursor: React.FC = () => {
       if (sparkRef.current) sparkRef.current.style.opacity = '0';
     };
 
-    // Smooth responsive spark follower loop
-    const tick = () => {
-      if (isMoving) {
-        // Higher lerp factor (0.55) maintains smooth flow without lagging far behind on menu buttons
-        sparkX += (mouseX - sparkX) * 0.55;
-        sparkY += (mouseY - sparkY) * 0.55;
-        if (sparkRef.current) {
-          sparkRef.current.style.transform = `translate3d(${sparkX}px, ${sparkY}px, 0) translate(-50%, -50%)`;
-        }
+    // Smooth spark follower. Runs only while the spark is still catching up with
+    // the pointer; once it has settled the loop stops and onMove restarts it, so
+    // an idle page costs zero frames.
+    function tick() {
+      sparkX += (mouseX - sparkX) * 0.55;
+      sparkY += (mouseY - sparkY) * 0.55;
+      if (sparkRef.current) {
+        sparkRef.current.style.transform = `translate3d(${sparkX}px, ${sparkY}px, 0) translate(-50%, -50%)`;
       }
-      animId = requestAnimationFrame(tick);
-    };
-    animId = requestAnimationFrame(tick);
+      if (Math.abs(mouseX - sparkX) > 0.1 || Math.abs(mouseY - sparkY) > 0.1) {
+        animId = requestAnimationFrame(tick);
+      } else {
+        loopRunning = false;
+        animId = 0;
+      }
+    }
 
     window.addEventListener('mousemove', onMove, { passive: true });
     window.addEventListener('mousedown', onDown, { passive: true });
@@ -131,7 +139,7 @@ const CustomCursor: React.FC = () => {
     document.addEventListener('mouseleave', onLeave);
 
     return () => {
-      cancelAnimationFrame(animId);
+      if (animId) cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseover', onOver);
@@ -175,13 +183,12 @@ const CustomCursor: React.FC = () => {
           className="w-full h-full flex items-center justify-center transition-transform duration-150 ease-out"
           style={{ transform: 'scale(1)', transformOrigin: 'center center' }}
         >
-          <svg 
-            viewBox="0 0 24 24" 
+          <svg
+            viewBox="0 0 24 24"
             className="w-full h-full overflow-visible pointer-events-none"
-            style={{ 
-              animation: 'spin-slow 8s linear infinite', 
+            style={{
+              animation: 'spin-slow 8s linear infinite',
               transformOrigin: 'center center',
-              filter: 'drop-shadow(0 0 6px rgba(168, 85, 247, 0.75))'
             }}
           >
             <defs>

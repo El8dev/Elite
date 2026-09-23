@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 /**
  * AmbientBackground
@@ -9,6 +9,13 @@ import React from 'react';
  *  3. Static atmospheric brand radial glows at the viewport extremities
  */
 const AmbientBackground: React.FC = () => {
+  useEffect(() => {
+    const sync = () => document.body.classList.toggle('page-hidden', document.hidden);
+    sync();
+    document.addEventListener('visibilitychange', sync);
+    return () => { document.removeEventListener('visibilitychange', sync); document.body.classList.remove('page-hidden'); };
+  }, []);
+
   return (
     <div className="el8-bg-root" aria-hidden="true">
       {/* Static soft ambient depth glow */}

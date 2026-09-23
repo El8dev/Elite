@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import IntersectObserver from '@/components/common/IntersectObserver';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { RouteGuard } from '@/components/common/RouteGuard';
@@ -17,7 +16,7 @@ const ContactModal = lazy(() => import('@/components/common/ContactModal').then(
 const ProjectsModal = lazy(() => import('@/components/common/ProjectsModal').then(m => ({ default: m.ProjectsModal })));
 
 import { routes } from './routes';
-import ProjectModalRoute from './pages/ProjectModalRoute';
+const ProjectModalRoute = lazy(() => import('./pages/ProjectModalRoute')); // pulls react-markdown; keep it out of the entry chunk
 import { HelmetProvider } from 'react-helmet-async';
 
 // ── Premium page transition variants ────────────────────────────────────────
@@ -52,8 +51,6 @@ const AppContent: React.FC = () => {
           <LiveChatWidget />
         </Suspense>
 
-        <IntersectObserver />
-
         <Suspense fallback={null}>
           <div className="flex flex-col min-h-screen">
             <main className="flex-grow">
@@ -83,9 +80,11 @@ const AppContent: React.FC = () => {
 
               {/* Modal Routes */}
               {backgroundLocation && (
-                <Routes>
-                  <Route path="/project/:projectId" element={<ProjectModalRoute />} />
-                </Routes>
+                <Suspense fallback={null}>
+                  <Routes>
+                    <Route path="/project/:projectId" element={<ProjectModalRoute />} />
+                  </Routes>
+                </Suspense>
               )}
             </main>
           </div>

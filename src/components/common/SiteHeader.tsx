@@ -10,19 +10,25 @@ export const SiteHeader: React.FC = () => {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
   const { playHoverTick } = useCinematicSound();
-  
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    let raf = 0;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24);
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const next = window.scrollY > 24;
+        setIsScrolled((prev) => (prev === next ? prev : next));
+      });
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => { window.removeEventListener('scroll', handleScroll); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   const toggleDropdown = (e: React.MouseEvent, id: string) => {
@@ -57,7 +63,7 @@ export const SiteHeader: React.FC = () => {
     e.preventDefault();
     if (playHoverTick) playHoverTick();
     setMobileMenuOpen(false);
-    
+
     if (path.startsWith('#')) {
       if (location.pathname !== '/') {
         navigate('/');
@@ -101,9 +107,9 @@ export const SiteHeader: React.FC = () => {
 
           <nav className="nav-pill" aria-label="التنقل الرئيسي">
             {/* 1. الرئيسية */}
-            <a 
-              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} 
-              href="#top" 
+            <a
+              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+              href="#top"
               onClick={(e) => handleLinkClick(e, '#top')}
             >
               <span>{t('nav.home')}</span>
@@ -112,9 +118,9 @@ export const SiteHeader: React.FC = () => {
 
             {/* 2. المشاريع */}
             <div className={`dropdown-wrapper ${openDropdown === 'projects' ? 'open' : ''}`}>
-              <Link 
+              <Link
                 to="/projects"
-                className={`nav-link dropdown-toggle ${location.pathname.includes('/projects') ? 'active' : ''}`} 
+                className={`nav-link dropdown-toggle ${location.pathname.includes('/projects') ? 'active' : ''}`}
                 aria-expanded={openDropdown === 'projects'}
                 onClick={(e) => toggleDropdown(e, 'projects')}
               >
@@ -122,9 +128,9 @@ export const SiteHeader: React.FC = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="chevron-icon"><path d="m6 9 6 6 6-6"></path></svg>
               </Link>
               <div className="dropdown-menu">
-                <a 
-                  href="#projects" 
-                  className="dropdown-item" 
+                <a
+                  href="#projects"
+                  className="dropdown-item"
                   onClick={(e) => {
                     e.preventDefault();
                     window.dispatchEvent(new Event('openProjectsModal'));
@@ -137,9 +143,9 @@ export const SiteHeader: React.FC = () => {
                     <span>{i18n.language === 'ar' ? 'تقديم طلب مشروع مخصص للفريق' : 'Submit a custom project request'}</span>
                   </div>
                 </a>
-                <Link 
-                  to="/projects" 
-                  className="dropdown-item" 
+                <Link
+                  to="/projects"
+                  className="dropdown-item"
                   onClick={(e) => {
                     if (playHoverTick) playHoverTick();
                     setOpenDropdown(null);
@@ -157,8 +163,8 @@ export const SiteHeader: React.FC = () => {
 
             {/* 3. تواصل معنا */}
             <div className={`dropdown-wrapper ${openDropdown === 'contact' ? 'open' : ''}`}>
-              <button 
-                className="nav-link dropdown-toggle" 
+              <button
+                className="nav-link dropdown-toggle"
                 aria-expanded={openDropdown === 'contact'}
                 onClick={(e) => toggleDropdown(e, 'contact')}
               >
@@ -267,7 +273,7 @@ export const SiteHeader: React.FC = () => {
             <Link className={`nav-link ${location.pathname.includes('/projects') ? 'active' : ''}`} to="/projects" onClick={() => setMobileMenuOpen(false)}>
               <span>{t('nav.projects')}</span>
             </Link>
-            
+
             <div className="mobile-drawer__group">
               <strong>{t('nav.contact')}</strong>
               <div className="mobile-drawer__list">
