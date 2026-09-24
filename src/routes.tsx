@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
-const ProjectFullPage = lazy(() => import('./pages/ProjectFullPage'));
+const ProjectRoute = lazy(() => import('./pages/ProjectRoute'));
 
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -35,7 +35,7 @@ export const routes: RouteConfig[] = [
   {
     name: 'Project Details',
     path: '/project/:projectId',
-    element: <ProjectFullPage />,
+    element: <ProjectRoute />,
     public: true,
   },
   {

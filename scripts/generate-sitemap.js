@@ -20,6 +20,26 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+/**
+ * Write the sitemap everywhere it has to exist.
+ *
+ * This script runs in `postbuild`, i.e. after `vite build` has already copied
+ * public/ into dist/. Writing only to public/ therefore meant the deployed
+ * sitemap was always the previous build's file. Write to dist/ as well (when a
+ * build is present) so what ships is what was just generated.
+ */
+function writeSitemap(xml) {
+  const targets = [path.resolve(__dirname, '../public')];
+  const distDir = path.resolve(__dirname, '../dist');
+  if (fs.existsSync(distDir)) targets.push(distDir);
+
+  for (const dir of targets) {
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'sitemap.xml'), xml);
+    console.log(`Sitemap written to ${path.relative(path.resolve(__dirname, '..'), dir)}/sitemap.xml`);
+  }
+}
+
 const BASE_URL = 'https://el8.dev';
 
 async function generateSitemap() {
@@ -28,29 +48,17 @@ async function generateSitemap() {
   const urls = [
     { loc: `${BASE_URL}/`, priority: '1.0', changefreq: 'daily' },
     { loc: `${BASE_URL}/projects`, priority: '0.9', changefreq: 'daily' },
+    // Static case studies. They exist in the bundle, so they are always valid
+    // regardless of whether the database below can be reached.
+    { loc: `${BASE_URL}/project/hawza`, priority: '0.9', changefreq: 'monthly' },
+    { loc: `${BASE_URL}/project/raqeem`, priority: '0.9', changefreq: 'monthly' },
   ];
 
   try {
-    // 1. Fetch approved developers
-    const { data: profiles, error: profilesError } = await supabase
-      .from('profiles')
-      .select('id, username')
-      .eq('account_status', 'approved');
+    // Developer profiles are deliberately absent: there is no /developer route
+    // in src/routes.tsx, so listing them here would submit soft 404s.
 
-    if (profilesError) throw profilesError;
-
-    if (profiles) {
-      profiles.forEach((profile) => {
-        const identifier = profile.username || profile.id;
-        urls.push({
-          loc: `${BASE_URL}/developer/${identifier}`,
-          priority: '0.8',
-          changefreq: 'weekly',
-        });
-      });
-    }
-
-    // 2. Fetch public projects
+    // Fetch public projects
     const { data: projects, error: projectsError } = await supabase
       .from('projects')
       .select('id')
@@ -82,13 +90,8 @@ async function generateSitemap() {
 
     sitemap += `</urlset>`;
 
-    const publicDir = path.resolve(__dirname, '../public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir);
-    }
-
-    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
-    console.log(`Sitemap generated successfully at public/sitemap.xml with ${urls.length} URLs.`);
+    writeSitemap(sitemap);
+    console.log(`Sitemap generated with ${urls.length} URLs.`);
 
   } catch (err) {
     console.warn('Network error during sitemap generation (using static routes):', err.message || err);
@@ -107,13 +110,8 @@ async function generateSitemap() {
 
     sitemap += `</urlset>`;
 
-    const publicDir = path.resolve(__dirname, '../public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir);
-    }
-
-    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
-    console.log(`Static fallback sitemap generated at public/sitemap.xml.`);
+    writeSitemap(sitemap);
+    console.log(`Static fallback sitemap generated with ${urls.length} URLs.`);
   }
 }
 

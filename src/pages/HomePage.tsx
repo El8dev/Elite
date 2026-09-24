@@ -13,43 +13,28 @@ import { HeroRedesign } from '@/features/landing/components/HeroRedesign';
 import { useRevealAnimations } from '@/hooks/useRevealAnimations';
 
 const HomePage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useRevealAnimations();
 
   return (
     <>
       <Helmet>
-        <title>El8 Tech | Rapid State-of-the-Art Solutions</title>
+        <title>{t('home.meta_title')}</title>
         <meta name="description" content={t('home.subtitle')} />
-        <meta property="og:title" content="El8 Tech | Rapid State-of-the-Art Solutions" />
+        <meta property="og:title" content={t('home.meta_title')} />
         <meta property="og:description" content={t('home.subtitle')} />
         <meta property="og:type" content="website" />
+        <html lang={i18n.language.startsWith('ar') ? 'ar' : 'en'} />
+        <link rel="canonical" href="https://el8.dev/" />
         <meta property="og:url" content="https://el8.dev" />
         <meta property="og:image" content="https://el8.dev/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="El8 Tech | Rapid State-of-the-Art Solutions" />
+        <meta name="twitter:title" content={t('home.meta_title')} />
         <meta name="twitter:description" content={t('home.subtitle')} />
         <meta name="twitter:image" content="https://el8.dev/og-image.png" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "El8 Tech",
-            "url": "https://el8.dev",
-            "logo": "https://el8.dev/favicon.png",
-            "image": "https://el8.dev/og-image.png",
-            "email": "el8dev@gmail.com",
-            "sameAs": [
-              "https://t.me/el8dev",
-              "https://instagram.com/el8dev",
-              "https://github.com/el8dev",
-              "https://tiktok.com/@el8.dev"
-            ],
-            "description": "El8 Tech is an elite Iraqi development team building rapid, state-of-the-art tech solutions: AI Infrastructure, Web Apps, Desktop (EXE), Mobile (APK), Data Systems, and Hardware solutions."
-          })}
-        </script>
+        {/* Organization schema lives in index.html so there is exactly one copy. */}
       </Helmet>
 
       <SiteHeader />

@@ -2,7 +2,6 @@ import React from 'react';
 
 /** File names under /public/illustrations (without .svg). */
 export type IllustrationName =
-  | 'voice_ai'
   | 'erp'
   | 'design'
   | 'app'

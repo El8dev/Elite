@@ -38,8 +38,19 @@ EL8 Tech is a software and hardware engineering studio based in Iraq. We take pr
 - POS hardware integration, barcode/RFID systems
 
 ## Featured Projects
-- **Raqeem**: AI-powered voice and audio system for natural speech processing, transcription, and conversational agents — supporting Arabic and global languages.
-- **EL8 Platform**: Developer directory and project showcase — a portfolio hub for engineers and creators.
+
+### Raqeem Labs (مختبرات رقيم) — https://raqeem.study
+Interactive virtual science labs for sixth-year science students (السادس العلمي). Over 50 experiments drawn chapter by chapter from the complete syllabus, each an interactive simulation the student drives directly — changing variables and watching the result respond live. Physics covers capacitors, electromagnetic induction and alternating current; chemistry covers eight chapters from thermodynamics to biochemistry. Canvas/WebGL graphics with a real-time physics engine, a fully Arabic RTL interface, mobile-first layout, full offline operation, and builds for web, Android and Windows. A public physics demo is available at the URL above.
+
+**Status:** the chemistry and biology labs launch in October 2026, and an Android build arrives on Google Play in October 2026.
+Case study: https://el8.dev/project/raqeem
+
+### Hawza Um Al-Banin Online Seminary (حوزة أم البنين النسوية الإلكترونية) — https://hawzw.app
+A complete e-learning and examination platform for an online women's seminary teaching across four academic levels. Student enrollment portal, daily audio lessons, verified daily attendance, exam administration with automatic grading, cumulative mid-term/final records, and digital certificate issuance. Built on React and Supabase PostgreSQL with row-level security; available on web, Android and Windows. An Android build arrives on Google Play in October 2026.
+Case study: https://el8.dev/project/hawza
+
+### EL8 Platform
+Developer directory and project showcase — a portfolio hub for engineers and creators.
 
 ## Links
 - [Homepage](https://el8.dev/)

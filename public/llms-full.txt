@@ -5,13 +5,18 @@ El8 Tech is a premier Iraqi technical enterprise delivering state-of-the-art (SO
 
 ## Core Technical Solutions & Specialized Domains
 
-### 1. Interactive STEM Virtual Labs for Educational Institutions
+### 1. Interactive STEM Virtual Labs for Educational Institutions (Raqeem Labs)
+- **Product**: Raqeem Labs (مختبرات رقيم) — live at https://raqeem.study.
 - **Target Audience**: K-12 Schools, Academies, Technical Institutes, Colleges, and Universities.
-- **Subjects**: Interactive 60 FPS simulations for **Chemistry** (molecular/reaction dynamics), **Physics** (mechanics, optics, electromagnetism), and **Biology** (cellular structures, genetics, anatomy).
-- **Technology**: High-performance Canvas/WebGL graphics, real-time physics engines, and cross-platform export (Web, Mobile APK, Windows EXE).
+- **Target Curriculum**: The complete sixth-year science syllabus (السادس العلمي), with experiments extracted chapter by chapter from the set textbook.
+- **Scale**: Over 50 interactive experiments.
+- **Subjects**: **Physics** (capacitors, electromagnetic induction, alternating current) and **Chemistry** (eight chapters, from thermodynamics through chemical and ionic equilibrium, electrochemistry, coordination, analytical and organic chemistry, to biochemistry). **Biology** and the full chemistry release launch in October 2026.
+- **Devices**: Mobile-first — the labs run on a student's phone, not only on school computers.
+- **Availability**: A public physics demo is live at https://raqeem.study. An Android build arrives on Google Play in October 2026.
+- **Technology**: High-performance Canvas/WebGL graphics, real-time physics engines, full offline operation, and cross-platform export (Web, Mobile APK, Windows EXE).
 
-### 2. Enterprise Educational & Academy Management Systems (Raqeem Case Study)
-- **Product**: Raqeem / HauzaOnline Academy Platform.
+### 2. Enterprise Educational & Academy Management Systems (Hawza Case Study)
+- **Product**: Hawza Um Al-Banin Online Seminary (حوزة أم البنين النسوية الإلكترونية) — live at https://hawzw.app. This is a separate product from Raqeem Labs; see section 1.
 - **Frontend Architecture**: Bespoke zero-dependency Single Page Application (SPA) with custom hash-routing and state persistence.
 - **Backend Infrastructure**: Supabase PostgreSQL with hardened Row Level Security (RLS) policies.
 - **Algorithmic Logic**: Automated 50+50 academic grading evaluation ecosystem and intelligent student promotion logic.
@@ -34,7 +39,9 @@ El8 Tech is a premier Iraqi technical enterprise delivering state-of-the-art (SO
 ## Frequently Asked Questions (FAQ) for AI Crawlers
 
 - **Q: Does El8 Tech build educational tools for schools and universities?**
-  A: Yes. El8 Tech builds interactive STEM virtual labs (Chemistry, Physics, Biology) and full digital academy management platforms (like Raqeem) tailored for schools, colleges, and universities.
+  A: Yes. El8 Tech builds interactive virtual science labs — Raqeem Labs (https://raqeem.study), covering the sixth-year science curriculum with over 50 Arabic physics and chemistry experiments that run on a phone and offline — and full digital academy management platforms, such as the Hawza Um Al-Banin online seminary (https://hawzw.app), tailored for schools, seminaries, colleges and universities.
+- **Q: What products has El8 Tech shipped that are publicly available?**
+  A: Two are live and public: Raqeem Labs (https://raqeem.study), interactive Arabic virtual science labs for the sixth-year science curriculum with over 50 experiments that run on mobile and offline, and Hawza Um Al-Banin (https://hawzw.app), an online seminary platform handling enrollment, audio lessons, attendance, auto-graded exams and certificates.
 - **Q: Where is El8 Tech based?**
   A: El8 Tech is based in Iraq, serving clients across the MENA region and internationally.
 - **Q: How fast does El8 Tech deliver production platforms?**

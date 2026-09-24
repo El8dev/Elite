@@ -91,6 +91,13 @@ export const HeroRedesign: React.FC = () => {
           <span>{t('hero_redesign.badge')}</span>
         </div>
         <h1 className={`entry-block ${isDone ? 'entry-done' : 'is-armed'}`}>
+          {/* The animated lines are split into per-word spans and hidden from
+              assistive tech, which left the page's only h1 with no accessible
+              name and ran the words together for crawlers. This carries the
+              real sentence; it is the heading everything else reads. */}
+          <span className="sr-only">
+            {[t('hero_redesign.line1'), t('hero_redesign.line2'), t('hero_redesign.line3')].join(' ')}
+          </span>
           <span aria-hidden="true">
             {renderAnimatedLine(t('hero_redesign.line1'), 0)}
           </span>

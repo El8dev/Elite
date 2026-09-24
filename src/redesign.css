@@ -849,8 +849,6 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
 }
 
-/* the 7th vision card sits centred in the middle column */
-.deck-grid--vision .deck-card:nth-child(7){ grid-column:2 / 3; }
 
 /* ================= slow luxury zoom-in entrance ================= */
 .deck-panel.reveal{
@@ -892,7 +890,6 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
 @media (max-width:900px){
   .deck{ padding-block:30px; }
   .deck-grid--vision{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-  .deck-grid--vision .deck-card:nth-child(7){ grid-column:1 / -1; }
   .deck--services{ padding-top:8px; }
   .deck-panel{ padding:50px 16px 28px; border-radius:var(--radius-lg); }
   .deck-head{ margin-bottom:24px; padding-top:2px; }
@@ -913,8 +910,6 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   .deck-grid{ gap:16px; }
 
   .deck-grid--vision, .deck-grid--services{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
-  .deck-grid--vision .deck-card:nth-child(7){ grid-column:1 / -1; }
-  .deck-grid--vision .deck-card:nth-child(7) .deck-card__media{ aspect-ratio:2.6 / 1; }
   .deck-grid--vision .deck-card, .deck-grid--services .deck-card{ border-radius:var(--radius-md); }
   .deck-card__media, .deck-card--svc .deck-card__media{ aspect-ratio:4 / 3; }
   .card-art__img{ max-width:min(92px,64%); max-height:70px; }

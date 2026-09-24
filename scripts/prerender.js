@@ -41,7 +41,9 @@ async function getDynamicRoutes() {
 }
 
 async function run() {
-  const staticRoutes = ['/', '/projects'];
+  // '/project/<slug>' entries are the studio's own case studies: they render
+  // from the bundle, so they prerender whether or not Supabase answers.
+  const staticRoutes = ['/', '/projects', '/project/hawza', '/project/raqeem'];
   const dynamicRoutes = await getDynamicRoutes();
   const routes = [...staticRoutes, ...dynamicRoutes];
 
@@ -68,6 +70,14 @@ async function run() {
       for (const route of routes) {
         console.log(`Prerendering ${route}...`);
         const page = await browser.newPage();
+
+        // The language detector reads localStorage first and falls back to the
+        // browser locale, which is en-US in headless Chrome. Without this the
+        // saved HTML is English while every real visitor gets Arabic, so the
+        // Arabic copy would never be the copy that gets indexed.
+        await page.evaluateOnNewDocument(() => {
+          try { localStorage.setItem('i18nextLng', 'ar'); } catch (e) {}
+        });
         
         // Block unnecessary resources for faster prerendering
         await page.setRequestInterception(true);
@@ -84,6 +94,22 @@ async function run() {
         // Wait an extra second for any animations or state updates to settle
         await new Promise(r => setTimeout(r, 1000));
         
+        // index.html ships static meta tags so that non-prerendered routes are
+        // not bare. Once React has mounted, Helmet has added its own (marked
+        // data-rh) and the static ones are stale duplicates — on an Arabic page
+        // the leftover English description could be the one a crawler reads.
+        await page.evaluate(() => {
+          const managed = new Set();
+          document.querySelectorAll('head meta[data-rh]').forEach((m) => {
+            const key = m.getAttribute('name') || m.getAttribute('property');
+            if (key) managed.add(key);
+          });
+          document.querySelectorAll('head meta:not([data-rh])').forEach((m) => {
+            const key = m.getAttribute('name') || m.getAttribute('property');
+            if (key && managed.has(key)) m.remove();
+          });
+        });
+
         let html = await page.content();
         
         // We can inject a small script to tell React that the page is pre-rendered if needed,

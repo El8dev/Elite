@@ -17,9 +17,8 @@ export interface ServiceCard {
   illustration: IllustrationName;
 }
 
-/** "Our Vision": the seven things EL8 builds. Order = display order. */
+/** "Our Vision": the six things EL8 builds. Order = display order. */
 export const VISION_CARDS: ServiceCard[] = [
-  { key: 'voice_ai',   illustration: 'voice_ai' },
   { key: 'apps',       illustration: 'app' },
   { key: 'business',   illustration: 'erp' },
   { key: 'data',       illustration: 'data' },

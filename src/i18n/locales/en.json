@@ -19,7 +19,8 @@
   "home": {
     "title_part1": "El8",
     "title_part2": "Tech",
-    "subtitle": "An Iraqi engineering studio that designs, builds, and ships software — from idea to production in weeks, not months."
+    "subtitle": "An Iraqi engineering studio that designs, builds, and ships software — from idea to production in weeks, not months.",
+    "meta_title": "EL8 — Iraqi Engineering Studio for Web, Mobile, AI & Hardware"
   },
   "developers_page": {
     "title": "EL8 Developers",
@@ -98,10 +99,6 @@
     "desc": "We cut the typical development timeline in half. Your platform goes from concept to production in weeks — not the months you've been quoted elsewhere.",
     "kicker": "Our Approach",
     "cards": {
-      "voice_ai": {
-        "title": "Voice & Conversational AI",
-        "desc": "Arabic-first speech systems: transcription, voice agents and call automation that answer in under two seconds."
-      },
       "apps": {
         "title": "Web, Mobile & Desktop Apps",
         "desc": "One codebase, every platform. Fast, offline-ready apps that look sharp on a phone, a browser and Windows or macOS."
@@ -328,6 +325,136 @@
   },
   "projects": {
     "load_more": "Load more projects",
-    "loading_more": "Loading…"
+    "loading_more": "Loading…",
+    "page_title": "Our work",
+    "page_title_accent": "and community projects",
+    "page_sub": "Platforms we delivered that run today, alongside projects from EL8 community developers.",
+    "meta_title": "EL8 Work — Learning Platforms, Management Systems & Interactive Labs",
+    "meta_desc": "Projects delivered by EL8 and running today: the Hawza Um Al-Banin learning and examination platform, Raqeem interactive science labs, and community developer projects.",
+    "community_title": "Community projects",
+    "community_sub": "Work shared by developers in the EL8 community.",
+    "community_empty": "No published projects yet."
+  },
+  "work": {
+    "section_kicker": "Our work",
+    "section_title": "Shipped platforms, not mockups",
+    "section_sub": "Products we built, delivered, and that run today with real users.",
+    "visit": "Visit site",
+    "case_study": "Case study",
+    "back": "Back to all work",
+    "live_label": "Live platform",
+    "year_label": "Launched",
+    "stack_label": "Stack",
+    "platforms_label": "Platforms",
+    "what_we_built": "What we built",
+    "cta_title": "Have a project this size?",
+    "cta_sub": "Tell us the idea and we will come back with a build plan and a timeline.",
+    "cta_button": "Start your project",
+    "platforms": {
+      "web": "Web",
+      "android": "Android",
+      "windows": "Windows"
+    },
+    "hawza": {
+      "title": "Hawza Um Al-Banin Online Seminary",
+      "short": "One platform for exams and membership verification",
+      "desc": "A complete e-learning platform for a women’s seminary: student enrollment, daily audio lessons, verified attendance, auto-graded exams, and graduation certificates — fully in Arabic.",
+      "intro": "An online women’s seminary teaching across four academic levels. They needed one platform to hold all of it: from the application form, through the daily lesson and attendance, to the exam, the grade, and the certificate — without the administration falling back on paper and chat groups.",
+      "meta_title": "Hawza Um Al-Banin — Online Seminary & Exam Platform | EL8",
+      "meta_desc": "An e-learning platform for a women’s seminary built by EL8: student enrollment, audio lessons, verified daily attendance, auto-graded exams, and digital certificates. Web, Android, and Windows.",
+      "highlights": {
+        "enrollment": {
+          "title": "Student enrollment",
+          "desc": "An application portal that takes admission requests and records each student’s details."
+        },
+        "lessons": {
+          "title": "Daily audio lessons",
+          "desc": "Instructors publish each lesson as a voice recording; students listen whenever suits them."
+        },
+        "attendance": {
+          "title": "Verified daily attendance",
+          "desc": "Attendance registered inside a fixed nightly window, with a kept record per student."
+        },
+        "exams": {
+          "title": "Exam administration",
+          "desc": "A dashboard to create and run examinations across four academic levels."
+        },
+        "grading": {
+          "title": "Automatic grading",
+          "desc": "Scores calculated automatically, with mid-term and final results merged into a cumulative record."
+        },
+        "certificates": {
+          "title": "Certificate issuance",
+          "desc": "Customisable digital certificates issued to graduates straight from the platform."
+        }
+      },
+      "roadmap": {
+        "play_store": {
+          "title": "App on Google Play",
+          "desc": "An Android build of the seminary platform arrives on Google Play in October 2026."
+        }
+      },
+      "gallery": {
+        "students": "Student portal — submit an application and enter the seminary number to reach your exams",
+        "admin": "Supervisor portal and exam administration"
+      }
+    },
+    "raqeem": {
+      "title": "Raqeem Labs",
+      "short": "Interactive science labs for sixth-year science students",
+      "desc": "Over 50 interactive experiments drawn from the complete sixth-year science curriculum — physics and chemistry — running on mobile and offline, fully in Arabic.",
+      "intro": "Not every school can equip a lab with instruments and materials. Raqeem takes the entire sixth-year science syllabus and turns its experiments into interactive simulations on screen: the student controls the variables and sees the result immediately. Over 50 experiments, running on a phone and even with no connection.",
+      "meta_title": "Raqeem Labs — 50+ Interactive Experiments for the Sixth-Year Science Curriculum | EL8",
+      "meta_desc": "Interactive science labs built by EL8 for sixth-year science students: over 50 physics and chemistry experiments drawn from the syllabus, running on mobile and offline, in Arabic.",
+      "highlights": {
+        "curriculum": {
+          "title": "The full sixth-year syllabus",
+          "desc": "Experiments are taken chapter by chapter from the set textbook, not generic simulations detached from it."
+        },
+        "experiments": {
+          "title": "Over 50 experiments",
+          "desc": "Physics and chemistry, each one an interactive simulation with the science explained alongside."
+        },
+        "mobile": {
+          "title": "Runs on a phone",
+          "desc": "Built mobile-first, so a student can repeat the experiment on their own device with no computer needed."
+        },
+        "offline": {
+          "title": "Works offline",
+          "desc": "The lab runs fully without a connection, so a class never stops because the network dropped."
+        },
+        "performance": {
+          "title": "Smooth performance",
+          "desc": "Canvas and WebGL graphics tuned to run even on older school hardware."
+        },
+        "arabic": {
+          "title": "Arabic throughout",
+          "desc": "Copy, direction and scientific terminology are native Arabic, not a bolted-on translation."
+        }
+      },
+      "gallery": {
+        "physics_chapters": "Physics chapters — capacitors, electromagnetic induction and alternating current",
+        "chem_chapters": "Eight chemistry chapters, from thermodynamics to biochemistry",
+        "chem_experiment": "The Golden Rain experiment — the student changes temperature and watches solubility and precipitate respond live",
+        "chem_heat": "The specific heat experiment from the thermodynamics chapter",
+        "chem_hub": "Chapter two experiments — chemical equilibrium",
+        "mobile": "The same experiment on a phone, with the same full control"
+      },
+      "roadmap": {
+        "chem_bio_launch": {
+          "title": "Chemistry and biology launch",
+          "desc": "The chemistry and biology labs launch officially in October 2026."
+        },
+        "play_store": {
+          "title": "App on Google Play",
+          "desc": "An Android build of Raqeem arrives on Google Play in October 2026."
+        }
+      }
+    },
+    "cover_alt": "Screenshot of {{name}}",
+    "gallery_title": "Inside the platform",
+    "roadmap_title": "Coming soon",
+    "roadmap_badge": "October 2026",
+    "preview_badge": "In development"
   }
 }

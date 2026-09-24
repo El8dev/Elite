@@ -9,6 +9,7 @@ import { useCinematicSound } from '@/hooks/useCinematicSound';
 import { Helmet } from 'react-helmet-async';
 import { SiteHeader } from '@/components/common/SiteHeader';
 import { PremiumFooter } from '@/components/common/PremiumFooter';
+import { FeaturedWork } from '@/features/projects/components/FeaturedWork';
 
 // ------------------------------------------------------------------
 // FeedPost (Premium Masonry Card)
@@ -183,45 +184,30 @@ reduceMotion: boolean;
     navigate(`/project/${projectId}`, { state: { backgroundLocation: location } });
   };
 
+  // The community feed is the only part that depends on the network. It fails
+  // quietly into its own section so the studio's shipped work above it — and
+  // everything a crawler needs — is on the page either way.
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center font-outfit text-muted-foreground">
+      <div className="flex min-h-[30vh] flex-col items-center justify-center font-outfit text-muted-foreground">
         <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }}>
           <div className="w-10 h-10 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
-          Loading showcase...
+          {t('projects.loading_more', 'Loading…')}
         </motion.div>
       </div>
     );
   }
 
-  if (error) {
+  if (error || feedItems.length === 0) {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center font-outfit text-red-400">
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-white/5 rounded-md hover:bg-white/10">Try again</button>
-      </div>
+      <p className="py-10 text-center font-outfit text-sm text-muted-foreground">
+        {t('projects.community_empty')}
+      </p>
     );
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8">
-      <motion.div
-        initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-        animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-        className="mb-8 sm:mb-14 mt-6 sm:mt-12 text-center"
-      >
-        <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-7xl">
-          {t('home.title_part1')}{' '}
-          <span className="bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#3B82F6] bg-clip-text text-transparent">
-            {t('home.title_part2')}
-          </span>
-        </h1>
-        <p className="mx-auto max-w-2xl font-outfit text-lg text-muted-foreground sm:text-xl">
-          {t('home.subtitle')}
-        </p>
-      </motion.div>
-
+    <>
       <div className="proj-grid">
         {feedItems.map((item, index) => (
           <FeedPost
@@ -241,12 +227,12 @@ reduceMotion: boolean;
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
 const ProjectsPage: React.FC = () => {
-  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const reduceMotion = useReducedMotionPref();
   // A full-viewport gradient that follows the pointer is pure repaint cost on
   // phones (there is no pointer to follow), so treat coarse pointers like reduced motion.
@@ -275,8 +261,18 @@ const ProjectsPage: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-transparent text-foreground selection:bg-[#8B5CF6]/30 selection:text-foreground font-sans overflow-x-hidden">
       <Helmet>
-        <title>Projects | EL8 Tech</title>
-        <meta name="description" content="Discover hand-crafted digital experiences built by the world's most elite developers." />
+        <html lang={i18n.language.startsWith('ar') ? 'ar' : 'en'} />
+        <title>{t('projects.meta_title')}</title>
+        <meta name="description" content={t('projects.meta_desc')} />
+        <link rel="canonical" href="https://el8.dev/projects" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={t('projects.meta_title')} />
+        <meta property="og:description" content={t('projects.meta_desc')} />
+        <meta property="og:url" content="https://el8.dev/projects" />
+        <meta property="og:image" content="https://el8.dev/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t('projects.meta_title')} />
+        <meta name="twitter:description" content={t('projects.meta_desc')} />
       </Helmet>
 
       {!staticBg && (
@@ -289,9 +285,36 @@ const ProjectsPage: React.FC = () => {
       <SiteHeader />
 
       <main className="relative z-10 pt-24 pb-32 min-h-[80vh]">
-        <ShowcaseFeed
-          reduceMotion={reduceMotion}
-        />
+        <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8">
+          <header className="mb-10 sm:mb-16 mt-6 sm:mt-12 text-center">
+            <h1 className="mb-4 font-outfit text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+              {t('projects.page_title')}{' '}
+              <span className="bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#3B82F6] bg-clip-text text-transparent">
+                {t('projects.page_title_accent')}
+              </span>
+            </h1>
+            <p className="mx-auto max-w-2xl font-outfit text-lg text-muted-foreground sm:text-xl">
+              {t('projects.page_sub')}
+            </p>
+          </header>
+
+          <FeaturedWork />
+
+          <section aria-labelledby="community-projects-title">
+            <header className="mb-8 sm:mb-12 text-center">
+              <h2
+                id="community-projects-title"
+                className="font-outfit text-2xl font-bold tracking-tight text-foreground sm:text-4xl"
+              >
+                {t('projects.community_title')}
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl font-outfit text-base text-muted-foreground sm:text-lg">
+                {t('projects.community_sub')}
+              </p>
+            </header>
+            <ShowcaseFeed reduceMotion={reduceMotion} />
+          </section>
+        </div>
       </main>
 
       <PremiumFooter />
