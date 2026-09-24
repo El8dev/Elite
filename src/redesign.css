@@ -774,7 +774,9 @@ html:not(.dark) .deck-panel{
   border-bottom:1px solid var(--border);
 }
 .deck-card--svc .deck-card__media{ aspect-ratio:3 / 2; }
-.deck-card__media img:not(.card-micro-illustration-img){
+/* photo media only. The card artwork sizes itself (see .card-art__img) and must
+   never be stretched to fill the stage or cropped by object-fit:cover. */
+.deck-card__media img:not(.card-art__img){
   width:100%; height:100%; object-fit:cover; display:block; transform-origin:center;
   transition:transform 2s cubic-bezier(.16,.84,.32,1);
 }
@@ -870,9 +872,9 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
 .deck-card.reveal.in{ opacity:1; transform:none; }
 
 /* the image itself settles down from a soft zoom - the luxury bit */
-.deck-card.reveal .deck-card__media img{ transform:scale(1.15); }
-.deck-card.reveal.in .deck-card__media img{ transform:scale(1); }
-.deck-card.reveal.in:hover .deck-card__media img{ transform:scale(1.06); transition-duration:.95s; }
+.deck-card.reveal .deck-card__media img:not(.card-art__img){ transform:scale(1.15); }
+.deck-card.reveal.in .deck-card__media img:not(.card-art__img){ transform:scale(1); }
+.deck-card.reveal.in:hover .deck-card__media img:not(.card-art__img){ transform:scale(1.06); transition-duration:.95s; }
 
 .deck-card.reveal .deck-card__content{
   opacity:0; transform:translateY(14px);
@@ -953,8 +955,8 @@ html.dark{ --card-art-line: rgba(188,135,200,.07); }
   .deck-aura{ opacity:.3; width:280px; height:280px; }
   .stat__photo{ animation:none; }
   .deck-card.reveal{ transition-duration:.8s, 1s; }
-  .deck-card.reveal .deck-card__media img{ transform:scale(1.1); }
-  .deck-card.reveal.in .deck-card__media img{ transition-duration:1.5s; }
+  .deck-card.reveal .deck-card__media img:not(.card-art__img){ transform:scale(1.1); }
+  .deck-card.reveal.in .deck-card__media img:not(.card-art__img){ transition-duration:1.5s; }
   .deck-card:hover{ transform:none; }
   .deck-card:active{ transform:scale(.99); }
   .deck-card:active .card-art__glow{ opacity:.28; transform:scale(1); }
@@ -1942,7 +1944,7 @@ html, body{ overflow-x:clip; max-width:100%; }
 #root, main, section, header.site, footer, .wrap, .wrap--md{ max-width:100%; min-width:0; }
 .hero__stats, .hero-cta, .deck-grid, .proj-grid{ max-width:100%; min-width:0; }
 .hero-cta__main, .ghost-btn{ max-width:100%; }
-.stat__photo, .stat__photo img, .deck-card, .deck-card__media, .card-art, .card-art__img{ max-width:100%; min-width:0; }
+.stat__photo, .stat__photo img, .deck-card, .deck-card__media, .card-art{ max-width:100%; min-width:0; }
 @media (max-width:640px){
   .stat__photo img{ width:100%; height:auto; }
   .hero__stats{ grid-template-columns:repeat(3, minmax(0,1fr)); }
